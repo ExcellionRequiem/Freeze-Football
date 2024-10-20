@@ -4,7 +4,7 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 
 Integrantes del grupo de desarrollo:
 
--ALBERTO CARO CANDÓN
--ARTURO CARRETERO AGUADO
--SERGIO DELGADO LÓPEZ
--MONICA VARAS GARCIA
+-Alberto Caro Candón
+-Arturo Carretero Aguado
+-Sergio Delgado López
+-Mónica Vara Garcia
