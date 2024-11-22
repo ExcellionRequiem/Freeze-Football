@@ -44,19 +44,22 @@
                 this.pelota.setBounce(0.7);
                 this.pelota.setCollideWorldBounds(true);
                 this.pelota.setCircle(200);
+                this.pelota.setDrag(0.5); 
+                this.pelota.setMass(1)
+
                 const ground = this.add.rectangle(640, 740, 1280, 160);
                 const ground2 = this.add.rectangle(640, 740, 1280, 90);
-                //this.physics.add.existing(ground, true);
+
                 this.physics.add.existing(ground, true);
                 this.physics.add.existing(ground2, true);
                 this.physics.add.collider(this.pelota, ground);
-                //this.physics.add.collider(this.pelota, ground);
                 
                 this.j1 = this.physics.add.image(250, 510, 'j1',);
                 this.j2 = this.physics.add.image(1050, 510, 'j2');
-                this.j1.setImmovable(true);
-                //this.j1.add(this.botaJ1);
-                //this.j2.add(this.botaJ2);
+                this.j1.setCircle(100,0,50);
+                this.j2.setCircle(100,0,50);
+                this.j1.body.setAllowGravity(false);
+                this.j2.body.setAllowGravity(false);
 
                 this.botaJ1 = this.physics.add.image(300, 607, 'boot');
                 this.botaJ1.setScale(0.2);
@@ -67,15 +70,22 @@
                 this.botaJ2.setScale(0.2);
                 this.botaJ2.setBounce(0);
                 this.botaJ2.setCircle(200);
+                this.botaJ1.setCollideWorldBounds(true);
+                this.botaJ2.setCollideWorldBounds(true);
+                this.botaJ1.setMass(0.1); 
+                this.botaJ2.setMass(0.1); 
 
                 this.j1.setScale(0.6);
 
-                //this.physics.add.collider(this.j1, this.botaJ1);
-                //this.physics.add.collider(this.j2, this.botaJ2);
                 this.physics.add.collider(this.botaJ1, ground2);
                 this.physics.add.collider(this.botaJ2, ground2);
                 this.physics.add.collider(this.j1, this.pelota);
                 this.physics.add.collider(this.j2, this.pelota);
+                this.physics.add.collider(this.j1, this.j2);
+                this.physics.add.collider(this.j2, this.j1);
+                this.physics.add.collider(this.botaJ2, this.j1);
+                this.physics.add.collider(this.botaJ1, this.j2);
+                this.physics.add.collider(this.botaJ1, this.botaJ2);
                 this.physics.add.collider(this.botaJ1, this.pelota);
                 this.physics.add.collider(this.botaJ2, this.pelota);
 
@@ -86,10 +96,10 @@
             update(time, delta){
 
                 if(this.WASD.A.isDown){
-                    this.botaJ1.setVelocityX(-200);
+                    this.botaJ1.setVelocityX(-400);
                 }
                 if(this.WASD.D.isDown){
-                    this.botaJ1.setVelocityX(200);
+                    this.botaJ1.setVelocityX(400);
                 }
                 if(this.WASD.W.isDown){
                     this.botaJ1.setVelocityY(-500);
@@ -101,10 +111,10 @@
                 }
 
                 if(this.ARROWS.LEFT.isDown){
-                    this.botaJ2.setVelocityX(-200);
+                    this.botaJ2.setVelocityX(-400);
                 }
                 if(this.ARROWS.RIGHT.isDown){
-                    this.botaJ2.setVelocityX(200);
+                    this.botaJ2.setVelocityX(400);
                 }
                 if(this.ARROWS.UP.isDown){
                     this.botaJ2.setVelocityY(-500);
@@ -115,10 +125,11 @@
                     this.botaJ2.setVelocityX(0);
                 }
                 
-                this.j1.x = this.botaJ1.x - 50; // Position boot relative to player
-                this.j1.y = this.botaJ1.y - 90; // Position boot below player
-                this.j2.x = this.botaJ2.x + 50; // Position boot relative to player
-                this.j2.y = this.botaJ2.y - 90; // Position boot below player
+                this.j1.body.setAllowGravity(false);
+                this.j2.body.setAllowGravity(false);
+
+                this.j1.setPosition(this.botaJ1.x - 50, this.botaJ1.y - 90);
+                this.j2.setPosition(this.botaJ2.x + 50, this.botaJ2.y - 90);
 
             }
         }
