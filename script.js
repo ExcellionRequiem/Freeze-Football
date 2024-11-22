@@ -42,10 +42,10 @@ player2Gif.onload = () => {
 // Clase Player
 class Player {
     constructor(x, y, width, height, gif, isFacingLeft = false) {
-        this.x = x;
-        this.y = y;
         this.width = width;
         this.height = height;
+        this.x = x;
+        this.y = y;
         this.gif = gif;
         this.velocityX = 0;
         this.velocityY = 0;
@@ -122,7 +122,7 @@ class Player {
         
             this.x += this.velocityX;
             this.y += this.velocityY;
-            this.x = Math.max(this.width / 2, Math.min(this.x, canvas.width - this.width / 2));
+            //this.x = Math.max(this.width / 2, Math.min(this.x, canvas.width - this.width / 2));
         
             // Animación del disparo
             if (this.foot.isKicking) {
@@ -299,10 +299,10 @@ function checkPlayersCollision(player1, player2) {
 function checkCollision(player, ball) {
     
     // Obtener las coordenadas del rectángulo que representa al jugador
-    const playerLeft = player.x - player.width / 2;
-    const playerRight = player.x + player.width / 2;
-    const playerTop = player.y - player.height / 2;
-    const playerBottom = player.y + player.height / 2;
+    const playerLeft = player.x;
+    const playerRight = player.x + player.width;
+    const playerTop = player.y - player.height;
+    const playerBottom = player.y;
 
     // Verificar si el balón está dentro del rectángulo del jugador
     if (ball.x + ball.radius > playerLeft &&
@@ -349,7 +349,7 @@ checkBallCollision: function(ball) {
         if (ball.y - ball.radius < this.y && ball.y + ball.radius > this.y) {
             // Rebote en el larguero
             ball.velocityY *= -1;  // Rebote en el larguero
-            ball.y = this.y - ball.radius;  // Posiciona la pelota en el larguero
+            ball.y = this.y - ball.radius;  // Posiciodwna la pelota en el larguero
             
             // Si la pelota se queda en la parte superior (y no está cayendo)
             if (ball.velocityY === 0) {

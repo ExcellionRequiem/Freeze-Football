@@ -1,13 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="phaser.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Head Soccer Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <canvas id="gameCanvas"></canvas>
-    <script src="script.js"></script>
+    <!--<canvas id="gameCanvas"></canvas>-->
+    <!--<script src="script.js"></script>-->
+    <script>
+        class mainMenuScene extends Phaser.Scene{
+            preload ()
+            {
+                //this.load.image('background', './Assets/Escenarios/Escenario_Barsa.png')
+            }
+
+            create ()
+            {
+                //this.add.image(640, 400,'background');
+            }
+            update(time, delta){
+
+            }
+        }
+        class GameScene extends Phaser.Scene{
+            preload ()
+            {
+                this.load.image('background', './Assets/Escenarios/Escenario_Barsa.png')
+                this.load.image('pelota', './Assets/Pelota.png')
+                this.load.image('j1', './Assets/Personajes/Grizzi 1.png')
+                this.load.image('j2', './Assets/Personajes/Cristiano 2.png')
+                this.load.image('boot', './Assets/Personajes/botadefutbol.png')
+            }
+
+            create ()
+            {
+                const bg=this.add.image(640, 400,'background');
+
+                this.pelota=this.physics.add.image(640, 400,'pelota')
+                this.pelota.setScale(0.1);
+                this.pelota.setBounce(0.7);
+                this.pelota.setCollideWorldBounds(true);
+                this.pelota.setCircle(200);
+                const ground = this.add.rectangle(640, 740, 1280, 90);
+                const ground2 = this.add.rectangle(640, 740, 1280, 90);
+                this.physics.add.existing(ground, true);
+                this.physics.add.existing(ground2, true);
+                this.physics.add.collider(this.pelota, ground);
+                //this.physics.add.collider(this.pelota, ground);
+                
+                this.j1 = this.physics.add.image(250, 510, 'j1',);
+                this.j2 = this.physics.add.image(1050, 510, 'j2');
+                this.j1.setImmovable(true);
+                //this.j1.add(this.botaJ1);
+                //this.j2.add(this.botaJ2);
+
+                this.botaJ1 = this.physics.add.image(300, 607, 'boot');
+                this.botaJ1.setScale(0.2);
+                this.botaJ1.flipX=true;
+                this.botaJ1.setBounce(0);
+                this.botaJ1.setCircle(200);
+                this.botaJ2 = this.physics.add.image(1000, 607, 'boot');
+                this.botaJ2.setScale(0.2);
+                this.botaJ2.setBounce(0);
+                this.botaJ2.setCircle(200);
+
+                this.j1.setScale(0.6);
+
+                //this.physics.add.collider(this.j1, this.botaJ1);
+                //this.physics.add.collider(this.j2, this.botaJ2);
+                this.physics.add.collider(this.botaJ1, ground2);
+                this.physics.add.collider(this.botaJ2, ground2);
+                this.physics.add.collider(this.j1, this.pelota);
+                this.physics.add.collider(this.j2, this.pelota);
+                this.physics.add.collider(this.botaJ1, this.pelota);
+                this.physics.add.collider(this.botaJ2, this.pelota);
+
+                //Metemos controles
+                this.WASD = this.input.keyboard.addKeys('W,A,D');
+                this.ARROWS = this.input.keyboard.addKeys('UP,LEFT,RIGHT');
+            }
+            update(time, delta){
+
+                if(this.WASD.A.isDown){
+                    this.botaJ1.setVelocityX(-200);
+                }
+                if(this.WASD.D.isDown){
+                    this.botaJ1.setVelocityX(200);
+                }
+                if(this.WASD.W.isDown){
+                    this.botaJ1.setVelocityY(-500);
+                }
+                if(!this.WASD.W.isDown&&!this.WASD.A.isDown&&!this.WASD.D.isDown){
+                    this.j1.setVelocityX(0);
+                    this.j1.setVelocityY(0);
+                    this.botaJ1.setVelocityX(0);
+                }
+
+                if(this.ARROWS.LEFT.isDown){
+                    this.botaJ2.setVelocityX(-200);
+                }
+                if(this.ARROWS.RIGHT.isDown){
+                    this.botaJ2.setVelocityX(200);
+                }
+                if(this.ARROWS.UP.isDown){
+                    this.botaJ2.setVelocityY(-500);
+                }
+                if(!this.ARROWS.UP.isDown&&!this.ARROWS.RIGHT.isDown&&!this.ARROWS.LEFT.isDown){
+                    this.j2.setVelocityX(0);
+                    this.j2.setVelocityY(0);
+                    this.botaJ2.setVelocityX(0);
+                }
+                
+                this.j1.x = this.botaJ1.x - 50; // Position boot relative to player
+                this.j1.y = this.botaJ1.y - 90; // Position boot below player
+                this.j2.x = this.botaJ2.x + 50; // Position boot relative to player
+                this.j2.y = this.botaJ2.y - 90; // Position boot below player
+
+            }
+        }
+        class CharacterSelectScene extends Phaser.Scene{
+            preload ()
+            {
+                //this.load.image('background', './Assets/Escenarios/Escenario_Barsa.png')
+            }
+
+            create ()
+            {
+                //this.add.image(640, 400,'background');
+            }
+            update(time, delta){
+
+            }
+        }
+        var config = {
+            type: Phaser.AUTO,
+            width: 1280,
+            height: 800,
+            physics:{
+                default: 'arcade',
+                arcade:{
+                    gravity: {y:300}
+                }
+            },
+            //debug:false,
+        };
+        var game = new Phaser.Game(config);
+        game.scene.add('mainMenuScene', mainMenuScene, false);
+        game.scene.add('gameScene', GameScene, true)
+        game.scene.add('characterSelectScene', CharacterSelectScene, false)
+    </script>
 </body>
 </html>
