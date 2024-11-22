@@ -44,8 +44,9 @@
                 this.pelota.setBounce(0.7);
                 this.pelota.setCollideWorldBounds(true);
                 this.pelota.setCircle(200);
-                const ground = this.add.rectangle(640, 740, 1280, 90);
+                const ground = this.add.rectangle(640, 740, 1280, 160);
                 const ground2 = this.add.rectangle(640, 740, 1280, 90);
+                //this.physics.add.existing(ground, true);
                 this.physics.add.existing(ground, true);
                 this.physics.add.existing(ground2, true);
                 this.physics.add.collider(this.pelota, ground);
