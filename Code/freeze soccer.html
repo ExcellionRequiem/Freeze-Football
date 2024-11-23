@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="phaser.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Head Soccer Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!--<canvas id="gameCanvas"></canvas>-->
+    <!--<script src="script.js"></script>-->
+    <script>
+        class mainMenuScene extends Phaser.Scene{
+            preload ()
+            {
+                
+            }
+
+            create ()
+            {
+                
+            }
+            update(time, delta){
+
+            }
+        }
+        class GameScene extends Phaser.Scene{
+            preload ()
+            {
+                this.load.image('background', './Assets/Escenarios/Escenario_Barsa.png')
+                this.load.image('pelota', './Assets/Pelota.png')
+                this.load.image('j1', './Assets/Personajes/Grizzi 1.png')
+                this.load.image('j2', './Assets/Personajes/Cristiano 2.png')
+                this.load.image('boot', './Assets/Personajes/botadefutbol.png')
+                this.load.image('goal', './Assets/Porteria.png')
+                
+                this.scoreJ1=0;
+                this.scoreJ2=0;
+            }
+
+            create ()
+            {
+                const bg=this.add.image(640, 400,'background');
+
+                this.pelota=this.physics.add.image(640, 400,'pelota')
+                this.pelota.setScale(0.1);
+                this.pelota.setBounce(0.7);
+                this.pelota.setCollideWorldBounds(true);
+                this.pelota.setCircle(200);
+                this.pelota.setDrag(0.5); 
+                this.pelota.setMass(1);
+
+                this.ground = this.add.rectangle(640, 740, 1280, 160);
+                this.ground2 = this.add.rectangle(640, 740, 1280, 90);
+                this.groundHeads = this.add.rectangle(640, 740, 1280, 240);
+                this.goalZoneL = this.add.rectangle(80, 505, 150, 340);
+                this.goalZoneR = this.add.rectangle(1200, 505, 150, 340);
+                this.goalTopL = this.add.rectangle(100, 340, 200, 20);
+                this.goalTopR = this.add.rectangle(1180, 340, 200, 20);
+
+                this.physics.add.existing(this.ground, true);
+                this.physics.add.existing(this.ground2, true);
+                this.physics.add.existing(this.groundHeads, true);
+                this.physics.add.collider(this.pelota, this.ground);
+
+                this.physics.add.existing(this.goalZoneL, true);
+                //this.physics.add.collider(this.goalZoneL, this.pelota);
+                this.physics.add.existing(this.goalZoneR, true);
+                //this.physics.add.collider(this.goalZoneR, this.pelota);
+                
+                this.j1 = this.physics.add.image(250, 510, 'j1',);
+                this.j2 = this.physics.add.image(1000, 510, 'j2');
+                this.j1.setCircle(100,-15,10);
+                this.j2.setCircle(60,-15,5);
+                this.j1.setMass(0.1);
+                this.j2.setMass(0.1);
+                this.j1.setBounce(0);
+                this.j2.setBounce(0);
+                this.j1.setDrag(0);
+                this.j2.setDrag(0);
+                this.j1.setImmovable(false);
+                this.j2.setImmovable(false);
+                this.j1.setCollideWorldBounds(true);
+                this.j2.setCollideWorldBounds(true);
+                this.physics.add.collider(this.groundHeads, this.j2);
+                this.physics.add.collider(this.groundHeads, this.j1);
+
+                this.botaJ1 = this.physics.add.image(300, 607, 'boot');
+                this.botaJ1.setScale(0.2);
+                this.botaJ1.flipX=true;
+                this.botaJ1.setBounce(0);
+                this.botaJ1.setCircle(200, 110, 0);
+
+                this.botaJ2 = this.physics.add.image(978, 607, 'boot');
+                this.botaJ2.setScale(0.2);
+                this.botaJ2.setBounce(0);
+                this.botaJ2.setDrag(0);
+                this.botaJ2.setCircle(200);
+
+                this.botaJ1.setCollideWorldBounds(true);
+                this.botaJ2.setCollideWorldBounds(true);
+                this.botaJ1.setMass(0.1); 
+                this.botaJ2.setMass(0.1); 
+
+                //this.j1.body.pushable = false;
+                //this.j2.body.pushable = false;
+                this.botaJ1.body.pushable = false;
+                this.botaJ2.body.pushable = false;
+
+                this.j1.setScale(0.6);
+
+                //this.physics.add.collider(this.botaJ1, this.ground2);
+                //this.physics.add.collider(this.botaJ2, this.ground2);
+
+                this.physics.add.collider(this.j1, this.pelota);
+                this.physics.add.collider(this.j2, this.pelota);
+                this.physics.add.collider(this.j1, this.j2);
+                this.physics.add.collider(this.j2, this.j1);
+
+                this.physics.add.collider(this.botaJ2, this.j1);
+                this.physics.add.collider(this.botaJ1, this.j2);
+                //this.physics.add.collider(this.botaJ2, this.j2);
+                //this.physics.add.collider(this.botaJ1, this.j1);
+                this.physics.add.collider(this.botaJ1, this.botaJ2);
+                this.physics.add.collider(this.botaJ1, this.pelota);
+                this.physics.add.collider(this.botaJ2, this.pelota);
+
+                //Metemos controles
+                this.WASD = this.input.keyboard.addKeys('W,A,D');
+                this.ARROWS = this.input.keyboard.addKeys('UP,LEFT,RIGHT');
+
+                this.goalL=this.physics.add.image(100, 505, 'goal');
+                this.goalL.setScale(1,2);
+                this.goalL.flipX=true;
+                this.goalL.setImmovable(true);
+                this.goalL.body.setAllowGravity(false);
+
+                this.goalR=this.physics.add.image(1180, 505, 'goal');
+                this.goalR.setScale(1,2);   
+                this.goalR.setImmovable(true);
+                this.goalR.body.setAllowGravity(false);
+
+                this.physics.add.existing(this.goalTopL);
+                this.physics.add.collider(this.goalTopL, this.pelota);
+                this.physics.add.collider(this.goalTopL, this.botaJ1);
+                this.physics.add.collider(this.goalTopL, this.j1);
+                this.physics.add.collider(this.goalTopL, this.botaJ2);
+                this.physics.add.collider(this.goalTopL, this.j2);
+                this.physics.add.existing(this.goalTopR);
+                this.physics.add.collider(this.goalTopR, this.pelota);
+                this.physics.add.collider(this.goalTopR, this.botaJ1);
+                this.physics.add.collider(this.goalTopR, this.j1);
+                this.physics.add.collider(this.goalTopR, this.botaJ2);
+                this.physics.add.collider(this.goalTopR, this.j2);
+                this.goalTopL.body.setAllowGravity(false);
+                this.goalTopR.body.setAllowGravity(false);
+                this.goalTopL.body.setBounce(0);
+                this.goalTopL.body.setMass(0);
+                this.goalTopR.body.setBounce(0);
+                this.goalTopR.body.setMass(0);
+                this.goalTopL.body.setImmovable(true);
+                this.goalTopR.body.setImmovable(true);
+
+                this.physics.add.overlap(this.pelota, this.goalZoneL, () => {
+                    this.scoreJ1++;
+                    console.log('Goal1 ' + this.scoreJ1);
+                    this.pelota.setPosition(640, 400);
+                });
+
+                this.physics.add.overlap(this.pelota, this.goalZoneR, () => {
+                    this.scoreJ2++;
+                    console.log('Goal2 ' + this.scoreJ2);
+                    this.pelota.setPosition(640, 400);
+                });
+
+            
+            }
+            update(time, delta){
+
+                if(this.WASD.A.isDown){
+                    this.botaJ1.setVelocityX(-400);
+                    this.j1.setVelocityX(-400);
+                }
+                if(this.WASD.D.isDown){
+                    this.botaJ1.setVelocityX(400);
+                    this.j1.setVelocityX(400);
+                }
+                if(this.WASD.W.isDown){
+                    this.botaJ1.setVelocityY(-400);
+                    this.j1.setVelocityY(-400);
+                }
+                if(!this.WASD.W.isDown&&!this.WASD.A.isDown&&!this.WASD.D.isDown){
+                    this.j1.setVelocityX(0);
+                    this.botaJ1.setVelocityX(0);
+                }
+
+                if(this.ARROWS.LEFT.isDown){
+                    this.botaJ2.setVelocityX(-400);
+                    this.j2.setVelocityX(-400);
+                }
+                if(this.ARROWS.RIGHT.isDown){
+                    this.botaJ2.setVelocityX(400);
+                    this.j2.setVelocityX(400);
+                }
+                if(this.ARROWS.UP.isDown){
+                    this.botaJ2.setVelocityY(-400);
+                    this.j2.setVelocityY(-400);
+                }
+                if(!this.ARROWS.UP.isDown&&!this.ARROWS.RIGHT.isDown&&!this.ARROWS.LEFT.isDown){
+                    this.j2.setVelocityX(0);
+                    this.botaJ2.setVelocityX(0);
+                }
+                const headOffsetX = 50;
+                const headOffsetY = 90;
+
+                this.j1.x=this.botaJ1.x - headOffsetX;
+                this.j2.x=this.botaJ2.x + headOffsetX;
+
+                this.goalTopL.x=100;
+                this.goalTopR.x=1180;
+                this.goalTopL.y=340;
+                this.goalTopR.y=340;
+
+            }
+        }
+        class CharacterSelectScene extends Phaser.Scene{
+            preload ()
+            {
+                
+            }
+
+            create ()
+            {
+                
+            }
+            update(time, delta){
+
+            }
+        }
+        var config = {
+            type: Phaser.AUTO,
+            width: 1280,
+            height: 690,
+            physics:{
+                default: 'arcade',
+                arcade:{
+                    gravity: {y:300},
+                    debug: true // Enable debug for collision visualization
+                }             
+            },
+            //debug:false,
+        };
+        var game = new Phaser.Game(config);
+        game.scene.add('mainMenuScene', mainMenuScene, false);
+        game.scene.add('gameScene', GameScene, true)
+        game.scene.add('characterSelectScene', CharacterSelectScene, false)
+    </script>
+</body>
+</html>
