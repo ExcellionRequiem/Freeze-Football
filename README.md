@@ -53,22 +53,23 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 2	HISTORIAL DE REVISIONES
 
 
-Arte:
+	Arte:
 
-Se han añadido nuevas interfaces tales cómo la pantalla de selección de personaje con el que jugar, así mismo ya no son prototipos si no que son las interfaces definitivas, así mismo se han realizado todos los botones que estas requerían.
+	Se han añadido nuevas interfaces tales cómo la pantalla de selección de personaje con el que jugar, así mismo ya no son prototipos si no que son las interfaces definitivas, así mismo se han realizado todos 	los botones que estas requerían.
 
-Respecto al estilo visual se ha definido el definitivo, siendo este 2D básico cartoon, se han realizado los escenarios y los sprites de los personajes.
+	Respecto al estilo visual se ha definido el definitivo, siendo este 2D básico cartoon, se han realizado los escenarios y los sprites de los personajes.
 
 
-Implementación: 
- 
-Durante la fase 2 se ha implementado el juego en código, incluyendo colisionadores a todos los objetos durante el propio juego, el uso de colisionadores escondidos para mantener las alturas de los objetos, los menús básicos, y la selección de personaje entre 2 escenas mediante un índice numérico. Se quiso hacer también una barra deslizante para controlar el volumen del juego, pero no se pudo averiguar un método correcto para su implementación y por tanto se dejó para futuras fases.
+	Implementación: 
+
+
+	Durante la fase 2 se ha implementado el juego en código, incluyendo colisionadores a todos los objetos durante el propio juego, el uso de colisionadores escondidos para mantener las alturas de los objetos, 	los menús básicos, y la selección de personaje entre 2 escenas mediante un índice numérico. Se quiso hacer también una barra deslizante para controlar el volumen del juego, pero no se pudo averiguar un 	método correcto para su implementación y por tanto se dejó para futuras fases.
 
 ******************
 
 3	INTRODUCCIÓN
 
-Este es el documento de diseño de Freeze Football. Este escrito tiene como objetivo principal plasmar los elementos que debe incluir el videojuego propuesto.
+	Este es el documento de diseño de Freeze Football. Este escrito tiene como objetivo principal plasmar los elementos que debe incluir el videojuego propuesto.
 
 3.1	CONCEPTO DEL JUEGO
 
@@ -95,43 +96,43 @@ Este es el documento de diseño de Freeze Football. Este escrito tiene como obje
 
 3.4	PROPÓSITO Y PÚBLICO OBJETIVO
 
-El propósito principal de Freeze Football es ofrecer a través de una jugabilidad simple y directa, entretenimiento en sesiones cortas, perfectas para jugadores que desean acción rápida y desafíos inmediatos. 
+	El propósito principal de Freeze Football es ofrecer a través de una jugabilidad simple y directa, entretenimiento en sesiones cortas, perfectas para jugadores que desean acción rápida y desafíos 		inmediatos. 
 
-Al mismo tiempo, el juego introduce un toque de humor y exageración con sus personajes de cabezas grandes, lo que lo hace atractivo tanto para jugadores casuales como para aquellos que disfrutan de un enfoque más creativo del fútbol.
+	Al mismo tiempo, el juego introduce un toque de humor y exageración con sus personajes de cabezas grandes, lo que lo hace atractivo tanto para jugadores casuales como para aquellos que disfrutan de un 	enfoque más creativo del fútbol.
 
-Freeze Football está dirigido a jugadores de todas las edades, por ello se apuesta por un sistema de partidas cortas, intensas y rápidas.
+	Freeze Football está dirigido a jugadores de todas las edades, por ello se apuesta por un sistema de partidas cortas, intensas y rápidas.
 
 3.5	JUGABILIDAD
 
-Cada partido de Freeze Football ofrece una variedad de mecánicas y estrategias para ganar el partido. Para ello nos valdremos de los siguientes elementos:
+	Cada partido de Freeze Football ofrece una variedad de mecánicas y estrategias para ganar el partido. Para ello nos valdremos de los siguientes elementos:
 
-•	Movimiento: Los jugadores se mueven horizontalmente por el campo usando flechas o teclas. El personaje puede moverse rápidamente hacia la izquierda o derecha, y saltar para alcanzar balones aéreos o evitar ataques. Con el espacio o la p, el personaje pega una patada.
+		•	Movimiento: Los jugadores se mueven horizontalmente por el campo usando flechas o teclas. El personaje puede moverse rápidamente hacia la izquierda o derecha, y saltar para alcanzar balones 		aéreos o evitar ataques. Con el espacio o la p, el personaje pega una patada.
 
-•	Mejoras: Los jugadores podrán recibir “power-ups” temporalmente durante los partidos (será agregado próximamente).
-	Portería más grande o pequeña
-	Más salto
+		•	Mejoras: Los jugadores podrán recibir “power-ups” temporalmente durante los partidos (será agregado próximamente).
+				Portería más grande o pequeña
+				Más salto
 
 3.6	ALCANCE
 
-El objetivo principal es desarrollar un sistema de juego sólido al que podamos introducir más y mejor contenido. En primera instancia se desarrollará contenidos básicos que serán ampliados en un futuro.
+	El objetivo principal es desarrollar un sistema de juego sólido al que podamos introducir más y mejor contenido. En primera instancia se desarrollará contenidos básicos que serán ampliados en un futuro.
 
-
+****************
 
 4.	MECÁNICAS DE JUEGO
 
+
 4.1	JUGABILIDAD
 
-•	Controles locales: A la hora de jugar dos jugadores en la misma pantalla, cada jugador tendrá distintas teclas de movimiento y disparo designadas:
+	•	Controles locales: A la hora de jugar dos jugadores en la misma pantalla, cada jugador tendrá distintas teclas de movimiento y disparo designadas:
 
-	En el caso del jugador 1, las teclas de movimiento serán “W”, “A”,”D”, y la de disparo el “Espacio”.
+			En el caso del jugador 1, las teclas de movimiento serán “W”, “A”,”D”, y la de disparo el “Espacio”.
 
-	En el caso del jugador 2, las teclas de movimiento serán “➡️”, “⬅️” , “⬆️” ,y  la de disparo la “P”.
-
-
-•	Controles multijugador: En cuanto a las partidas en línea, se pretende que ambos jugadores jueguen desde su respectivo dispositivo con los controles locales del jugador 1.
+			En el caso del jugador 2, las teclas de movimiento serán “➡️”, “⬅️” , “⬆️” ,y  la de disparo la “P”.
 
 
+	•	Controles multijugador: En cuanto a las partidas en línea, se pretende que ambos jugadores jueguen desde su respectivo dispositivo con los controles locales del jugador 1.
 
 
 
+4.2	FLUJO DE JUEGO
 
