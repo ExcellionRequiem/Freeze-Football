@@ -8,29 +8,26 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 			
 	Correo oficial: m.varas.2019@alumnos.urjc.es
 	
+	Cuenta GitHub: https://github.com/M0nica13
+ 
+	Sergio Delgado López
 
-Cuenta GitHub: https://github.com/M0nica13
-Sergio Delgado López
+	Correo oficial: s.delgado.2021@alumnos.urjc.es
 
-Correo oficial: s.delgado.2021@alumnos.urjc.es
+	Cuenta GitHub:https://github.com/seergiio03
 
-			
-Cuenta GitHub:https://github.com/seergiio03
+	Alberto Caro Candón
 
-Alberto Caro Candón
-
-Correo oficial: a.caro.2020@alumnos.urjc.es
-
-			
-Cuenta GitHub: https://github.com/AlbertoCaro24
+	Correo oficial: a.caro.2020@alumnos.urjc.es
+	
+	Cuenta GitHub: https://github.com/AlbertoCaro24
 
 
-Arturo Carretero Aguado
+	Arturo Carretero Aguado
 
-Correo oficial: a.carretero.2022@alumnos.urjc
-
-		
-Cuenta GitHub: https://github.com/ExcellionRequiem
+	Correo oficial: a.carretero.2022@alumnos.urjc
+	
+	Cuenta GitHub: https://github.com/ExcellionRequiem
 
 
 
