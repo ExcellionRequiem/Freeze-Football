@@ -176,7 +176,7 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
  
 	Los iconos son estilo minimalista 
  
-		![botonPlayMenuElegir](https://github.com/user-attachments/assets/14faed51-51d1-4ddf-94c7-99c9b50d9965)
+![botonPlayMenuElegir](https://github.com/user-attachments/assets/14faed51-51d1-4ddf-94c7-99c9b50d9965)
 		![BotonPlay](https://github.com/user-attachments/assets/a9e6a0c0-e3ef-4c60-ba5a-5465287ffd84)
 		![BotonCreditos](https://github.com/user-attachments/assets/04d0774c-26dc-49d3-81d4-9109a8fe7157)
 		![botonAjustes](https://github.com/user-attachments/assets/69e100b6-71f7-4044-917c-7843aa665485)
@@ -188,7 +188,7 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 
 5.3	TIPOGRAFÍA
 
-	![TextoJuego](https://github.com/user-attachments/assets/e9356e6f-f65a-4b60-ac30-033b71f61b4d)
+![TextoJuego](https://github.com/user-attachments/assets/e9356e6f-f65a-4b60-ac30-033b71f61b4d)
 
 	Se ha decidido elegir la tipografía Crang descargada en dafont.com ya que es coherente con el estilo 2D establecido y a pesar de su estilo pixelado es muy legible.
 
@@ -196,12 +196,12 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 
 	Se ha desarrollado el diseño final para el menú a partir del diseño 1 del prototipo entregado en la anterior entrega.
 
-	![image](https://github.com/user-attachments/assets/5c86e7a6-eeeb-4f15-a7c3-31b025236584)
+![image](https://github.com/user-attachments/assets/5c86e7a6-eeeb-4f15-a7c3-31b025236584)
 	
  	descripción imagen: primer diseño de menú principal, realizado en fase 1.
 
 
- 	![image](https://github.com/user-attachments/assets/1be6b685-2bec-4f04-9fd0-7a9a39e799fd)
+ ![image](https://github.com/user-attachments/assets/1be6b685-2bec-4f04-9fd0-7a9a39e799fd)
 	
  	descripción imagen: diseño definitivo del menú principal.
 
@@ -209,7 +209,7 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 
 	Interfaz sencilla donde aparecerán los botones de reanudar partida y salir de la partida (que llevará al menú principal). Se busca simplicidad y claridad para el jugador a la hora de navegar el menú.
 
-   	![image](https://github.com/user-attachments/assets/1c8ec41a-68e6-447f-af38-ecd518f5dfcd)
+   ![image](https://github.com/user-attachments/assets/1c8ec41a-68e6-447f-af38-ecd518f5dfcd)
 
     	descripción imagen: diseño definitivo de menú de pausa para fase 2.
 
@@ -218,14 +218,14 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 
 	Saldrá un texto por pantalla cuando se marque un gol, cuando se llegue a los goles que marquen la condición de victoria (5/7 aún por determinar) saldrá por pantalla el texto (“¡GOL!”, “Jugador 1 gana”, 	respectivamente).
 
-	![image](https://github.com/user-attachments/assets/37094ca2-23dc-46e4-8c7a-dd426caf386b)
+![image](https://github.com/user-attachments/assets/37094ca2-23dc-46e4-8c7a-dd426caf386b)
 
 
 5.7	CRÉDITOS
 
 	Pantalla de créditos donde aparece el nombre de los integrantes del grupo.
 
-	![image](https://github.com/user-attachments/assets/4e3bd4af-3bda-44fb-bfb8-0cfa63632d4d)
+![image](https://github.com/user-attachments/assets/4e3bd4af-3bda-44fb-bfb8-0cfa63632d4d)
 
 ****************
 6.	APARTADO ARTÍSTICO
@@ -241,17 +241,17 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 
 	En Freeze Football podrás elegir el escenario donde disputar partidos contra tus amigos (lo implementaremos en la fase 3), contando con decorados ambientados en algunos de los grandes equipos del fútbol 	Mundial como pueden ser F.C Barcelona, Real Madrid, o Manchester City.
 
-	![image](https://github.com/user-attachments/assets/20e372bf-3465-49cb-99d3-c0f41b424232)
+![image](https://github.com/user-attachments/assets/20e372bf-3465-49cb-99d3-c0f41b424232)
 
   	descripción imagen: escenario del campo Robalona.
 
 
-   	![image](https://github.com/user-attachments/assets/b166f696-c83b-4eeb-af58-5389e9e6c705)
+   ![image](https://github.com/user-attachments/assets/b166f696-c83b-4eeb-af58-5389e9e6c705)
 
      	descripción imagen: escenario del campo MoneyLand.
 
 
-      	![image](https://github.com/user-attachments/assets/39799ff4-12cd-4cbb-bd98-2db83fdb6e00)
+![image](https://github.com/user-attachments/assets/39799ff4-12cd-4cbb-bd98-2db83fdb6e00)
 
 	descripción imagen: escenario del campo Vardrid.
 
@@ -265,22 +265,22 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 
 	Por el momento, únicamente estarán disponibles 4 personajes jugables, pero en el futuro la idea es añadir más jugadores para generar más variedad de opciones.  A continuación, algunos ejemplos de modelos en 	los que nos basaremos para la creación de nuestros personajes:
 
-		![image](https://github.com/user-attachments/assets/f4c55a4e-5ee8-4cab-9c69-aeabc11e1956)
+![image](https://github.com/user-attachments/assets/f4c55a4e-5ee8-4cab-9c69-aeabc11e1956)
 
     		descripción imagen: imagen del personaje Fronaldo.
 
 
-		![image](https://github.com/user-attachments/assets/0d1eab2f-e45e-4db0-8f9a-2987b47d4b89)
+![image](https://github.com/user-attachments/assets/0d1eab2f-e45e-4db0-8f9a-2987b47d4b89)
 
     		descripción imagen: imagen del personaje Friolski.
 
 
-		![image](https://github.com/user-attachments/assets/06344bdf-a150-4fc6-b5a8-3b6799e297f9)
+![image](https://github.com/user-attachments/assets/06344bdf-a150-4fc6-b5a8-3b6799e297f9)
 
   		descripción imagen: imagen del personaje Fressi.
 
 
-      		![image](https://github.com/user-attachments/assets/5ed2d8df-74f8-4169-860e-09c4dc17bdff)
+![image](https://github.com/user-attachments/assets/5ed2d8df-74f8-4169-860e-09c4dc17bdff)
 
 		descripción imagen: imagen del personaje Friezmann.
 
