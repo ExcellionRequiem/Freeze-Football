@@ -6,9 +6,12 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 
 	Monica Varas García
 ![image](https://github.com/user-attachments/assets/11624791-81f1-4729-9219-6a7e013ab312)
+
 	Correo oficial: m.varas.2019@alumnos.urjc.es
 	
 	Cuenta GitHub: https://github.com/M0nica13
+
+
  
 	Sergio Delgado López
 ![image](https://github.com/user-attachments/assets/8178ad5d-392d-4edb-a923-01568fd1309e)
@@ -17,12 +20,16 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 
 	Cuenta GitHub:https://github.com/seergiio03
 
+
+
 	Alberto Caro Candón
 ![image](https://github.com/user-attachments/assets/c2dc52e0-13db-4ee1-975d-c591670d33b9)
 
 	Correo oficial: a.caro.2020@alumnos.urjc.es
 	
 	Cuenta GitHub: https://github.com/AlbertoCaro24
+
+
 
 	Arturo Carretero Aguado
 ![image](https://github.com/user-attachments/assets/d3b8819c-1806-4588-937f-0e89ad9d3cd7)
