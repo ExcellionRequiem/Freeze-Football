@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="./Code/phaser.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Head Soccer Game</title>
+    <link rel="stylesheet" href="./Code/styles.css">
+</head>
+<body>
+    <script>
+        var config = {
+            type: Phaser.AUTO,
+            width: 1280,
+            height: 690,
+            physics:{
+                default: 'arcade',
+                arcade:{
+                    gravity: {y:300},
+                    debug: false,
+                }             
+            },
+        };
+        var game = new Phaser.Game(config);
+        var charIDJ1 = 0;
+        var charIDJ2 = 0;
+        var charIDBG = 0;
+        var musicPlayed = false;
+        class MainMenuScene extends Phaser.Scene{
+            preload ()
+            {
+                this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
+                this.load.image('backgroundMainMenu', './Assets/Interfaces/MenuPrincipal.png');
+                this.load.image('settingsMenu', './Assets/Interfaces/MenuAjustes.png');
+                this.load.image('creditsMenu', './Assets/Interfaces/menuCreditos.png');
+                this.load.image('playButton', './Assets/Botones/BotonPlay.png');
+                this.load.image('settingsButton', './Assets/Botones/botonAjustes.png');
+                this.load.image('creditsButton', './Assets/Botones/BotonCreditos.png');
+                this.load.image('exitButton', './Assets/Botones/botonSalir.png');
+                this.load.audio('bgm', './Assets/Audio/Musica/723173__ncone__funky-beats-2.mp3');
+                this.sound.unlock();
+            }
+
+            create ()
+            {
+                const bg=this.add.image(562.5, 422,'backgroundMainMenu');
+                bg.setScale(0.5, 0.50);
+                game.scale.resize(1125, 844);
+                var playButton=this.add.image(562.5, 322,'playButton').setInteractive();
+                var settingsButton=this.add.image(562.5, 422,'settingsButton').setInteractive();
+                var creditsButton=this.add.image(562.5, 522,'creditsButton').setInteractive();
+                var exitButton=this.add.image(562.5, 632,'exitButton').setInteractive();
+                var settingsMenu=this.add.image(562.5, 522,'settingsMenu');
+                var creditsMenu=this.add.image(562.5, 522,'creditsMenu');
+                var settingsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
+                var creditsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
+                settingsMenu.visible=false;
+                creditsMenu.visible=false;
+                settingsExitButton.visible=false;
+                creditsExitButton.visible=false;
+
+                this.arturo=this.make.text({
+                    x: 405, 
+                    y: 400,
+                    text: 'Arturo Carretero Aguado',
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#ffffff',
+                        align: 'center',
+                    },
+                    add: true
+                });
+                this.sergio=this.make.text({
+                    x: 405, 
+                    y: 460,
+                    text: 'Sergio Delgado López',
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#ffffff',
+                        align: 'center',
+                    },
+                    add: true
+                });
+                this.alberto=this.make.text({
+                    x: 405, 
+                    y: 520,
+                    text: 'Alberto Caro Candón',
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#ffffff',
+                        align: 'center',
+                    },
+                    add: true
+                });
+                this.monica=this.make.text({
+                    x: 405, 
+                    y: 580,
+                    text: 'Mónica Varas García',
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#ffffff',
+                        align: 'center',
+                    },
+                    add: true
+                });
+
+                this.arturo.visible=false;
+                this.sergio.visible=false;
+                this.alberto.visible=false;
+                this.monica.visible=false;
+
+
+                playButton.on('pointerdown', function(e){
+                    game.scene.stop('mainMenuScene');
+                    game.scene.start('characterSelectScene');
+                });
+                
+                settingsButton.on('pointerdown', function(e){
+                    settingsMenu.visible=true;
+                    settingsExitButton.visible=true;
+                    playButton.visible=false;
+                    settingsButton.visible=false;
+                    creditsButton.visible=false;
+                });
+                
+                creditsButton.on('pointerdown', (e)=>{
+                    creditsMenu.visible=true;
+                    creditsExitButton.visible=true;
+                    playButton.visible=false;
+                    settingsButton.visible=false;
+                    creditsButton.visible=false;
+                    this.arturo.visible=true;
+                    this.sergio.visible=true;
+                    this.alberto.visible=true;
+                    this.monica.visible=true;
+                });
+                settingsExitButton.on('pointerdown', function(e){
+                    settingsMenu.visible=false;
+                    settingsExitButton.visible=false;
+                    playButton.visible=true;
+                    settingsButton.visible=true;
+                    creditsButton.visible=true;
+                });
+                creditsExitButton.on('pointerdown', (e)=>{
+                    creditsMenu.visible=false;
+                    creditsExitButton.visible=false;
+                    playButton.visible=true;
+                    settingsButton.visible=true;
+                    creditsButton.visible=true;
+                    this.arturo.visible=false;
+                    this.sergio.visible=false;
+                    this.alberto.visible=false;
+                    this.monica.visible=false;
+                });
+
+                this.countdownText = this.add.text(640, 360, '', {
+                    fontSize: '64px',
+                    fontFamily: 'Arial',
+                    color: '#ffffff',
+                    align: 'center',
+                }).setOrigin(0.5);
+                    this.countdownText.visible = false;
+                /*// Resetea posiciones de jugadores y balón después de la cuenta atrás
+const resetPositions = () => {
+    this.pelota.setPosition(640, 400);
+    this.pelota.setVelocity(0, 0);
+    this.j1.setPosition(250, 510);
+    this.j1.setVelocity(0, 0);
+    this.j2.setPosition(1000, 510);
+    this.j2.setVelocity(0, 0);
+};
+
+// Inicia la cuenta atrás
+const startCountdown = () => {
+    let countdown = 3; // Duración de la cuenta atrás en segundos
+    this.countdownText.visible = true;
+    this.countdownText.setText(countdown);
+
+    this.time.addEvent({
+        delay: 1000, // Intervalo de 1 segundo
+        repeat: countdown - 1, // Se ejecuta 3 veces (2 repeticiones después del primer llamado)
+        callback: () => {
+            countdown--;
+            this.countdownText.setText(countdown);
+
+            if (countdown === 0) {
+                this.countdownText.visible = false; // Oculta el texto al terminar
+                resetPositions(); // Resetea posiciones
+            }
+        },
+    });
+};
+
+// Al marcar gol en la portería izquierda
+this.physics.add.overlap(this.pelota, this.goalZoneL, () => {
+    this.scoreJ2++;
+    console.log('Gol del jugador 2: ' + this.scoreJ2);
+    startCountdown(); // Llama a la cuenta atrás
+});
+
+// Al marcar gol en la portería derecha
+this.physics.add.overlap(this.pelota, this.goalZoneR, () => {
+    this.scoreJ1++;
+    console.log('Gol del jugador 1: ' + this.scoreJ1);
+    startCountdown(); // Llama a la cuenta atrás
+});
+
+*/
+                //Esto no funciona y no se como hacerlo funcionar
+                this.slider=this.rexUI.add.slider({
+                    x: 640,
+                    y: 740,
+                    width: 2000,
+                    height: 80,
+                    orientation: 'x',
+
+                    //track: this.rexUI.add.roundRectangle(0, 0, 0, 0, 1),
+                    //indicator: this.rexUI.add.roundRectangle(0, 0, 0, 0, 10),
+                    //thumb: this.rexUI.add.roundRectangle(0, 0, 0, 0, 10),
+
+                    input: 'click', // 'drag'|'click'
+                    easeValue: { duration: 250 },
+
+                    valuechangeCallback: function(value) {
+                        value *= 10
+                        value = Math.floor(value * 10)
+                    },
+
+                })
+
+                //this.sound.decodeAudio('bgm', 'decodedbgm');
+                //this.sound.on('decoded', 'decodedbgm');
+                if(!musicPlayed){
+                    this.music = this.sound.add('bgm');
+                    console.log("hi");
+                    this.music.play();
+                    this.music.setLoop(true);
+                    musicPlayed=true;
+                }
+                
+            }
+            update(time, delta){
+                
+            }
+        }
+        class GameScene extends Phaser.Scene{
+            
+            preload ()
+            {
+                this.load.image('background', './Assets/Escenarios/Escenario_Barsa.png')
+                this.load.image('pelota', './Assets/Pelota.png')
+                this.load.image('boot', './Assets/Personajes/botadefutbol.png')
+                this.load.image('goal', './Assets/Porteria.png')
+                this.load.image('pauseMenu', './Assets/Interfaces/menuPausa.png')
+                this.load.image('resumeButton', './Assets/Botones/BotonReanudar.png')
+                this.load.audio('goalCheer', './Assets/Audio/SFX/audio_goal.mp3');
+                
+            }
+
+            create ()
+            {
+                this.scoreJ1=0;
+                this.scoreJ2=0;
+                game.scale.resize(1280, 800);
+                this.physics.world.setBounds(0, 0, 1280, 680);
+                const bg=this.add.image(640, 400,'background');
+
+                const bootOffsetX = 50;
+                const bootOffsetY = 90; 
+                this.pelota=this.physics.add.image(640, 400,'pelota')
+                this.pelota.setScale(0.05);
+                this.pelota.setBounce(0.5);
+                this.pelota.setCollideWorldBounds(true);
+                this.pelota.setCircle(200);
+                this.pelota.setDrag(0.5); 
+                this.pelota.setMass(1);
+
+                this.ground = this.add.rectangle(640, 740, 1280, 160);
+                this.groundHeads = this.add.rectangle(640, 740, 1280, 180);
+                this.jumpRefresh = this.add.rectangle(640, 740, 1280, 190);
+                this.goalZoneL = this.add.rectangle(40, 585, 80, 180);
+                this.goalZoneR = this.add.rectangle(1240, 585, 80, 180);
+                this.goalTopL = this.add.rectangle(40, 490, 200, 10);
+                this.goalTopR = this.add.rectangle(1270, 490, 200, 10);
+
+                this.physics.add.existing(this.ground, true);
+                this.physics.add.existing(this.groundHeads, true);
+                this.physics.add.collider(this.pelota, this.ground);
+
+                this.physics.add.existing(this.goalZoneL, true);
+                this.physics.add.existing(this.goalZoneR, true);
+                this.physics.add.existing(this.jumpRefresh, true);
+                
+                this.j1 = this.physics.add.image(250, 510, 'pelota',);
+                this.j2 = this.physics.add.image(1000, 510, 'pelota');
+                this.j2.flipX=true;
+                switch(charIDJ1){
+                    case 0:
+                        this.j1.setTexture('GrizziL');
+                        this.j1.setScale(0.3);
+                        this.j1.setCircle(100,-25,10);
+                    break;
+                    case 1:
+                        this.j1.setTexture('CristianoL');
+                        this.j1.setScale(0.32);
+                        this.j1.setCircle(100,-15,10);
+                    break;
+
+                    case 2:
+                        this.j1.setTexture('MessiL');
+                        this.j1.setScale(0.3);
+                        this.j1.setCircle(100,-25,-10);
+                    break;
+
+                    case 3:
+                        this.j1.setTexture('LewyL');
+                        this.j1.setScale(0.3);
+                        this.j1.setCircle(100,-35,-10);
+                    break;
+                }
+                switch(charIDJ2){
+                    case 0:
+                        this.j2.setTexture('GrizziL');
+                        this.j2.setScale(0.3);
+                        this.j2.setCircle(100,-35,10);
+                    break;
+                    case 1:
+                        this.j2.setTexture('CristianoL');
+                        this.j2.setScale(0.32);
+                        this.j2.setCircle(100,-15,10);
+                    break;
+
+                    case 2:
+                        this.j2.setTexture('MessiL');
+                        this.j2.setScale(0.3);
+                        this.j2.setCircle(100,-45,-10);
+                    break;
+
+                    case 3:
+                        this.j2.setTexture('LewyL');
+                        this.j2.setScale(0.3);
+                        this.j2.setCircle(100,-45,-10);
+                    break;
+                }
+                this.j1.setMass(0.1);
+                this.j2.setMass(0.1);
+                this.j1.setBounce(0);
+                this.j2.setBounce(0);
+                this.j1.setDrag(0);
+                this.j2.setDrag(0);
+                this.j1.setImmovable(false);
+                this.j2.setImmovable(false);
+                this.j1.setCollideWorldBounds(true);
+                this.j2.setCollideWorldBounds(true);
+                this.j1.setImmovable(true);
+                this.j2.setImmovable(true);
+                this.physics.add.collider(this.groundHeads, this.j2);
+                this.physics.add.collider(this.groundHeads, this.j1);
+
+                this.botaJ1 = this.physics.add.image(300, 607, 'boot');
+                this.botaJ1.setScale(0.08);
+                this.botaJ1.flipX=true;
+                this.botaJ1.setBounce(0);
+                this.botaJ1.setCircle(200, 110, 0);
+                this.botaJ1.x = this.j1.x - bootOffsetX; // Ajusta según el lado del personaje
+                this.botaJ1.y = this.j1.y + bootOffsetY;
+
+                this.botaJ2 = this.physics.add.image(978, 607, 'boot');
+                this.botaJ2.setScale(0.08);
+                this.botaJ2.setBounce(0);
+                this.botaJ2.setDrag(0);
+                this.botaJ2.setCircle(200);
+                this.botaJ2.x = this.j2.x + bootOffsetX; // Ajusta según el lado del personaje
+                this.botaJ2.y = this.j2.y + bootOffsetY;
+
+                this.botaJ1.setCollideWorldBounds(true);
+                this.botaJ2.setCollideWorldBounds(true);
+                this.botaJ1.setMass(0.1);
+                this.botaJ2.setMass(0.1);
+                this.botaJ1.body.pushable = false;
+                this.botaJ2.body.pushable = false;
+                this.botaJ1.setImmovable(true);
+                this.botaJ2.setImmovable(true);
+
+                this.physics.add.collider(this.j1, this.pelota);
+                this.physics.add.collider(this.j2, this.pelota);
+                this.physics.add.collider(this.j1, this.j2);
+                this.physics.add.collider(this.j2, this.j1);
+
+                this.physics.add.collider(this.botaJ2, this.j1);
+                this.physics.add.collider(this.botaJ1, this.j2);
+                this.physics.add.collider(this.botaJ1, this.botaJ2);
+                this.physics.add.collider(this.botaJ1, this.pelota);
+                this.physics.add.collider(this.botaJ2, this.pelota);
+
+                //Controles
+                this.WASD = this.input.keyboard.addKeys('W,A,D');
+                this.ARROWS = this.input.keyboard.addKeys('UP,LEFT,RIGHT');
+                this.ESCAPE = this.input.keyboard.addKeys('ESC');
+                this.SHOOT = this.input.keyboard.addKeys('SPACE, P');
+
+                this.goalL=this.physics.add.image(50, 580, 'goal');
+                this.goalL.setScale(0.5,1.1);
+                this.goalL.flipX=true;
+                this.goalL.setImmovable(true);
+                this.goalL.body.setAllowGravity(false);
+
+                this.goalR=this.physics.add.image(1230, 580, 'goal');
+                this.goalR.setScale(0.5,1.1);   
+                this.goalR.setImmovable(true);
+                this.goalR.body.setAllowGravity(false);
+
+                this.physics.add.existing(this.goalTopL);
+                this.physics.add.collider(this.goalTopL, this.pelota);
+                this.physics.add.collider(this.goalTopL, this.botaJ1);
+                this.physics.add.collider(this.goalTopL, this.j1);
+                this.physics.add.collider(this.goalTopL, this.botaJ2);
+                this.physics.add.collider(this.goalTopL, this.j2);
+                this.physics.add.existing(this.goalTopR);
+                this.physics.add.collider(this.goalTopR, this.pelota);
+                this.physics.add.collider(this.goalTopR, this.botaJ1);
+                this.physics.add.collider(this.goalTopR, this.j1);
+                this.physics.add.collider(this.goalTopR, this.botaJ2);
+                this.physics.add.collider(this.goalTopR, this.j2);
+                this.goalTopL.body.setAllowGravity(false);
+                this.goalTopR.body.setAllowGravity(false);
+                this.goalTopL.body.setBounce(0);
+                this.goalTopL.body.setMass(0);
+                this.goalTopR.body.setBounce(0);
+                this.goalTopR.body.setMass(0);
+                this.goalTopL.body.setImmovable(true);
+                this.goalTopR.body.setImmovable(true);
+
+                this.jumpCountJ1=0;
+                this.jumpCountJ2=0;
+
+                this.physics.add.overlap(this.pelota, this.goalZoneL, () => {
+                    this.scoreJ2++;
+                    console.log('Goal1 ' + this.scoreJ2);
+                    this.pelota.setPosition(640, 400);
+                    this.pelota.setVelocityX(0);
+                    this.pelota.setVelocityY(0);
+                    goalCheerSound.play();
+                });
+
+                this.physics.add.overlap(this.j1, this.jumpRefresh, () => {
+                    this.jumpCountJ1=1;
+                });
+
+                this.physics.add.overlap(this.j2, this.jumpRefresh, () => {
+                    this.jumpCountJ2=1;
+                });
+
+                this.physics.add.overlap(this.pelota, this.goalZoneR, () => {
+                    this.scoreJ1++;
+                    console.log('Goal2 ' + this.scoreJ1);
+                    this.pelota.setPosition(640, 400);
+                    this.pelota.setVelocityX(0);
+                    this.pelota.setVelocityY(0);
+                    goalCheerSound.play();
+                });
+
+                this.j1Victory=this.make.text({
+                    x: 230, 
+                    y: 450,
+                    text: "¡Gana el jugador 1! \n Presiona ESC y sal al menu principal para empezar otra partida",
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#000000',
+                        align: 'center',
+                    },
+                    add: true
+                });
+
+                this.j2Victory=this.make.text({
+                    x: 230,
+                    y: 450,
+                    text: "¡Gana el jugador 2! \n Presiona ESC y sal al menu principal para empezar otra partida",
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#000000',
+                        align: 'center',
+                    },
+                    add: true
+                }); 
+
+                this.pauseMenu=this.add.image(640, 300,'pauseMenu');
+                this.pauseMenu.visible=false;
+                this.exitButton=this.add.image(640, 400,'exitButton').setInteractive();
+                this.exitButton.visible=false;
+                this.resumeButton=this.add.image(640, 300,'resumeButton').setInteractive();
+                this.resumeButton.visible=false;
+
+                this.previousBallSpeedX=0;
+                this.previousBallSpeedY=0;
+                this.previousJ1SpeedX=0;
+                this.previousJ1SpeedY=0;
+                this.previousBootJ1SpeedX=0;
+                this.previousBootJ1SpeedY=0;
+                this.previousJ2SpeedX=0;
+                this.previousJ2SpeedY=0;
+                this.previousBootJ2SpeedX=0;
+                this.previousBootJ2SpeedY=0;
+
+                this.pelota.setImmovable(false);
+                this.pelota.body.setAllowGravity(true);
+                this.j1.setImmovable(false);
+                this.j1.body.setAllowGravity(true);
+                this.botaJ1.setImmovable(false);
+                this.botaJ1.body.setAllowGravity(true);
+                this.j2.setImmovable(false);
+                this.j2.body.setAllowGravity(true);
+                this.botaJ2.setImmovable(false);
+                this.botaJ2.body.setAllowGravity(true);
+
+                this.j1Victory.visible=false;
+                this.j2Victory.visible=false;
+
+                this.exitButton.on('pointerdown', function(e){
+                    game.scene.stop('gameScene');
+                    game.scene.start('mainMenuScene');
+                });
+                this.resumeButton.on('pointerdown', (e)=>{
+                    this.pauseMenu.visible=false;
+                    this.exitButton.visible=false;
+                    this.resumeButton.visible=false;
+                    this.pelota.setImmovable(false);
+                    this.pelota.body.setAllowGravity(true);
+                    this.j1.setImmovable(false);
+                    this.j1.body.setAllowGravity(true);
+                    this.botaJ1.setImmovable(false);
+                    this.botaJ1.body.setAllowGravity(true);
+                    this.j2.setImmovable(false);
+                    this.j2.body.setAllowGravity(true);
+                    this.botaJ2.setImmovable(false);
+                    this.botaJ2.body.setAllowGravity(true);
+
+                    this.pelota.setVelocityX(this.previousBallSpeedX);
+                    this.pelota.setVelocityY(this.previousBallSpeedY);
+                    this.j1.setVelocityX(this.previousJ1SpeedX);
+                    this.j1.setVelocityY(this.previousJ1SpeedY);
+                    this.botaJ1.setVelocityX(this.previousBootJ1SpeedX);
+                    this.botaJ1.setVelocityY(this.previousBootJ1SpeedY);
+                    this.j2.setVelocityX(this.previousJ2SpeedX);
+                    this.j2.setVelocityY(this.previousJ2SpeedY);
+                    this.botaJ2.setVelocityX(this.previousBootJ2SpeedX);
+                    this.botaJ2.setVelocityY(this.previousBootJ2SpeedY);
+
+                    this.previousBallSpeedX=0;
+                    this.previousBallSpeedY=0;
+                    this.previousJ1SpeedX=0;
+                    this.previousJ1SpeedY=0;
+                    this.previousBootJ1SpeedX=0;
+                    this.previousBootJ1SpeedY=0;
+                    this.previousJ2SpeedX=0;
+                    this.previousJ2SpeedY=0;
+                    this.previousBootJ2SpeedX=0;
+                    this.previousBootJ2SpeedY=0;
+                });
+
+                var goalCheerSound = this.sound.add('goalCheer');
+
+                this.j1ScoreMarker=this.make.text({
+                    x: 290, 
+                    y: 725,
+                    text: this.scoreJ1,
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#ffffff',
+                        align: 'center',
+                    },
+                    add: true
+                });
+
+                this.j2ScoreMarker=this.make.text({
+                    x: 975, 
+                    y: 725,
+                    text: this.scoreJ2,
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#ffffff',
+                        align: 'center',
+                    },
+                    add: true
+                });
+
+            }
+            update(time, delta){
+
+                if(this.WASD.A.isDown&&!this.pauseMenu.visible){
+                    this.j1.setVelocityX(-250);
+                    this.botaJ1.setVelocityX(-250);
+                }
+                if(this.WASD.D.isDown&&!this.pauseMenu.visible){
+                    this.j1.setVelocityX(250);
+                    this.botaJ1.setVelocityX(250)   
+                }
+                if(this.WASD.W.isDown&&!this.pauseMenu.visible&&this.jumpCountJ1==1){
+                    this.j1.setVelocityY(-250);
+                    this.botaJ1.setVelocityY(-250);
+                    this.jumpCountJ1--;
+                }
+                if(!this.WASD.W.isDown&&!this.WASD.A.isDown&&!this.WASD.D.isDown&&!this.pauseMenu.visible){
+                    this.j1.setVelocityX(0);
+                    this.botaJ1.setVelocityX(0);
+                }
+                if(this.ARROWS.LEFT.isDown&&!this.pauseMenu.visible){
+                    this.j2.setVelocityX(-250);
+                    this.botaJ2.setVelocityX(-250);
+                }
+                if(this.ARROWS.RIGHT.isDown&&!this.pauseMenu.visible){
+                    this.j2.setVelocityX(250);
+                    this.botaJ2.setVelocityX(250);
+                }
+                if(this.ARROWS.UP.isDown&&!this.pauseMenu.visible&&this.jumpCountJ2==1){
+                    this.j2.setVelocityY(-250);
+                    this.botaJ2.setVelocityY(-250);
+                    this.jumpCountJ2--;
+                }
+                if(!this.ARROWS.UP.isDown&&!this.ARROWS.RIGHT.isDown&&!this.ARROWS.LEFT.isDown&&!this.pauseMenu.visible){
+                    this.j2.setVelocityX(0);
+                    this.botaJ2.setVelocityX(0);
+                }
+
+                if(this.SHOOT.SPACE.isDown&&!this.pauseMenu.visible){
+                    this.botaJ1.y-=10;
+                    if(this.botaJ1.y<640)
+                        this.botaJ1.y+=10;
+                }
+                if(this.SHOOT.P.isDown&&!this.pauseMenu.visible){
+                    this.botaJ2.y-=10;
+                    if(this.botaJ2.y<640)
+                        this.botaJ2.y+=10;
+                }
+
+                if(this.ESCAPE.ESC.isDown&&!this.pauseMenu.visible){
+                    this.pauseMenu.visible=true;
+                    this.exitButton.visible=true;
+                    this.resumeButton.visible=true;
+                    this.pelota.setImmovable(true);
+                    this.pelota.body.setAllowGravity(false);
+                    this.j1.setImmovable(true);
+                    this.j1.body.setAllowGravity(false);
+                    this.botaJ1.setImmovable(true);
+                    this.botaJ1.body.setAllowGravity(false);
+                    this.j2.setImmovable(true);
+                    this.j2.body.setAllowGravity(false);
+                    this.botaJ2.setImmovable(true);
+                    this.botaJ2.body.setAllowGravity(false);
+
+                    this.previousBallSpeedX=this.pelota.body.velocity.x;
+                    this.previousBallSpeedY=this.pelota.body.velocity.y;
+                    this.previousJ1SpeedX=this.j1.body.velocity.x;
+                    this.previousJ1SpeedY=this.j1.body.velocity.y;
+                    this.previousBootJ1SpeedX=this.botaJ1.body.velocity.x;
+                    this.previousBootJ1SpeedY=this.botaJ1.body.velocity.y;
+                    this.previousJ2SpeedX=this.j2.body.velocity.x;
+                    this.previousJ2SpeedY=this.j2.body.velocity.y;
+                    this.previousBootJ2SpeedX=this.botaJ2.body.velocity.x;
+                    this.previousBootJ2SpeedY=this.botaJ2.body.velocity.y;
+
+                    this.pelota.setVelocityX(0);
+                    this.pelota.setVelocityY(0);
+                    this.j1.setVelocityX(0);
+                    this.j1.setVelocityY(0);
+                    this.botaJ1.setVelocityX(0);
+                    this.botaJ1.setVelocityY(0);
+                    this.j2.setVelocityX(0);
+                    this.j2.setVelocityY(0);
+                    this.botaJ2.setVelocityX(0);
+                    this.botaJ2.setVelocityY(0);
+
+                    
+                }
+
+                if(this.scoreJ1>6&&!this.j2Victory.visible){
+                    this.j1Victory.visible=true;
+                }
+                if(this.scoreJ2>6&&!this.j1Victory.visible){
+                    this.j2Victory.visible=true;
+                }
+
+                this.j1ScoreMarker.text=this.scoreJ1;
+                this.j2ScoreMarker.text=this.scoreJ2;
+
+                const headOffsetX = 20;
+                const headOffsetY = 90;
+
+                this.j1.x=this.botaJ1.x - headOffsetX;
+                this.j2.x=this.botaJ2.x + headOffsetX;
+
+                this.goalTopL.x=0;
+                this.goalTopR.x=1280;
+                this.goalTopL.y=490;
+                this.goalTopR.y=490;
+
+            }
+        }
+        class CharacterSelectScene extends Phaser.Scene{
+            preload ()
+            {
+                this.load.image('backgroundCharacterSelect', './Assets/Interfaces/SelectorPersonaje.png')
+                this.load.image('gameStartButton', './Assets/Botones/botonPlayMenuElegir.png')
+                this.load.image('gameExitbutton', './Assets/Botones/botonSalir.png')
+                this.load.image('arrowRight', './Assets/Botones/flechaDer.png')
+                this.load.image('arrowLeft', './Assets/Botones/flechaIzq.png')
+                this.load.image('GrizziL', './Assets/Personajes/Grizzi 1.png')
+                this.load.image('GrizziR', './Assets/Personajes/Grizzi 2.png')
+                this.load.image('CristianoL', './Assets/Personajes/Cristiano 1.png')
+                this.load.image('CristianoR', './Assets/Personajes/Cristiano 2.png')
+                this.load.image('MessiL', './Assets/Personajes/Messi 1.png')
+                this.load.image('MessiR', './Assets/Personajes/Messi 2.png')
+                this.load.image('LewyL', './Assets/Personajes/Lewy 1.png')
+                this.load.image('LewyR', './Assets/Personajes/Lewy 2.png')
+                this.load.image('Escenario_Madrid', './Assets/Escenarios/Escenario_Madrid.png')
+                this.load.image('Escenario_City', './Assets/Escenarios/Escenario_City.png')
+                this.load.image('Escenario_Barsa', './Assets/Escenarios/Escenario_Barsa.png')
+
+            }
+
+            create ()
+            {
+                game.scale.resize(1125, 844);
+                this.CSBackground=this.add.image(562.5, 422,'backgroundCharacterSelect')
+                this.CSBackground.setScale(0.5);
+                this.arrowRJ1=this.add.image(450, 540,'arrowRight').setInteractive();
+                this.arrowRJ1.setScale(0.6217, 0.6169);
+                this.arrowLJ1=this.add.image(150, 540,'arrowLeft').setInteractive();
+                this.arrowLJ1.setScale(0.64);
+                this.arrowRJ2=this.add.image(970, 540,'arrowRight').setInteractive();
+                this.arrowRJ2.setScale(0.6217, 0.6169);
+                this.arrowLJ2=this.add.image(680, 540,'arrowLeft').setInteractive();
+                this.arrowLJ2.setScale(0.64);
+                this.playButton=this.add.image(562, 720,'gameStartButton').setInteractive();
+                
+                this.J1CharDisplay=this.add.image(300, 540,'GrizziL');
+                this.J1CharDisplay.setScale(0.9);
+                this.J2CharDisplay=this.add.image(300, 540,'GrizziL');
+                this.J2CharDisplay.flipX=true;
+                this.J2CharDisplay.setScale(0.9);
+                this.J2CharDisplay.x=830;
+                this.J2CharDisplay.y=540;
+
+                this.arrowRJ1.on('pointerdown', function(e){
+                    charIDJ1++;
+                });
+                this.arrowLJ1.on('pointerdown', function(e){
+                    charIDJ1--;
+                });
+                this.arrowRJ2.on('pointerdown', function(e){
+                    charIDJ2++;
+                });
+                this.arrowLJ2.on('pointerdown', function(e){
+                    charIDJ2--;
+                });
+                this.playButton.on('pointerdown', function(e){
+                    game.scene.stop('characterSelectScene');
+                    game.scene.start('gameScene');
+                });
+
+            }
+            update(time, delta){
+                if(charIDJ1>3)
+                    charIDJ1=0;
+                if(charIDJ2>3)
+                    charIDJ2=0;
+                if(charIDJ1<0)
+                    charIDJ1=3;
+                if(charIDJ2<0)
+                    charIDJ2=3;
+
+                switch(charIDJ1){
+                    case 0:
+                        this.J1CharDisplay.setTexture('GrizziL');
+                    break;
+                    case 1:
+                        this.J1CharDisplay.setTexture('CristianoL');
+                    break;
+
+                    case 2:
+                        this.J1CharDisplay.setTexture('MessiL');
+                    break;
+
+                    case 3:
+                        this.J1CharDisplay.setTexture('LewyL');
+                    break;
+                }
+                switch(charIDJ2){
+                    case 0:
+                        this.J2CharDisplay.setTexture('GrizziL');
+                    break;
+                    case 1:
+                        this.J2CharDisplay.setTexture('CristianoL');
+                    break;
+
+                    case 2:
+                        this.J2CharDisplay.setTexture('MessiL');
+                    break;
+
+                    case 3:
+                        this.J2CharDisplay.setTexture('LewyL');
+                    break;
+                }
+            }
+        }
+        game.scene.add('mainMenuScene', MainMenuScene, true);
+        game.scene.add('gameScene', GameScene, false)
+        game.scene.add('characterSelectScene', CharacterSelectScene, false)
+    </script>
+</body>
+</html>
