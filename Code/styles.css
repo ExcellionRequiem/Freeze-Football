@@ -10,4 +10,5 @@ body {
 canvas {
     background-color: #87CEEB; /* Color del cielo */
     border: 2px solid #000;
+    align-self: center;
 }
