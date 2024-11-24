@@ -24,7 +24,6 @@
         var game = new Phaser.Game(config);
         var charIDJ1 = 0;
         var charIDJ2 = 0;
-        var charIDBG = 0;
         var musicPlayed = false;
         class MainMenuScene extends Phaser.Scene{
             preload ()
@@ -157,59 +156,6 @@
                     this.monica.visible=false;
                 });
 
-                this.countdownText = this.add.text(640, 360, '', {
-                    fontSize: '64px',
-                    fontFamily: 'Arial',
-                    color: '#ffffff',
-                    align: 'center',
-                }).setOrigin(0.5);
-                    this.countdownText.visible = false;
-                /*// Resetea posiciones de jugadores y balón después de la cuenta atrás
-const resetPositions = () => {
-    this.pelota.setPosition(640, 400);
-    this.pelota.setVelocity(0, 0);
-    this.j1.setPosition(250, 510);
-    this.j1.setVelocity(0, 0);
-    this.j2.setPosition(1000, 510);
-    this.j2.setVelocity(0, 0);
-};
-
-// Inicia la cuenta atrás
-const startCountdown = () => {
-    let countdown = 3; // Duración de la cuenta atrás en segundos
-    this.countdownText.visible = true;
-    this.countdownText.setText(countdown);
-
-    this.time.addEvent({
-        delay: 1000, // Intervalo de 1 segundo
-        repeat: countdown - 1, // Se ejecuta 3 veces (2 repeticiones después del primer llamado)
-        callback: () => {
-            countdown--;
-            this.countdownText.setText(countdown);
-
-            if (countdown === 0) {
-                this.countdownText.visible = false; // Oculta el texto al terminar
-                resetPositions(); // Resetea posiciones
-            }
-        },
-    });
-};
-
-// Al marcar gol en la portería izquierda
-this.physics.add.overlap(this.pelota, this.goalZoneL, () => {
-    this.scoreJ2++;
-    console.log('Gol del jugador 2: ' + this.scoreJ2);
-    startCountdown(); // Llama a la cuenta atrás
-});
-
-// Al marcar gol en la portería derecha
-this.physics.add.overlap(this.pelota, this.goalZoneR, () => {
-    this.scoreJ1++;
-    console.log('Gol del jugador 1: ' + this.scoreJ1);
-    startCountdown(); // Llama a la cuenta atrás
-});
-
-*/
                 //Esto no funciona y no se como hacerlo funcionar
                 this.slider=this.rexUI.add.slider({
                     x: 640,
@@ -269,7 +215,7 @@ this.physics.add.overlap(this.pelota, this.goalZoneR, () => {
                 this.physics.world.setBounds(0, 0, 1280, 680);
                 const bg=this.add.image(640, 400,'background');
 
-                const bootOffsetX = 50;
+                const bootOffsetX = 50; 
                 const bootOffsetY = 90; 
                 this.pelota=this.physics.add.image(640, 400,'pelota')
                 this.pelota.setScale(0.05);
@@ -720,9 +666,6 @@ this.physics.add.overlap(this.pelota, this.goalZoneR, () => {
                 this.load.image('MessiR', './Assets/Personajes/Messi 2.png')
                 this.load.image('LewyL', './Assets/Personajes/Lewy 1.png')
                 this.load.image('LewyR', './Assets/Personajes/Lewy 2.png')
-                this.load.image('Escenario_Madrid', './Assets/Escenarios/Escenario_Madrid.png')
-                this.load.image('Escenario_City', './Assets/Escenarios/Escenario_City.png')
-                this.load.image('Escenario_Barsa', './Assets/Escenarios/Escenario_Barsa.png')
 
             }
 
