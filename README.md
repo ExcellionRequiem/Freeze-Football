@@ -36,7 +36,7 @@ Correo oficial: a.carretero.2022@alumnos.urjc
 
 		
 Cuenta GitHub: https://github.com/ExcellionRequiem
-
+****************
 
 2. Historial de revisiones
 
