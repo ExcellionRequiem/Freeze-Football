@@ -149,6 +149,7 @@ Dentro de los movimientos y físicas distinguimos dos tipos:
   
 *******
 5. Interfaces y pantallas
+
 5.1 Logotipo
 
    ![image](https://github.com/user-attachments/assets/0832a5ba-a1b8-4d4a-aeb2-54ed331fe4f4)
@@ -157,12 +158,15 @@ Dentro de los movimientos y físicas distinguimos dos tipos:
 
 5.2 Iconos 
 Apartado para mostrar los diseños e iconos finales que irán en las pantallas.
+
 5.3 Tipografía
+
 ![image](https://github.com/user-attachments/assets/0ecda23e-0a0c-4f56-b865-3f81aad2072e)
 descripción de imagen: imagen con la tipografía escogida para el juego.
 Se ha decidido elegir la tipografía Crang descargada en dafont.com ya que es coherente con el estilo pixel art establecido y a pesar de su estilo pixelado es muy legible.
 
 5.4 Menú principal
+
 ![image](https://github.com/user-attachments/assets/9acc67c6-8771-4d80-8a42-b1a7a36c6bb6)
 descripción de imagen: primer diseño del menú principal
 
@@ -172,20 +176,26 @@ descripción imagen: segundo diseño del menú principal
 Bocetos realizados a modo de primer diseño, mantiene un estilo sencillo. 
 
 5.5 Menú de pausa
+
 Interfaz sencilla donde aparecerán los botones de reanudar partida, ajustes, y salir de la partida. Se busca simplicidad y claridad para el jugador a la hora de navegar el menú.
 
 5.6 In game
+
 Saldrá un texto por pantalla cuando se marque un gol, cuando se llegue a los goles que marquen la condición de victoria (5/7 aún por determinar) saldrá por pantalla el texto (“¡GOL!”, “Jugador 1 gana”, respectivamente).
 
 5.7 Créditos 
-	Pantalla de créditos donde aparece el nombre de los integrantes del grupo.
+
+Pantalla de créditos donde aparece el nombre de los integrantes del grupo.
 
 *******
 
 6. Apartado artístico
+   
 6.1 Estilo gráfico
 Freeze Football cuenta con un diseño de niveles y personajes en simple aunque detallado y cuidado. Con una amplia paleta de colores y buena imagen visual, se busca que el jugador busque explorar y jugar los distintos niveles que se implementen así como controlar a todos los personajes que estén disponibles.
+
 6.2 Escenario
+
 Los escenarios están ambientados en distintos campos de fútbol famosos en todo el mundo. Se pretende con el paso del tiempo agregar más escenarios jugables, partiendo de base con entre 1 a 3 estadios. La cámara será fija posicionada de frente a la pantalla, ambos jugadores tendrán una visión completa de todo el escenario.
 
 En Freeze Football podrás elegir el escenario donde disputar partidos contra tus amigos, contando con decorados ambientados en algunos de los grandes equipos del fútbol Mundial como pueden ser F.C Barcelona, Real Madrid, o Manchester City.
@@ -194,6 +204,7 @@ En Freeze Football podrás elegir el escenario donde disputar partidos contra tu
 descripción imagen: imagenes de referencia para los escenarios
 
 6.3 Personajes
+
 El jugador tendrá la oportunidad de elegir entre diversos personajes jugables, todos ellos inspirados en conocidos jugadores profesionales de fútbol, como pueden ser Leo Messi o Cristiano Ronaldo.
 Como forma de evitar el copyright y con la intención de darle un toque de creatividad y diversión a su vez, los nombres de los jugadores han sido mezclados con la temática principal del juego: el frío. Por tanto, en Freeze Football tendrás la oportunidad de jugar contra tus amigos con personajes como Fressi , Fristiano o Friolski, entre otros. 
 
@@ -204,6 +215,7 @@ Por el momento, únicamente estarán disponibles 4 personajes jugables, pero en 
 descripción imagen: imagen de referencia para jugadores
 
 6.4 Audio
+
 El juego cuenta de inicio con una melodía ligera y amena en bucle como música de fondo, y con un efecto de sonido del público cada vez que uno de los jugadores anota un gol. Se plantea en un futuro implementar efectos de sonido al inicio de los partidos, y una melodía distintas en la pantalla del gameplay para que se diferencie de la de los menús.
 
 
