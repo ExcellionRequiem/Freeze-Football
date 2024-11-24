@@ -24,6 +24,7 @@
         var game = new Phaser.Game(config);
         var charIDJ1 = 0;
         var charIDJ2 = 0;
+        var musicPlayed = false;
         class MainMenuScene extends Phaser.Scene{
             preload ()
             {
@@ -41,7 +42,6 @@
 
             create ()
             {
-                
                 const bg=this.add.image(562.5, 422,'backgroundMainMenu');
                 bg.setScale(0.5, 0.50);
                 game.scale.resize(1125, 844);
@@ -179,9 +179,14 @@
 
                 //this.sound.decodeAudio('bgm', 'decodedbgm');
                 //this.sound.on('decoded', 'decodedbgm');
-                var music = this.sound.add('bgm');
-                music.play();
-                music.setLoop(true);
+                if(!musicPlayed){
+                    this.music = this.sound.add('bgm');
+                    console.log("hi");
+                    this.music.play();
+                    this.music.setLoop(true);
+                    musicPlayed=true;
+                }
+                
             }
             update(time, delta){
                 
@@ -198,8 +203,6 @@
                 this.load.image('pauseMenu', './Assets/Interfaces/menuPausa.png')
                 this.load.image('resumeButton', './Assets/Botones/BotonReanudar.png')
                 this.load.audio('goalCheer', './Assets/Audio/SFX/audio_goal.mp3');
-
-                
                 
             }
 
@@ -396,6 +399,32 @@
                     goalCheerSound.play();
                 });
 
+                this.j1Victory=this.make.text({
+                    x: 230, 
+                    y: 400,
+                    text: "¡Gana el jugador 1! \n Presiona ESC y sal al menu principal para empezar otra partida",
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#ffffff',
+                        align: 'center',
+                    },
+                    add: true
+                });
+
+                this.j2Victory=this.make.text({
+                    x: 230,
+                    y: 400,
+                    text: "¡Gana el jugador 2! \n Presiona ESC y sal al menu principal para empezar otra partida",
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#ffffff',
+                        align: 'center',
+                    },
+                    add: true
+                }); 
+
                 this.pauseMenu=this.add.image(640, 300,'pauseMenu');
                 this.pauseMenu.visible=false;
                 this.exitButton=this.add.image(640, 400,'exitButton').setInteractive();
@@ -424,6 +453,9 @@
                 this.j2.body.setAllowGravity(true);
                 this.botaJ2.setImmovable(false);
                 this.botaJ2.body.setAllowGravity(true);
+
+                this.j1Victory.visible=false;
+                this.j2Victory.visible=false;
 
                 this.exitButton.on('pointerdown', function(e){
                     game.scene.stop('gameScene');
@@ -482,7 +514,6 @@
                     add: true
                 });
 
-                /**/
                 this.j2ScoreMarker=this.make.text({
                     x: 975, 
                     y: 725,
@@ -495,7 +526,6 @@
                     },
                     add: true
                 });
-                /**/
 
             }
             update(time, delta){
@@ -517,7 +547,6 @@
                     this.j1.setVelocityX(0);
                     this.botaJ1.setVelocityX(0);
                 }
-
                 if(this.ARROWS.LEFT.isDown&&!this.pauseMenu.visible){
                     this.botaJ2.setVelocityX(-250);
                     this.j2.setVelocityX(-250);
@@ -585,6 +614,13 @@
                     this.botaJ2.setVelocityY(0);
 
                     
+                }
+
+                if(this.scoreJ1>6&&!this.j2Victory.visible){
+                    this.j1Victory.visible=true;
+                }
+                if(this.scoreJ2>6&&!this.j1Victory.visible){
+                    this.j2Victory.visible=true;
                 }
 
                 this.j1ScoreMarker.text=this.scoreJ1;
