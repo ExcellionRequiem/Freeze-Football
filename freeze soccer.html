@@ -17,7 +17,7 @@
                 default: 'arcade',
                 arcade:{
                     gravity: {y:300},
-                    //debug: true
+                    debug: true,
                 }             
             },
         };
@@ -35,6 +35,7 @@
                 this.load.image('settingsButton', './Assets/Botones/botonAjustes.png');
                 this.load.image('creditsButton', './Assets/Botones/BotonCreditos.png');
                 this.load.image('exitButton', './Assets/Botones/botonSalir.png');
+                this.load.audio('bgm', './Assets/Audio/Musica/723173__ncone__funky-beats-2.mp3');
             }
 
             create ()
@@ -54,6 +55,62 @@
                 creditsMenu.visible=false;
                 settingsExitButton.visible=false;
                 creditsExitButton.visible=false;
+
+                this.arturo=this.make.text({
+                    x: 405, 
+                    y: 300,
+                    text: 'Arturo Carretero Aguado',
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#ffffff',
+                        align: 'center',
+                    },
+                    add: true
+                });
+                this.sergio=this.make.text({
+                    x: 405, 
+                    y: 360,
+                    text: 'Sergio Delgado López',
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#ffffff',
+                        align: 'center',
+                    },
+                    add: true
+                });
+                this.alberto=this.make.text({
+                    x: 405, 
+                    y: 420,
+                    text: 'Alberto Caro Candón',
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#ffffff',
+                        align: 'center',
+                    },
+                    add: true
+                });
+                this.monica=this.make.text({
+                    x: 405, 
+                    y: 480,
+                    text: 'Mónica Varas García',
+                    style: {
+                        fontSize: '32px',
+                        fontFamily: 'Times, serif',
+                        color: '#ffffff',
+                        align: 'center',
+                    },
+                    add: true
+                });
+
+                this.arturo.visible=false;
+                this.sergio.visible=false;
+                this.alberto.visible=false;
+                this.monica.visible=false;
+
+
                 playButton.on('pointerdown', function(e){
                     game.scene.stop('mainMenuScene');
                     game.scene.start('characterSelectScene');
@@ -67,12 +124,16 @@
                     creditsButton.visible=false;
                 });
                 
-                creditsButton.on('pointerdown', function(e){
+                creditsButton.on('pointerdown', (e)=>{
                     creditsMenu.visible=true;
                     creditsExitButton.visible=true;
                     playButton.visible=false;
                     settingsButton.visible=false;
                     creditsButton.visible=false;
+                    this.arturo.visible=true;
+                    this.sergio.visible=true;
+                    this.alberto.visible=true;
+                    this.monica.visible=true;
                 });
                 settingsExitButton.on('pointerdown', function(e){
                     settingsMenu.visible=false;
@@ -81,12 +142,16 @@
                     settingsButton.visible=true;
                     creditsButton.visible=true;
                 });
-                creditsExitButton.on('pointerdown', function(e){
+                creditsExitButton.on('pointerdown', (e)=>{
                     creditsMenu.visible=false;
                     creditsExitButton.visible=false;
                     playButton.visible=true;
                     settingsButton.visible=true;
                     creditsButton.visible=true;
+                    this.arturo.visible=false;
+                    this.sergio.visible=false;
+                    this.alberto.visible=false;
+                    this.monica.visible=false;
                 });
 
                 //Esto no funciona y no se como hacerlo funcionar
@@ -134,23 +199,24 @@
             create ()
             {
                 game.scale.resize(1280, 800);
-                this.physics.world.setBounds(0, 0, 1280, 690);
+                this.physics.world.setBounds(0, 0, 1280, 680);
                 const bg=this.add.image(640, 400,'background');
 
                 this.pelota=this.physics.add.image(640, 400,'pelota')
-                this.pelota.setScale(0.1);
-                this.pelota.setBounce(0.7);
+                this.pelota.setScale(0.05);
+                this.pelota.setBounce(0.5);
                 this.pelota.setCollideWorldBounds(true);
                 this.pelota.setCircle(200);
                 this.pelota.setDrag(0.5); 
                 this.pelota.setMass(1);
 
                 this.ground = this.add.rectangle(640, 740, 1280, 160);
-                this.groundHeads = this.add.rectangle(640, 740, 1280, 240);
-                this.goalZoneL = this.add.rectangle(80, 585, 150, 180);
-                this.goalZoneR = this.add.rectangle(1200, 585, 150, 180);
-                this.goalTopL = this.add.rectangle(100, 490, 200, 10);
-                this.goalTopR = this.add.rectangle(1180, 490, 200, 10);
+                this.groundHeads = this.add.rectangle(640, 740, 1280, 180);
+                this.jumpRefresh = this.add.rectangle(640, 740, 1280, 190);
+                this.goalZoneL = this.add.rectangle(40, 585, 80, 180);
+                this.goalZoneR = this.add.rectangle(1240, 585, 80, 180);
+                this.goalTopL = this.add.rectangle(40, 490, 200, 10);
+                this.goalTopR = this.add.rectangle(1270, 490, 200, 10);
 
                 this.physics.add.existing(this.ground, true);
                 this.physics.add.existing(this.groundHeads, true);
@@ -158,6 +224,7 @@
 
                 this.physics.add.existing(this.goalZoneL, true);
                 this.physics.add.existing(this.goalZoneR, true);
+                this.physics.add.existing(this.jumpRefresh, true);
                 
                 this.j1 = this.physics.add.image(250, 510, 'pelota',);
                 this.j2 = this.physics.add.image(1000, 510, 'pelota');
@@ -165,48 +232,48 @@
                 switch(charIDJ1){
                     case 0:
                         this.j1.setTexture('GrizziL');
-                        this.j1.setScale(0.6);
+                        this.j1.setScale(0.3);
                         this.j1.setCircle(100,-25,10);
                     break;
                     case 1:
                         this.j1.setTexture('CristianoL');
-                        this.j1.setScale(0.62);
+                        this.j1.setScale(0.32);
                         this.j1.setCircle(100,-15,10);
                     break;
 
                     case 2:
                         this.j1.setTexture('MessiL');
-                        this.j1.setScale(0.6);
+                        this.j1.setScale(0.3);
                         this.j1.setCircle(100,-25,-10);
                     break;
 
                     case 3:
                         this.j1.setTexture('LewyL');
-                        this.j1.setScale(0.6);
+                        this.j1.setScale(0.3);
                         this.j1.setCircle(100,-35,-10);
                     break;
                 }
                 switch(charIDJ2){
                     case 0:
                         this.j2.setTexture('GrizziL');
-                        this.j2.setScale(0.6);
+                        this.j2.setScale(0.3);
                         this.j2.setCircle(100,-35,10);
                     break;
                     case 1:
                         this.j2.setTexture('CristianoL');
-                        this.j2.setScale(0.62);
+                        this.j2.setScale(0.32);
                         this.j2.setCircle(100,-15,10);
                     break;
 
                     case 2:
                         this.j2.setTexture('MessiL');
-                        this.j2.setScale(0.6);
+                        this.j2.setScale(0.3);
                         this.j2.setCircle(100,-45,-10);
                     break;
 
                     case 3:
                         this.j2.setTexture('LewyL');
-                        this.j2.setScale(0.6);
+                        this.j2.setScale(0.3);
                         this.j2.setCircle(100,-45,-10);
                     break;
                 }
@@ -224,13 +291,13 @@
                 this.physics.add.collider(this.groundHeads, this.j1);
 
                 this.botaJ1 = this.physics.add.image(300, 607, 'boot');
-                this.botaJ1.setScale(0.2);
+                this.botaJ1.setScale(0.08);
                 this.botaJ1.flipX=true;
                 this.botaJ1.setBounce(0);
                 this.botaJ1.setCircle(200, 110, 0);
 
                 this.botaJ2 = this.physics.add.image(978, 607, 'boot');
-                this.botaJ2.setScale(0.2);
+                this.botaJ2.setScale(0.08);
                 this.botaJ2.setBounce(0);
                 this.botaJ2.setDrag(0);
                 this.botaJ2.setCircle(200);
@@ -257,15 +324,16 @@
                 this.WASD = this.input.keyboard.addKeys('W,A,D');
                 this.ARROWS = this.input.keyboard.addKeys('UP,LEFT,RIGHT');
                 this.ESCAPE = this.input.keyboard.addKeys('ESC');
+                this.SHOOT = this.input.keyboard.addKeys('SPACE, P');
 
-                this.goalL=this.physics.add.image(100, 580, 'goal');
-                this.goalL.setScale(1,1.1);
+                this.goalL=this.physics.add.image(50, 580, 'goal');
+                this.goalL.setScale(0.5,1.1);
                 this.goalL.flipX=true;
                 this.goalL.setImmovable(true);
                 this.goalL.body.setAllowGravity(false);
 
-                this.goalR=this.physics.add.image(1180, 580, 'goal');
-                this.goalR.setScale(1,1.1);   
+                this.goalR=this.physics.add.image(1230, 580, 'goal');
+                this.goalR.setScale(0.5,1.1);   
                 this.goalR.setImmovable(true);
                 this.goalR.body.setAllowGravity(false);
 
@@ -290,12 +358,23 @@
                 this.goalTopL.body.setImmovable(true);
                 this.goalTopR.body.setImmovable(true);
 
+                this.jumpCountJ1=0;
+                this.jumpCountJ2=0;
+
                 this.physics.add.overlap(this.pelota, this.goalZoneL, () => {
                     this.scoreJ1++;
                     console.log('Goal1 ' + this.scoreJ1);
                     this.pelota.setPosition(640, 400);
                     this.pelota.setVelocityX(0);
                     this.pelota.setVelocityY(0);
+                });
+
+                this.physics.add.overlap(this.j1, this.jumpRefresh, () => {
+                    this.jumpCountJ1=1;
+                });
+
+                this.physics.add.overlap(this.j2, this.jumpRefresh, () => {
+                    this.jumpCountJ2=1;
                 });
 
                 this.physics.add.overlap(this.pelota, this.goalZoneR, () => {
@@ -382,16 +461,17 @@
             update(time, delta){
 
                 if(this.WASD.A.isDown&&!this.pauseMenu.visible){
-                    this.botaJ1.setVelocityX(-400);
-                    this.j1.setVelocityX(-400);
+                    this.botaJ1.setVelocityX(-250);
+                    this.j1.setVelocityX(-250);
                 }
                 if(this.WASD.D.isDown&&!this.pauseMenu.visible){
-                    this.botaJ1.setVelocityX(400);
-                    this.j1.setVelocityX(400);
+                    this.botaJ1.setVelocityX(250);
+                    this.j1.setVelocityX(250);
                 }
-                if(this.WASD.W.isDown&&!this.pauseMenu.visible){
-                    this.botaJ1.setVelocityY(-400);
-                    this.j1.setVelocityY(-400);
+                if(this.WASD.W.isDown&&!this.pauseMenu.visible&&this.jumpCountJ1==1){
+                    this.botaJ1.setVelocityY(-250);
+                    this.j1.setVelocityY(-250);
+                    this.jumpCountJ1--;
                 }
                 if(!this.WASD.W.isDown&&!this.WASD.A.isDown&&!this.WASD.D.isDown&&!this.pauseMenu.visible){
                     this.j1.setVelocityX(0);
@@ -399,20 +479,32 @@
                 }
 
                 if(this.ARROWS.LEFT.isDown&&!this.pauseMenu.visible){
-                    this.botaJ2.setVelocityX(-400);
-                    this.j2.setVelocityX(-400);
+                    this.botaJ2.setVelocityX(-250);
+                    this.j2.setVelocityX(-250);
                 }
                 if(this.ARROWS.RIGHT.isDown&&!this.pauseMenu.visible){
-                    this.botaJ2.setVelocityX(400);
-                    this.j2.setVelocityX(400);
+                    this.botaJ2.setVelocityX(250);
+                    this.j2.setVelocityX(250);
                 }
-                if(this.ARROWS.UP.isDown&&!this.pauseMenu.visible){
-                    this.botaJ2.setVelocityY(-400);
-                    this.j2.setVelocityY(-400);
+                if(this.ARROWS.UP.isDown&&!this.pauseMenu.visible&&this.jumpCountJ2==1){
+                    this.botaJ2.setVelocityY(-250);
+                    this.j2.setVelocityY(-250);
+                    this.jumpCountJ2--;
                 }
                 if(!this.ARROWS.UP.isDown&&!this.ARROWS.RIGHT.isDown&&!this.ARROWS.LEFT.isDown&&!this.pauseMenu.visible){
                     this.j2.setVelocityX(0);
                     this.botaJ2.setVelocityX(0);
+                }
+
+                if(this.SHOOT.SPACE.isDown&&!this.pauseMenu.visible){
+                    this.botaJ1.y-=10;
+                    if(this.botaJ1.y<640)
+                        this.botaJ1.y+=10;
+                }
+                if(this.SHOOT.P.isDown&&!this.pauseMenu.visible){
+                    this.botaJ2.y-=10;
+                    if(this.botaJ2.y<640)
+                        this.botaJ2.y+=10;
                 }
 
                 if(this.ESCAPE.ESC.isDown&&!this.pauseMenu.visible){
@@ -455,14 +547,14 @@
                     
                 }
 
-                const headOffsetX = 50;
+                const headOffsetX = 20;
                 const headOffsetY = 90;
 
                 this.j1.x=this.botaJ1.x - headOffsetX;
                 this.j2.x=this.botaJ2.x + headOffsetX;
 
-                this.goalTopL.x=100;
-                this.goalTopR.x=1180;
+                this.goalTopL.x=0;
+                this.goalTopR.x=1280;
                 this.goalTopL.y=490;
                 this.goalTopR.y=490;
 
