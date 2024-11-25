@@ -48,8 +48,13 @@ CONTENIDO
 		5.5	MENÚ PAUSA	
   
 		5.6	PANTALLA IN GAME	
+
+  		5.7	PANTALLA SELECIÓN DE PERSONAJE
+
+    		5.8	AJUSTES
   
-		5.7	CRÉDITOS	
+		5.9	CRÉDITOS	
+  
   
   	6. 	APARTADO ARTÍSTICO
    
@@ -283,11 +288,25 @@ CONTENIDO
 ![image](https://github.com/user-attachments/assets/37094ca2-23dc-46e4-8c7a-dd426caf386b)
 
 
-5.7	CRÉDITOS
+5.7	PANTALLA SELECIÓN DE PERSONAJE
+
+![image](https://github.com/user-attachments/assets/e66a727f-5af5-495e-a40c-b01b71518bed)
+
+	descripción imagen: imagen de interfaz de selección de personajes.
+
+5.8	PANTALLA DE AJUSTES
+
+![image](https://github.com/user-attachments/assets/5e58449f-ab24-46fc-a989-8b453b5d81e8)
+
+ 	descripción imagen: interfas de ajustes.
+ 
+5.9	CRÉDITOS
 
 	Pantalla de créditos donde aparece el nombre de los integrantes del grupo.
 
 ![image](https://github.com/user-attachments/assets/4e3bd4af-3bda-44fb-bfb8-0cfa63632d4d)
+
+ 	descripción imagen: interfaz de créditos.
 
 ****************
 6.	APARTADO ARTÍSTICO
