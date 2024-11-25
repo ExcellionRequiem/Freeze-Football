@@ -243,11 +243,11 @@ CONTENIDO
  
 	Los iconos son estilo minimalista 
  
-![botonPlayMenuElegir](https://github.com/user-attachments/assets/14faed51-51d1-4ddf-94c7-99c9b50d9965)
-		![BotonCreditos](https://github.com/user-attachments/assets/04d0774c-26dc-49d3-81d4-9109a8fe7157)
-		![botonAjustes](https://github.com/user-attachments/assets/69e100b6-71f7-4044-917c-7843aa665485)
-		![botonSalir](https://github.com/user-attachments/assets/db2172a0-9437-45da-8c86-80d1ae0e83f8)
-		![BotonReanudar](https://github.com/user-attachments/assets/b0c4fc7c-16d4-4dbc-bf48-68ab83180d18)
+![BotonPlay](https://github.com/user-attachments/assets/daa14a5f-cfa7-402e-873d-3942bbeff599)
+![BotonCreditos](https://github.com/user-attachments/assets/04d0774c-26dc-49d3-81d4-9109a8fe7157)
+![botonAjustes](https://github.com/user-attachments/assets/69e100b6-71f7-4044-917c-7843aa665485)
+![botonSalir](https://github.com/user-attachments/assets/db2172a0-9437-45da-8c86-80d1ae0e83f8)
+![BotonReanudar](https://github.com/user-attachments/assets/b0c4fc7c-16d4-4dbc-bf48-68ab83180d18)
 
 
 5.3	TIPOGRAFÍA
