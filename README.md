@@ -1,5 +1,67 @@
 
 Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un juego en red competitivo y caótico de dos jugadores estilo arcade en el que dos jugadores con muñecos cabezones intentan meterse goles el uno al otro pateando el balón y dándole cabezazos, con powerups para evitar la repetitividad del juego y referencias al mundo del fútbol.
+
+
+![image](https://github.com/user-attachments/assets/a9aab7f6-8884-4c2d-91f3-7bd722b51fc9)
+
+****************
+
+
+CONTENIDO
+
+	1	EQUIPO E INTEGRANTES	
+ 
+	2	HISTORIAL DE REVISIONES	
+ 
+	3	INTRODUCCIÓN	
+ 
+		3.1	CONCEPTO DEL JUEGO	
+  
+		3.2	CARACTERÍSTICAS PRINCIPALES	
+  
+		3.3	GÉNERO	
+  
+		3.4	PROPÓSITO Y PÚBLICO OBJETIVO	
+  
+		3.5	JUGABILIDAD	
+
+		3.6	ALCANCE	
+  
+	4.	MECÁNICAS DE JUEGO	
+ 
+		4.1	JUGABILIDAD
+  
+		4.2	FLUJO DE JUEGO	
+  
+		4.3	MOVIMIENTOS Y FÍSICAS	
+  
+	5.	INTERFACES Y PANTALLAS	
+ 
+		5.1	LOGOTIPO	
+  
+		5.2	ICONOS	
+  
+		5.3	TIPOGRAFÍA	
+  
+		5.4	MENÚ PRINCIPAL	
+  
+		5.5	MENÚ PAUSA	
+  
+		5.6	PANTALLA IN GAME	
+  
+		5.7	CRÉDITOS	
+  
+  	6. 	APARTADO ARTÍSTICO
+   
+   		6.1	ESTILO GRÁFICO
+     
+     		6.2	ESCENARIO
+       
+       		6.3	PERSONAJES
+	 
+	 	6.4	AUDIO
+
+
  ***************
 
 1	EQUIPO E INTEGRANTES
