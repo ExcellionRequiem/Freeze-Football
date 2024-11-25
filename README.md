@@ -247,8 +247,6 @@ CONTENIDO
 		![BotonPlay](https://github.com/user-attachments/assets/a9e6a0c0-e3ef-4c60-ba5a-5465287ffd84)
 		![BotonCreditos](https://github.com/user-attachments/assets/04d0774c-26dc-49d3-81d4-9109a8fe7157)
 		![botonAjustes](https://github.com/user-attachments/assets/69e100b6-71f7-4044-917c-7843aa665485)
-		![flechaIzq](https://github.com/user-attachments/assets/31e65949-3901-4e2a-ac9d-46a8122e952d)
-		![flechaDer](https://github.com/user-attachments/assets/82e4e3d3-c716-474a-a8cf-7bf0979e48db)
 		![botonSalir](https://github.com/user-attachments/assets/db2172a0-9437-45da-8c86-80d1ae0e83f8)
 		![BotonReanudar](https://github.com/user-attachments/assets/b0c4fc7c-16d4-4dbc-bf48-68ab83180d18)
 
