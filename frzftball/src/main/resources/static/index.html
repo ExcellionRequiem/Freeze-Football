@@ -48,10 +48,11 @@
                 var playButton=this.add.image(562.5, 322,'playButton').setInteractive();
                 var settingsButton=this.add.image(562.5, 422,'settingsButton').setInteractive();
                 var creditsButton=this.add.image(562.5, 522,'creditsButton').setInteractive();
-                var settingsMenu=this.add.image(562.5, 422,'settingsMenu');
-                var creditsMenu=this.add.image(562.5, 422,'creditsMenu');
-                var settingsExitButton=this.add.image(562.5, 580,'exitButton').setInteractive();
-                var creditsExitButton=this.add.image(562.5, 580,'exitButton').setInteractive();
+                var exitButton=this.add.image(562.5, 632,'exitButton').setInteractive();
+                var settingsMenu=this.add.image(562.5, 522,'settingsMenu');
+                var creditsMenu=this.add.image(562.5, 522,'creditsMenu');
+                var settingsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
+                var creditsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
                 settingsMenu.visible=false;
                 creditsMenu.visible=false;
                 settingsExitButton.visible=false;
@@ -59,7 +60,7 @@
 
                 this.arturo=this.make.text({
                     x: 405, 
-                    y: 300,
+                    y: 400,
                     text: 'Arturo Carretero Aguado',
                     style: {
                         fontSize: '32px',
@@ -71,7 +72,7 @@
                 });
                 this.sergio=this.make.text({
                     x: 405, 
-                    y: 360,
+                    y: 460,
                     text: 'Sergio Delgado López',
                     style: {
                         fontSize: '32px',
@@ -83,7 +84,7 @@
                 });
                 this.alberto=this.make.text({
                     x: 405, 
-                    y: 420,
+                    y: 520,
                     text: 'Alberto Caro Candón',
                     style: {
                         fontSize: '32px',
@@ -95,7 +96,7 @@
                 });
                 this.monica=this.make.text({
                     x: 405, 
-                    y: 480,
+                    y: 580,
                     text: 'Mónica Varas García',
                     style: {
                         fontSize: '32px',
@@ -214,6 +215,8 @@
                 this.physics.world.setBounds(0, 0, 1280, 680);
                 const bg=this.add.image(640, 400,'background');
 
+                const bootOffsetX = 50; 
+                const bootOffsetY = 90; 
                 this.pelota=this.physics.add.image(640, 400,'pelota')
                 this.pelota.setScale(0.05);
                 this.pelota.setBounce(0.5);
@@ -299,6 +302,8 @@
                 this.j2.setImmovable(false);
                 this.j1.setCollideWorldBounds(true);
                 this.j2.setCollideWorldBounds(true);
+                this.j1.setImmovable(true);
+                this.j2.setImmovable(true);
                 this.physics.add.collider(this.groundHeads, this.j2);
                 this.physics.add.collider(this.groundHeads, this.j1);
 
@@ -307,12 +312,16 @@
                 this.botaJ1.flipX=true;
                 this.botaJ1.setBounce(0);
                 this.botaJ1.setCircle(200, 110, 0);
+                this.botaJ1.x = this.j1.x - bootOffsetX; // Ajusta según el lado del personaje
+                this.botaJ1.y = this.j1.y + bootOffsetY;
 
                 this.botaJ2 = this.physics.add.image(978, 607, 'boot');
                 this.botaJ2.setScale(0.08);
                 this.botaJ2.setBounce(0);
                 this.botaJ2.setDrag(0);
                 this.botaJ2.setCircle(200);
+                this.botaJ2.x = this.j2.x + bootOffsetX; // Ajusta según el lado del personaje
+                this.botaJ2.y = this.j2.y + bootOffsetY;
 
                 this.botaJ1.setCollideWorldBounds(true);
                 this.botaJ2.setCollideWorldBounds(true);
@@ -320,6 +329,8 @@
                 this.botaJ2.setMass(0.1);
                 this.botaJ1.body.pushable = false;
                 this.botaJ2.body.pushable = false;
+                this.botaJ1.setImmovable(true);
+                this.botaJ2.setImmovable(true);
 
                 this.physics.add.collider(this.j1, this.pelota);
                 this.physics.add.collider(this.j2, this.pelota);
@@ -401,12 +412,12 @@
 
                 this.j1Victory=this.make.text({
                     x: 230, 
-                    y: 400,
+                    y: 450,
                     text: "¡Gana el jugador 1! \n Presiona ESC y sal al menu principal para empezar otra partida",
                     style: {
                         fontSize: '32px',
                         fontFamily: 'Times, serif',
-                        color: '#ffffff',
+                        color: '#000000',
                         align: 'center',
                     },
                     add: true
@@ -414,12 +425,12 @@
 
                 this.j2Victory=this.make.text({
                     x: 230,
-                    y: 400,
+                    y: 450,
                     text: "¡Gana el jugador 2! \n Presiona ESC y sal al menu principal para empezar otra partida",
                     style: {
                         fontSize: '32px',
                         fontFamily: 'Times, serif',
-                        color: '#ffffff',
+                        color: '#000000',
                         align: 'center',
                     },
                     add: true
@@ -531,16 +542,16 @@
             update(time, delta){
 
                 if(this.WASD.A.isDown&&!this.pauseMenu.visible){
-                    this.botaJ1.setVelocityX(-250);
                     this.j1.setVelocityX(-250);
+                    this.botaJ1.setVelocityX(-250);
                 }
                 if(this.WASD.D.isDown&&!this.pauseMenu.visible){
-                    this.botaJ1.setVelocityX(250);
                     this.j1.setVelocityX(250);
+                    this.botaJ1.setVelocityX(250)   
                 }
                 if(this.WASD.W.isDown&&!this.pauseMenu.visible&&this.jumpCountJ1==1){
-                    this.botaJ1.setVelocityY(-250);
                     this.j1.setVelocityY(-250);
+                    this.botaJ1.setVelocityY(-250);
                     this.jumpCountJ1--;
                 }
                 if(!this.WASD.W.isDown&&!this.WASD.A.isDown&&!this.WASD.D.isDown&&!this.pauseMenu.visible){
@@ -548,16 +559,16 @@
                     this.botaJ1.setVelocityX(0);
                 }
                 if(this.ARROWS.LEFT.isDown&&!this.pauseMenu.visible){
-                    this.botaJ2.setVelocityX(-250);
                     this.j2.setVelocityX(-250);
+                    this.botaJ2.setVelocityX(-250);
                 }
                 if(this.ARROWS.RIGHT.isDown&&!this.pauseMenu.visible){
-                    this.botaJ2.setVelocityX(250);
                     this.j2.setVelocityX(250);
+                    this.botaJ2.setVelocityX(250);
                 }
                 if(this.ARROWS.UP.isDown&&!this.pauseMenu.visible&&this.jumpCountJ2==1){
-                    this.botaJ2.setVelocityY(-250);
                     this.j2.setVelocityY(-250);
+                    this.botaJ2.setVelocityY(-250);
                     this.jumpCountJ2--;
                 }
                 if(!this.ARROWS.UP.isDown&&!this.ARROWS.RIGHT.isDown&&!this.ARROWS.LEFT.isDown&&!this.pauseMenu.visible){
