@@ -124,6 +124,7 @@
                     playButton.visible=false;
                     settingsButton.visible=false;
                     creditsButton.visible=false;
+                    exitButton.visible=false;
                 });
                 
                 creditsButton.on('pointerdown', (e)=>{
@@ -132,6 +133,7 @@
                     playButton.visible=false;
                     settingsButton.visible=false;
                     creditsButton.visible=false;
+                    exitButton.visible=false;
                     this.arturo.visible=true;
                     this.sergio.visible=true;
                     this.alberto.visible=true;
@@ -140,6 +142,7 @@
                 settingsExitButton.on('pointerdown', function(e){
                     settingsMenu.visible=false;
                     settingsExitButton.visible=false;
+                    exitButton.visible=true;
                     playButton.visible=true;
                     settingsButton.visible=true;
                     creditsButton.visible=true;
@@ -147,6 +150,7 @@
                 creditsExitButton.on('pointerdown', (e)=>{
                     creditsMenu.visible=false;
                     creditsExitButton.visible=false;
+                    exitButton.visible=true;
                     playButton.visible=true;
                     settingsButton.visible=true;
                     creditsButton.visible=true;
@@ -156,7 +160,10 @@
                     this.monica.visible=false;
                 });
 
+                exitButton.on('pointerdown', () => this.logout());
+
                 //Esto no funciona y no se como hacerlo funcionar
+                /**
                 this.slider=this.rexUI.add.slider({
                     x: 640,
                     y: 740,
@@ -177,6 +184,7 @@
                     },
 
                 })
+                /**/
 
                 //this.sound.decodeAudio('bgm', 'decodedbgm');
                 //this.sound.on('decoded', 'decodedbgm');
@@ -191,6 +199,22 @@
             }
             update(time, delta){
                 
+            }
+            logout() {
+                // Create a hidden form to submit logout request
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/login';  // The action should point to the login endpoint, where logout will be handled
+
+                // Create a hidden input with 'logout=true' to trigger the logout process
+                const logoutInput = document.createElement('input');
+                logoutInput.type = 'hidden';
+                logoutInput.name = 'logout';
+                logoutInput.value = 'true';  // This triggers the logout logic in the backend
+
+                form.appendChild(logoutInput);  // Append the input to the form
+                document.body.appendChild(form);  // Append the form to the body
+                form.submit();  // Submit the form to trigger the POST request
             }
         }
         class GameScene extends Phaser.Scene{
