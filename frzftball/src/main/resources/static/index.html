@@ -39,6 +39,9 @@
         var musicPlayed = false;
         var leaderboardPanel;
         var onlineUsersPanel;
+        var pingTimer=0;
+        var isOnline=true;
+        var connectionLostSprite;
         var payload = {
             score: 0,
             wins: 0
@@ -59,6 +62,7 @@
 
             create ()
             {
+                pingTimer=0;
                 this.timer=0;
                 const bg=this.add.image(562.5, 422,'backgroundMainMenu');
                 bg.setScale(0.5, 0.50);
@@ -73,6 +77,10 @@
                 var creditsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
                 var leaderboardButton = this.add.rectangle(1050, 70, 100, 100, 0x4CAF50).setInteractive();
                 var deleteLeaderboardButton = this.add.rectangle(1050, 180, 100, 100, 0xf44336).setInteractive();
+
+                connectionLostSprite = this.add.rectangle(80, 70, 100, 100, 0xff0000);
+                connectionLostSprite.setVisible(true);
+
                 leaderboardPanel = this.add.rectangle(562.5, 522, 400, 600, 0x0000FF).setInteractive();
                 onlineUsersPanel = this.add.rectangle(150, 480, 300, 400, 0x0000FF).setInteractive();
                 leaderboardPanel.setVisible(false);
@@ -227,12 +235,36 @@
             update(time, delta){
                 
                 this.timer += delta;
+                
                 while (this.timer > 1000) {
-                    console.log("hello");
                     this.getUsers();
                     this.timer -= 1000;
                 }
-                
+
+                pingTimer+=delta;
+
+                if(pingTimer>=10000){
+                    pingTimer=pingTimer-10000;
+                    $.ajax({
+                        url: '/ping',
+                        method: 'GET',
+                        success: function(response)  {
+                            console.log(response);
+                            if (!isOnline) {
+                                console.log("Reconnected");
+                                this.isServerReachable = true;
+                                connectionLostSprite.setVisible(false);
+                            }
+                        },
+                        error: () => {
+                            if (isOnline) {
+                                console.log("Lost connection");
+                                this.isServerReachable = false;
+                                connectionLostSprite.setVisible(true);
+                            }
+                        }
+                    });
+                }
             }
 
             getUsers(){
@@ -342,6 +374,8 @@
 
             create ()
             {
+                connectionLostSprite = this.add.rectangle(80, 70, 100, 100, 0xff0000);
+                connectionLostSprite.setVisible(false);
                 this.scoreJ1=0;
                 this.scoreJ2=0;
                 this.finalScore=0;
@@ -814,6 +848,32 @@
                 this.goalTopL.y=490;
                 this.goalTopR.y=490;
 
+                pingTimer+=delta;
+
+                if(pingTimer>=10000){
+                    pingTimer=pingTimer-10000;
+                    console.log("ping");
+                    $.ajax({
+                        url: '/ping',
+                        method: 'GET',
+                        success: function(response)  {
+                            console.log(response);
+                            if (!isOnline) {
+                                console.log("Reconnected");
+                                this.isServerReachable = true;
+                                connectionLostSprite.setVisible(false);
+                            }
+                        },
+                        error: () => {
+                            if (isOnline) {
+                                console.log("Lost connection");
+                                this.isServerReachable = false;
+                                connectionLostSprite.setVisible(true);
+                            }
+                        }
+                    });
+                }
+
             }
         }
         class CharacterSelectScene extends Phaser.Scene{
@@ -837,6 +897,8 @@
 
             create ()
             {
+                connectionLostSprite = this.add.rectangle(80, 70, 100, 100, 0xff0000);
+                connectionLostSprite.setVisible(false);
                 game.scale.resize(1125, 844);
                 this.CSBackground=this.add.image(562.5, 422,'backgroundCharacterSelect')
                 this.CSBackground.setScale(0.5);
@@ -917,6 +979,31 @@
                     case 3:
                         this.J2CharDisplay.setTexture('LewyL');
                     break;
+                }
+
+                pingTimer+=delta;
+
+                if(pingTimer>=10000){
+                    pingTimer=pingTimer-10000;
+                    $.ajax({
+                        url: '/ping',
+                        method: 'GET',
+                        success: function(response)  {
+                            console.log(response);
+                            if (!isOnline) {
+                                console.log("Reconnected");
+                                this.isServerReachable = true;
+                                connectionLostSprite.setVisible(false);
+                            }
+                        },
+                        error: () => {
+                            if (isOnline) {
+                                console.log("Lost connection");
+                                this.isServerReachable = false;
+                                connectionLostSprite.setVisible(true);
+                            }
+                        }
+                    });
                 }
             }
         }
