@@ -56,6 +56,11 @@
                 this.load.image('settingsButton', './Assets/Botones/botonAjustes.png');
                 this.load.image('creditsButton', './Assets/Botones/BotonCreditos.png');
                 this.load.image('exitButton', './Assets/Botones/botonSalir.png');
+                this.load.image('leaderboard','./Assets/Interfaces/MenuRanking.png');
+                this.load.image('users','./Assets/Interfaces/MenuRanking.png');
+                this.load.image('leaderboardButton','./Assets/Botones/IconoRanking.png');
+                this.load.image('leaderboardDeleteButton','./Assets/Botones/IconoRankingBorrar.png');
+                this.load.image('noConnection','./Assets/Botones/IconoSInConexion.png');
                 this.load.audio('bgm', './Assets/Audio/Musica/723173__ncone__funky-beats-2.mp3');
                 this.sound.unlock();
             }
@@ -75,14 +80,22 @@
                 var creditsMenu=this.add.image(562.5, 522,'creditsMenu');
                 var settingsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
                 var creditsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
-                var leaderboardButton = this.add.rectangle(1050, 70, 100, 100, 0x4CAF50).setInteractive();
-                var deleteLeaderboardButton = this.add.rectangle(1050, 180, 100, 100, 0xf44336).setInteractive();
+                var leaderboardButton = this.add.image(1050, 70, 'leaderboardButton').setInteractive();
+                var deleteLeaderboardButton = this.add.image(1050, 180, 'leaderboardDeleteButton').setInteractive();
 
-                connectionLostSprite = this.add.rectangle(80, 70, 100, 100, 0xff0000);
+                connectionLostSprite = this.add.image(80, 70, 'noConnection');
                 connectionLostSprite.setVisible(true);
 
-                leaderboardPanel = this.add.rectangle(562.5, 522, 400, 600, 0x0000FF).setInteractive();
-                onlineUsersPanel = this.add.rectangle(150, 480, 300, 400, 0x0000FF).setInteractive();
+                leaderboardButton.setScale(0.07);
+                deleteLeaderboardButton.setScale(0.07);
+                connectionLostSprite.setScale(0.07);
+
+                leaderboardPanel = this.add.image(562.5, 460, 'leaderboard').setInteractive();
+                onlineUsersPanel = this.add.image(150, 480, 'users').setInteractive();
+
+                leaderboardPanel.setScale(0.4,0.4);
+                onlineUsersPanel.setScale(0.4,0.4);
+
                 leaderboardPanel.setVisible(false);
                 settingsMenu.visible=false;
                 creditsMenu.visible=false;
@@ -91,8 +104,8 @@
                 this.getUsers();
 
                 this.usersText = this.make.text({
-                    x: onlineUsersPanel.x - 100, 
-                    y: 320, 
+                    x: onlineUsersPanel.x - 120, 
+                    y: 280, 
                     text: '',
                     style: {
                         fontSize: '16px',
