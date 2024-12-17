@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-FrzftballApplication<frzftball>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.freezefootball.frzftball.FrzftballApplication",
+            "projectName": "frzftball",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
