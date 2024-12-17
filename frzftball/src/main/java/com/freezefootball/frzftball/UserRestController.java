@@ -113,7 +113,7 @@ public class UserRestController {
         headers.set("Content-Type", "application/json");
         HttpEntity<LeaderboardEntry> requestEntity = new HttpEntity<>(newEntry, headers);
         ResponseEntity<String> response = restTemplate.exchange("http://localhost:8080/leaderboards", 
-            HttpMethod.PUT, requestEntity, String.class); //Esto es lo que llama al PUT de las leaderboards
+            HttpMethod.POST, requestEntity, String.class); //Esto es lo que llama al PUT de las leaderboards
 
         return "redirect:/login.html";
     }
