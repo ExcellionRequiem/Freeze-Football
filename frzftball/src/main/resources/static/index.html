@@ -92,6 +92,16 @@
                         wordWrap: { width: 280 }
                     }
                 });
+                this.leaderboardText = this.make.text({
+                    x: leaderboardPanel.x - 150, 
+                    y: 250, 
+                    text: '',
+                    style: {
+                        fontSize: '16px',
+                        fill: '#FFF',
+                        wordWrap: { width: 280 }
+                    }
+                });
                 this.arturo=this.make.text({
                     x: 405, 
                     y: 400,
@@ -199,7 +209,10 @@
                 leaderboardButton.on('pointerdown', () => this.getLeaderboards());
                 deleteLeaderboardButton.on('pointerdown', () => this.deleteLeaderBoardEntry());
 
-                leaderboardPanel.on('pointerdown', () => leaderboardPanel.setVisible(false));
+                leaderboardPanel.on('pointerdown', () => {
+                    leaderboardPanel.setVisible(false); 
+                    this.leaderboardText.setVisible(false); 
+                });
 
                 if(!musicPlayed){
                     this.music = this.sound.add('bgm');
@@ -227,7 +240,7 @@
                     url: '/users',
                     method: 'GET',
                     success: (response) => {
-                        console.log("Leaderboards successfully obtained:", response);
+                        console.log("User successfully obtained:", response);
                         if (Array.isArray(response)) {
                             let usersTextContent = '';
 
@@ -278,11 +291,15 @@
                     method: 'GET',
                     success: (response) => {
                         console.log("Leaderboards successfully obtained", response); 
-                        let y = 200;
+
+                        let leaderboardTextContent = '';
+
                         response.forEach(entry => {
-                            this.add.text(leaderboardPanel.x - 150, y, `${entry.username}: ${entry.score} / ${entry.wins}`, { fontSize: '16px', fill: '#FFF' });
-                            y += 20;
+                            leaderboardTextContent += `${entry.username}: ${entry.score} / ${entry.wins}\n`;
                         });
+
+                        this.leaderboardText.setText(leaderboardTextContent);
+
                     },
                     error: (e) => {
                         console.error(`Error fetching leaderboards: ${e}`);
