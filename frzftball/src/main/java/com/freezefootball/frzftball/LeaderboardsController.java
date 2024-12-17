@@ -13,13 +13,19 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 =======
+=======
+>>>>>>> parent of 76613f3 (Revert "Merge branch 'main' of https://github.com/ExcellionRequiem/Freeze-Football")
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+<<<<<<< HEAD
+>>>>>>> parent of 76613f3 (Revert "Merge branch 'main' of https://github.com/ExcellionRequiem/Freeze-Football")
+=======
 >>>>>>> parent of 76613f3 (Revert "Merge branch 'main' of https://github.com/ExcellionRequiem/Freeze-Football")
 import org.springframework.web.bind.annotation.PostMapping;
 
