@@ -139,6 +139,7 @@ CONTENIDO
 	Durante la fase 2 se ha implementado el juego en código, incluyendo colisionadores a todos los objetos durante el propio juego, el uso de colisionadores escondidos para mantener las alturas de los objetos, los menús básicos, y la selección de personaje entre 2 escenas mediante un índice numérico. Se quiso hacer también una barra deslizante para controlar el volumen del juego, pero no se pudo averiguar un método correcto para su implementación y por tanto se dejó para futuras fases.
 
  	17/dic
+  	Se ha cambiado el flujograma del juego.
   	
 ******************
 
@@ -241,8 +242,8 @@ CONTENIDO
 
 5.1	LOGOTIPO
 
-	![image](https://github.com/user-attachments/assets/f3e948ba-69e2-486a-b841-e994861376ff)
- 	descripción de imagen: imagen del logotipo del juego
+
+![FrezeeFootball_icon](https://github.com/user-attachments/assets/f4a9edb1-811e-449e-bfd1-f460d964884d)
 
    	El logotipo de Freeze Football representa un balón de fútbol congelado, capturando la esencia del nombre del juego.
 
