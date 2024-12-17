@@ -59,6 +59,7 @@
 
             create ()
             {
+                this.timer=0;
                 const bg=this.add.image(562.5, 422,'backgroundMainMenu');
                 bg.setScale(0.5, 0.50);
                 game.scale.resize(1125, 844);
@@ -79,10 +80,18 @@
                 creditsMenu.visible=false;
                 settingsExitButton.visible=false;
                 creditsExitButton.visible=false;
+                this.getUsers();
 
-                //leaderboardText = this.add.text(leaderboardPanel.x - 100, leaderboardPanel.y - 50, 
-                //'', { fontSize: '16px', fill: '#ffffff' }).setOrigin(0.5);
-
+                this.usersText = this.make.text({
+                    x: onlineUsersPanel.x - 100, 
+                    y: 320, 
+                    text: '',
+                    style: {
+                        fontSize: '16px',
+                        fill: '#FFF',
+                        wordWrap: { width: 280 }
+                    }
+                });
                 this.arturo=this.make.text({
                     x: 405, 
                     y: 400,
@@ -201,9 +210,49 @@
                 }
                 
             }
+
             update(time, delta){
                 
+                this.timer += delta;
+                while (this.timer > 1000) {
+                    console.log("hello");
+                    this.getUsers();
+                    this.timer -= 1000;
+                }
+                
             }
+
+            getUsers(){
+                $.ajax({
+                    url: '/users',
+                    method: 'GET',
+                    success: (response) => {
+                        console.log("Leaderboards successfully obtained:", response);
+                        if (Array.isArray(response)) {
+                            let usersTextContent = '';
+
+                            response.forEach((user, index) => {
+                                usersTextContent += user + '\n';
+                            });
+
+                            this.usersText.setText(usersTextContent); 
+
+                        } else {
+                            console.error("Expected an array of users but got:", response);
+                        }
+                    },
+                    error: (e) => {
+                        console.error("Error fetching users:", e);
+                        if (e.responseText) {
+                            console.error("Response text:", e.responseText);
+                        }
+                        if (e.status) {
+                            console.error("HTTP Status:", e.status);
+                        }
+                    }
+                });
+            }
+
             logout() {
                 const form = document.createElement('form');
                 form.method = 'POST';
@@ -235,8 +284,8 @@
                             y += 20;
                         });
                     },
-                    error: (xhr, status, error) => {
-                        console.error(`Error fetching leaderboards: ${error}`);
+                    error: (e) => {
+                        console.error(`Error fetching leaderboards: ${e}`);
                     }
                 });
             }
@@ -257,6 +306,7 @@
                     }
                 });
             }
+
         }
         class GameScene extends Phaser.Scene{
             
