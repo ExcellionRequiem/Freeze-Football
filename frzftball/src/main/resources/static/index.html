@@ -38,6 +38,7 @@
         var charIDJ2 = 0;
         var musicPlayed = false;
         var leaderboardPanel;
+        var onlineUsersPanel;
         var payload = {
             score: 0,
             wins: 0
@@ -45,7 +46,6 @@
         class MainMenuScene extends Phaser.Scene{
             preload ()
             {
-                this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
                 this.load.image('backgroundMainMenu', './Assets/Interfaces/MenuPrincipal.png');
                 this.load.image('settingsMenu', './Assets/Interfaces/MenuAjustes.png');
                 this.load.image('creditsMenu', './Assets/Interfaces/menuCreditos.png');
@@ -73,6 +73,7 @@
                 var leaderboardButton = this.add.rectangle(1050, 70, 100, 100, 0x4CAF50).setInteractive();
                 var deleteLeaderboardButton = this.add.rectangle(1050, 180, 100, 100, 0xf44336).setInteractive();
                 leaderboardPanel = this.add.rectangle(562.5, 522, 400, 600, 0x0000FF).setInteractive();
+                onlineUsersPanel = this.add.rectangle(150, 480, 300, 400, 0x0000FF).setInteractive();
                 leaderboardPanel.setVisible(false);
                 settingsMenu.visible=false;
                 creditsMenu.visible=false;
