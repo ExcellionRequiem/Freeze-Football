@@ -69,7 +69,7 @@
                 var settingsMenu=this.add.image(562.5, 522,'settingsMenu');
                 var creditsMenu=this.add.image(562.5, 522,'creditsMenu');
                 var settingsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
-                var creditsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
+                var creditsExitButton=this.add.image(562.5, 720,'exitButton').setInteractive();
                 var leaderboardButton = this.add.rectangle(1050, 70, 100, 100, 0x4CAF50).setInteractive();
                 var deleteLeaderboardButton = this.add.rectangle(1050, 180, 100, 100, 0xf44336).setInteractive();
                 leaderboardPanel = this.add.rectangle(562.5, 522, 400, 600, 0x0000FF).setInteractive();
@@ -82,59 +82,7 @@
                 //leaderboardText = this.add.text(leaderboardPanel.x - 100, leaderboardPanel.y - 50, 
                 //'', { fontSize: '16px', fill: '#ffffff' }).setOrigin(0.5);
 
-                this.arturo=this.make.text({
-                    x: 405, 
-                    y: 400,
-                    text: 'Arturo Carretero Aguado',
-                    style: {
-                        fontSize: '32px',
-                        fontFamily: 'Times, serif',
-                        color: '#ffffff',
-                        align: 'center',
-                    },
-                    add: true
-                });
-                this.sergio=this.make.text({
-                    x: 405, 
-                    y: 460,
-                    text: 'Sergio Delgado López',
-                    style: {
-                        fontSize: '32px',
-                        fontFamily: 'Times, serif',
-                        color: '#ffffff',
-                        align: 'center',
-                    },
-                    add: true
-                });
-                this.alberto=this.make.text({
-                    x: 405, 
-                    y: 520,
-                    text: 'Alberto Caro Candón',
-                    style: {
-                        fontSize: '32px',
-                        fontFamily: 'Times, serif',
-                        color: '#ffffff',
-                        align: 'center',
-                    },
-                    add: true
-                });
-                this.monica=this.make.text({
-                    x: 405, 
-                    y: 580,
-                    text: 'Mónica Varas García',
-                    style: {
-                        fontSize: '32px',
-                        fontFamily: 'Times, serif',
-                        color: '#ffffff',
-                        align: 'center',
-                    },
-                    add: true
-                });
-
-                this.arturo.visible=false;
-                this.sergio.visible=false;
-                this.alberto.visible=false;
-                this.monica.visible=false;
+                
 
 
                 playButton.on('pointerdown', function(e){
