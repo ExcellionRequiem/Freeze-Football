@@ -697,7 +697,7 @@
                     this.j1Victory.visible=true;
                     this.finalScore=this.scoreJ1-this.scoreJ2;
                     payload = {
-                        score: scoreDifference,      
+                        score: this.finalScore,      
                         wins: 1
                     };
                     $.ajax({
@@ -716,7 +716,7 @@
                     this.j2Victory.visible=true;
                     this.finalScore=this.scoreJ2-this.scoreJ1;
                     payload = { 
-                        score: scoreDifference,
+                        score: this.finalScore,
                         wins: 1
                     };
                     $.ajax({
