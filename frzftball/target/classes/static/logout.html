@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logging out</title>
+    <script>
+        // Automatically submit the logout form when the page loads
+        window.onload = function() {
+            document.getElementById("logoutForm").submit();
+        };
+    </script>
+</head>
+<body>
+    <!-- Form that will trigger the POST request to /logout -->
+    <form id="logoutForm" action="/logout" method="POST" style="display: none;">
+        <button type="submit">Logout</button> <!-- This button will not be shown -->
+    </form>
+</body>
+</html>
