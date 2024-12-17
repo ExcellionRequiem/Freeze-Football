@@ -136,7 +136,7 @@ CONTENIDO
 	Implementación: 
 
 	24/nov
-	Durante la fase 2 se ha implementado el juego en código, incluyendo colisionadores a todos los objetos durante el propio juego, el uso de colisionadores escondidos para mantener las alturas de los objetos, 	los menús básicos, y la selección de personaje entre 2 escenas mediante un índice numérico. Se quiso hacer también una barra deslizante para controlar el volumen del juego, pero no se pudo averiguar un 	método correcto para su implementación y por tanto se dejó para futuras fases.
+	Durante la fase 2 se ha implementado el juego en código, incluyendo colisionadores a todos los objetos durante el propio juego, el uso de colisionadores escondidos para mantener las alturas de los objetos, los menús básicos, y la selección de personaje entre 2 escenas mediante un índice numérico. Se quiso hacer también una barra deslizante para controlar el volumen del juego, pero no se pudo averiguar un método correcto para su implementación y por tanto se dejó para futuras fases.
 
  	17/dic
   	
@@ -155,25 +155,25 @@ CONTENIDO
 
 	El juego se basa en los siguientes pilares:
 
-		•	Jugabilidad arcade: El juego es sencillo de aprender y difícil de dominar. Los controles son fáciles de entender, ya que el jugador puede mover al personaje presionando las teclas de 			izquierda a derecha y saltando, con un cuarto botón para disparar.
+		•	Jugabilidad arcade: El juego es sencillo de aprender y difícil de dominar. Los controles son fáciles de entender, ya que el jugador puede mover al personaje presionando las teclas de 	izquierda a derecha y saltando, con un cuarto botón para disparar.
 
-		•	Estilo de juego 1vs1: Se juega en partidos de uno contra uno, donde los jugadores controlan a un personaje con una cabeza grande y un cuerpo pequeño, y deben marcar goles en la portería 		contraria.
+		•	Estilo de juego 1vs1: Se juega en partidos de uno contra uno, donde los jugadores controlan a un personaje con una cabeza grande y un cuerpo pequeño, y deben marcar goles en la portería contraria.
 
 		•	Diversidad de personajes: Los jugadores pueden elegir entre una amplia variedad de personajes, que generalmente representan diferentes equipos, esto es puramente estético.
 
-		•	Sencillez y Adicción: Aunque el concepto es sencillo, la mecánica rápida y la competencia entre jugadores hacen que el juego sea muy adictivo y divertido, ideal para partidas rápidas y 		competiciones casuales.
+		•	Sencillez y Adicción: Aunque el concepto es sencillo, la mecánica rápida y la competencia entre jugadores hacen que el juego sea muy adictivo y divertido, ideal para partidas rápidas y competiciones casuales.
 
 3.3	GÉNERO
 
-	Freeze Football se clasifica dentro del género de juegos deportivos, específicamente en la subcategoría de fútbol arcade, con una jugabilidad sencilla, acción rápida y un enfoque en la diversión y la 	competitividad en lugar de la simulación realista.
+	Freeze Football se clasifica dentro del género de juegos deportivos, específicamente en la subcategoría de fútbol arcade, con una jugabilidad sencilla, acción rápida y un enfoque en la diversión y la competitividad en lugar de la simulación realista.
 
 
 
 3.4	PROPÓSITO Y PÚBLICO OBJETIVO
 
-	El propósito principal de Freeze Football es ofrecer a través de una jugabilidad simple y directa, entretenimiento en sesiones cortas, perfectas para jugadores que desean acción rápida y desafíos 		inmediatos. 
+	El propósito principal de Freeze Football es ofrecer a través de una jugabilidad simple y directa, entretenimiento en sesiones cortas, perfectas para jugadores que desean acción rápida y desafíos inmediatos. 
 
-	Al mismo tiempo, el juego introduce un toque de humor y exageración con sus personajes de cabezas grandes, lo que lo hace atractivo tanto para jugadores casuales como para aquellos que disfrutan de un 	enfoque más creativo del fútbol.
+	Al mismo tiempo, el juego introduce un toque de humor y exageración con sus personajes de cabezas grandes, lo que lo hace atractivo tanto para jugadores casuales como para aquellos que disfrutan de un enfoque más creativo del fútbol.
 
 	Freeze Football está dirigido a jugadores de todas las edades, por ello se apuesta por un sistema de partidas cortas, intensas y rápidas.
 
@@ -181,7 +181,7 @@ CONTENIDO
 
 	Cada partido de Freeze Football ofrece una variedad de mecánicas y estrategias para ganar el partido. Para ello nos valdremos de los siguientes elementos:
 
-		•	Movimiento: Los jugadores se mueven horizontalmente por el campo usando flechas o teclas. El personaje puede moverse rápidamente hacia la izquierda o derecha, y saltar para alcanzar balones 		aéreos o evitar ataques. Con el espacio o la p, el personaje pega una patada.
+		•	Movimiento: Los jugadores se mueven horizontalmente por el campo usando flechas o teclas. El personaje puede moverse rápidamente hacia la izquierda o derecha, y saltar para alcanzar balones aéreos o evitar ataques. Con el espacio o la p, el personaje pega una patada.
 
 		•	Mejoras: Los jugadores podrán recibir “power-ups” temporalmente durante los partidos (será agregado próximamente).
 				Portería más grande o pequeña
@@ -224,14 +224,14 @@ CONTENIDO
 
 		Su movimiento será libre a lo largo del terreno jugable, y no recibirá ningún tipo de penalización o cooldown a la hora de saltar o patear repetidas veces.
 
-		En cuanto a las físicas, ambos personajes se detectarán entre sí, chocando al moverse en direcciones opuestas o al disputar el balón. También, los personajes podrán meterse dentro de la portería, 		aunque no sea la estrategia más recomendable para ganar la partida.
+		En cuanto a las físicas, ambos personajes se detectarán entre sí, chocando al moverse en direcciones opuestas o al disputar el balón. También, los personajes podrán meterse dentro de la portería, aunque no sea la estrategia más recomendable para ganar la partida.
   
 
 		2.	Movimiento del balón: el balón tendrá un movimiento libre a lo largo de toda la pantalla. 
 
 		Al inicio del juego el balón se encontrará en un punto fijo y alto en la mitad del escenario, y caerá en el medio para que los jugadores lo disputen y comience la partida. 
 	
-		En cuanto a las físicas, el balón detectará las colisiones con el cuerpo de los jugadores, desplazándose hacia la dirección donde sea enviado con un toque. Rebotará contra el suelo, los bordes de la 		pantalla, y el larguero y la zona superior de la portería.
+		En cuanto a las físicas, el balón detectará las colisiones con el cuerpo de los jugadores, desplazándose hacia la dirección donde sea enviado con un toque. Rebotará contra el suelo, los bordes de la pantalla, y el larguero y la zona superior de la portería.
 
 		El balón reiniciará su posición a la de inicio al hacer contacto con una de las redes de las porterías, anotándose así un gol para uno de los dos jugadores. 
 
