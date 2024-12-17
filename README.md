@@ -257,6 +257,14 @@ CONTENIDO
 ![botonSalir](https://github.com/user-attachments/assets/db2172a0-9437-45da-8c86-80d1ae0e83f8)
 ![BotonReanudar](https://github.com/user-attachments/assets/b0c4fc7c-16d4-4dbc-bf48-68ab83180d18)
 
+ 	Nuevos iconos y botones
+
+![BotonIniciarSesion](https://github.com/user-attachments/assets/c2888e2c-ef41-421c-8441-9c0ff711f576)
+![IconoRanking](https://github.com/user-attachments/assets/0d8d146a-2d77-473e-8b9f-7abf19a86904)
+![IconoRankingBorrar](https://github.com/user-attachments/assets/536211ae-c603-4588-8585-71b84873a1c5)
+![IconoSInConexion](https://github.com/user-attachments/assets/b291d3f0-9a78-4058-bf82-3db05670c7c3)
+![botonRegistro](https://github.com/user-attachments/assets/2fc5cab1-6322-4280-be37-7f23ab8a3252)
+
 
 5.3	TIPOGRAFÍA
 
