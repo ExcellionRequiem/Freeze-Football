@@ -71,6 +71,7 @@ CONTENIDO
 	 
 	 	6.4	AUDIO
 
+ 	7.	DIAGRAMA DE CLASES
 
  ***************
 
@@ -132,6 +133,7 @@ CONTENIDO
 	Respecto al estilo visual se ha definido el definitivo, siendo este 2D básico cartoon, se han realizado los escenarios y los sprites de los personajes.
 
  	17/dic
+  	Se ha cambiado el flujograma del juego.
 	Se han añadido nuevas interfaces, botones e iconos necesarios para mostrar el inicio de sesión, ranking y la lista de usuarios conectados, así mismo se ha modificado la estética de la interfaz créditos para que la tipografía cuadrase con la del resto del juego.
 	Implementación: 
 
@@ -139,7 +141,9 @@ CONTENIDO
 	Durante la fase 2 se ha implementado el juego en código, incluyendo colisionadores a todos los objetos durante el propio juego, el uso de colisionadores escondidos para mantener las alturas de los objetos, los menús básicos, y la selección de personaje entre 2 escenas mediante un índice numérico. Se quiso hacer también una barra deslizante para controlar el volumen del juego, pero no se pudo averiguar un método correcto para su implementación y por tanto se dejó para futuras fases.
 
  	17/dic
-  	Se ha cambiado el flujograma del juego.
+  	Se ha hecho el diagrama de clases.
+   	Durante la fase 3 se ha implementado el backend, se ha creado un archivo REST.md con todas las funcionalidades implmentadas con API REST; tales como, el registro de usuario, inicio y salida de sesión, la tabla de ranking y el chat. También se ha implementado una persistencia de datos para almacenar un usuario y una contraseña con el fin de poder recuperar información como los resultados de partidos jugados anteriormente.
+    	
   	
 ******************
 
@@ -212,7 +216,7 @@ CONTENIDO
 
 4.2	FLUJO DE JUEGO
 
-	![image](https://github.com/user-attachments/assets/e433c75a-edb6-4148-b2a8-dc9c2a5ede7a)
+	
  	
   	descripción de imagen: imagen que explica el flujo de pantallas del juego.
 
@@ -384,11 +388,14 @@ CONTENIDO
 
 		descripción imagen: imagen del personaje Friezmann.
 
-******************
 
 6.4	AUDIO
 
 	El juego cuenta de inicio con una melodía ligera y amena en bucle como música de fondo, y con un efecto de sonido del público cada vez que uno de los jugadores anota un gol. Se plantea en un futuro 		implementar efectos de sonido al inicio de los partidos, y una melodía distintas en la pantalla del gameplay para que se diferencie de la de los menús.
+
+******************
+
+7.	DIAGRAMA DE CLASES
 
 
 
