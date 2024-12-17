@@ -4,18 +4,6 @@
     <script src="./Code/phaser.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            window.addEventListener('unload', function () {
-                $.ajax({
-                    url: '/logout',  
-                    method: 'POST',  
-                    async: false,    // Wait for POST request to complete before unloading
-                });
-            });
-        });
-    </script>
     <title>Head Soccer Game</title>
     <link rel="stylesheet" href="./Code/styles.css">
 </head>
@@ -37,11 +25,6 @@
         var charIDJ1 = 0;
         var charIDJ2 = 0;
         var musicPlayed = false;
-        var leaderboardPanel;
-        var payload = {
-            score: 0,
-            wins: 0
-        };
         class MainMenuScene extends Phaser.Scene{
             preload ()
             {
@@ -70,17 +53,10 @@
                 var creditsMenu=this.add.image(562.5, 522,'creditsMenu');
                 var settingsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
                 var creditsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
-                var leaderboardButton = this.add.rectangle(1050, 70, 100, 100, 0x4CAF50).setInteractive();
-                var deleteLeaderboardButton = this.add.rectangle(1050, 180, 100, 100, 0xf44336).setInteractive();
-                leaderboardPanel = this.add.rectangle(562.5, 522, 400, 600, 0x0000FF).setInteractive();
-                leaderboardPanel.setVisible(false);
                 settingsMenu.visible=false;
                 creditsMenu.visible=false;
                 settingsExitButton.visible=false;
                 creditsExitButton.visible=false;
-
-                //leaderboardText = this.add.text(leaderboardPanel.x - 100, leaderboardPanel.y - 50, 
-                //'', { fontSize: '16px', fill: '#ffffff' }).setOrigin(0.5);
 
                 this.arturo=this.make.text({
                     x: 405, 
@@ -148,7 +124,6 @@
                     playButton.visible=false;
                     settingsButton.visible=false;
                     creditsButton.visible=false;
-                    exitButton.visible=false;
                 });
                 
                 creditsButton.on('pointerdown', (e)=>{
@@ -157,7 +132,6 @@
                     playButton.visible=false;
                     settingsButton.visible=false;
                     creditsButton.visible=false;
-                    exitButton.visible=false;
                     this.arturo.visible=true;
                     this.sergio.visible=true;
                     this.alberto.visible=true;
@@ -166,7 +140,6 @@
                 settingsExitButton.on('pointerdown', function(e){
                     settingsMenu.visible=false;
                     settingsExitButton.visible=false;
-                    exitButton.visible=true;
                     playButton.visible=true;
                     settingsButton.visible=true;
                     creditsButton.visible=true;
@@ -174,7 +147,6 @@
                 creditsExitButton.on('pointerdown', (e)=>{
                     creditsMenu.visible=false;
                     creditsExitButton.visible=false;
-                    exitButton.visible=true;
                     playButton.visible=true;
                     settingsButton.visible=true;
                     creditsButton.visible=true;
@@ -184,13 +156,30 @@
                     this.monica.visible=false;
                 });
 
-                exitButton.on('pointerdown', () => this.logout());
+                //Esto no funciona y no se como hacerlo funcionar
+                this.slider=this.rexUI.add.slider({
+                    x: 640,
+                    y: 740,
+                    width: 2000,
+                    height: 80,
+                    orientation: 'x',
 
-                leaderboardButton.on('pointerdown', () => this.getLeaderboards());
-                deleteLeaderboardButton.on('pointerdown', () => this.deleteLeaderBoardEntry());
+                    //track: this.rexUI.add.roundRectangle(0, 0, 0, 0, 1),
+                    //indicator: this.rexUI.add.roundRectangle(0, 0, 0, 0, 10),
+                    //thumb: this.rexUI.add.roundRectangle(0, 0, 0, 0, 10),
 
-                leaderboardPanel.on('pointerdown', () => leaderboardPanel.setVisible(false));
+                    input: 'click', // 'drag'|'click'
+                    easeValue: { duration: 250 },
 
+                    valuechangeCallback: function(value) {
+                        value *= 10
+                        value = Math.floor(value * 10)
+                    },
+
+                })
+
+                //this.sound.decodeAudio('bgm', 'decodedbgm');
+                //this.sound.on('decoded', 'decodedbgm');
                 if(!musicPlayed){
                     this.music = this.sound.add('bgm');
                     console.log("hi");
@@ -203,63 +192,9 @@
             update(time, delta){
                 
             }
-            logout() {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/login';  
-
-                const logoutInput = document.createElement('input');
-                logoutInput.type = 'hidden';
-                logoutInput.name = 'logout';
-                logoutInput.value = 'true';  
-
-                form.appendChild(logoutInput);  
-                document.body.appendChild(form);  
-                form.submit();  
-            }
-            
-            //Aqui recorde que existia ajax
-            getLeaderboards() {
-
-                leaderboardPanel.setVisible(true);
-
-                $.ajax({
-                    url: '/leaderboards',
-                    method: 'GET',
-                    success: (response) => {
-                        console.log("Leaderboards successfully obtained", response); 
-                        let y = 240;
-                        response.forEach(entry => {
-                            this.add.text(leaderboardPanel.x - 150, y, `${entry.username}: ${entry.score} / ${entry.wins}`, { fontSize: '16px', fill: '#FFF' });
-                            y += 20;
-                        });
-                    },
-                    error: (xhr, status, error) => {
-                        console.error(`Error fetching leaderboards: ${error}`);
-                    }
-                });
-            }
-
-            deleteLeaderBoardEntry(){
-                $.ajax({
-                    url: '/leaderboards',  // This is the correct URL for your DELETE request
-                    method: 'DELETE',
-                    success: (response) => {
-                        console.log("Deleted user's leaderboards", response);
-                        // Display success message
-                        this.add.text(50, 300, 'Tus estadísticas han sido borradas', { fontSize: '16px', fill: '#000' });
-                    },
-                    error: (e) => {
-                        console.error(`Error deleting user's leaderboards: ${e}`);
-                        // Display error message if something goes wrong
-                        this.add.text(50, 300, "No se pudieron borrar tus estadísticas", { fontSize: '16px', fill: '#000' });
-                    }
-                });
-            }
         }
         class GameScene extends Phaser.Scene{
             
-
             preload ()
             {
                 this.load.image('background', './Assets/Escenarios/Escenario_Barsa.png')
@@ -276,12 +211,9 @@
             {
                 this.scoreJ1=0;
                 this.scoreJ2=0;
-                this.finalScore=0;
                 game.scale.resize(1280, 800);
                 this.physics.world.setBounds(0, 0, 1280, 680);
                 const bg=this.add.image(640, 400,'background');
-
-                this.dataSent=false;
 
                 const bootOffsetX = 50; 
                 const bootOffsetY = 90; 
@@ -697,48 +629,9 @@
 
                 if(this.scoreJ1>6&&!this.j2Victory.visible){
                     this.j1Victory.visible=true;
-                    this.finalScore=this.scoreJ1-this.scoreJ2;
-                    payload = {
-                        score: this.finalScore,      
-                        wins: 1
-                    };
-                    if(!this.dataSent){
-                        $.ajax({
-                            url: '/leaderboards',
-                            method: 'PUT',
-                            contentType: 'application/json',
-                            data: JSON.stringify(payload),
-                            success: function(response){
-                                console.log("Leaderboards updated for player 1: ", response);
-                            }, error: function(e){
-                                console.log("Error updating leaderboards for player1: ", e)
-                            }
-                        });
-                        this.dataSent=true;
-                    }
                 }
                 if(this.scoreJ2>6&&!this.j1Victory.visible){
                     this.j2Victory.visible=true;
-                    this.finalScore=this.scoreJ2-this.scoreJ1;
-                    payload = { 
-                        score: this.finalScore,
-                        wins: 1
-                    };
-                    if(!this.dataSent){
-                        $.ajax({
-                            url: '/leaderboards',
-                            method: 'PUT',
-                            contentType: 'application/json',
-                            data: JSON.stringify(payload),
-                            success: function(response){
-                                console.log("Leaderboards updated for player 2: ", response);
-                            }, error: function(e){
-                                console.log("Error updating leaderboards for player2: ", e)
-                            }
-                        });
-                        this.dataSent=true;
-                    }
-                    
                 }
 
                 this.j1ScoreMarker.text=this.scoreJ1;
