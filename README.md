@@ -54,7 +54,12 @@ CONTENIDO
     		5.8	AJUSTES
   
 		5.9	CRÉDITOS	
-  
+
+    		5.10	PANTALLA RANKING
+
+		5.11	PANTALLA INICIAR SESIÓN
+
+  		5.12	PANTALLA LISTA DE USUARIOS
   
   	6. 	APARTADO ARTÍSTICO
    
@@ -121,17 +126,20 @@ CONTENIDO
 
 
 	Arte:
-
+	24/nov
 	Se han añadido nuevas interfaces tales cómo la pantalla de selección de personaje con el que jugar, así mismo ya no son prototipos si no que son las interfaces definitivas, así mismo se han realizado todos 	los botones que estas requerían.
 
 	Respecto al estilo visual se ha definido el definitivo, siendo este 2D básico cartoon, se han realizado los escenarios y los sprites de los personajes.
 
-
+ 	17/dic
+	Se han añadido nuevas interfaces, botones e iconos necesarios para mostrar el inicio de sesión, ranking y la lista de usuarios conectados, así mismo se ha modificado la estética de la interfaz créditos para que la tipografía cuadrase con la del resto del juego.
 	Implementación: 
 
-
+	24/nov
 	Durante la fase 2 se ha implementado el juego en código, incluyendo colisionadores a todos los objetos durante el propio juego, el uso de colisionadores escondidos para mantener las alturas de los objetos, 	los menús básicos, y la selección de personaje entre 2 escenas mediante un índice numérico. Se quiso hacer también una barra deslizante para controlar el volumen del juego, pero no se pudo averiguar un 	método correcto para su implementación y por tanto se dejó para futuras fases.
 
+ 	17/dic
+  	
 ******************
 
 3	INTRODUCCIÓN
@@ -304,6 +312,11 @@ CONTENIDO
 ![image](https://github.com/user-attachments/assets/4e3bd4af-3bda-44fb-bfb8-0cfa63632d4d)
 
  	descripción imagen: interfaz de créditos.
+5.10	PANTALLA RANKING
+
+5.11	PANTALLA INICIAR SESIÓN
+
+5.12	PANTALLA LISTA DE USUARIOS
 
 ****************
 6.	APARTADO ARTÍSTICO
