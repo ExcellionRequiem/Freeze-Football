@@ -4,20 +4,31 @@ import jakarta.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpHeaders;
 
 @Controller
-public class SecurityUserRestController {
+public class UserRestController {
     
     //Inicializacion del controlador con el manager de la documentación de Spring Security
     private final UserList userList;
     private final PasswordEncoder passwordEncoder;
-    private static final Logger logger = LoggerFactory.getLogger(SecurityUserRestController.class);
-    public SecurityUserRestController(UserList userList,
+
+    @Autowired
+    private LeaderboardService leaderboardService;
+    @Autowired
+    private RestTemplate restTemplate;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserRestController.class);
+    public UserRestController(UserList userList,
                                         PasswordEncoder passwordEncoder) {
         this.userList = userList;
         this.passwordEncoder = passwordEncoder;
@@ -89,7 +100,30 @@ public class SecurityUserRestController {
 
         // Hash the password and create a new user
         userList.registerUser(username, encodedPassword); // Guardamos el nuevo usuario con su contraseña cifrada
+
+        LeaderboardEntry newEntry = new LeaderboardEntry();
+        newEntry.setUsername(username);
+        newEntry.setScore(0); // Initialize score to 0
+        newEntry.setWins(0);
+
+        //Esto de aqui es un restTemplate
+        //Es un mago oscuro que ya viene definido en spring
+        //Y esto es magia negra para ejecutar un metodo http desde un metodo http
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        HttpEntity<LeaderboardEntry> requestEntity = new HttpEntity<>(newEntry, headers);
+        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8080/leaderboards", 
+            HttpMethod.PUT, requestEntity, String.class); //Esto es lo que llama al PUT de las leaderboards
+
         return "redirect:/login.html";
+    }
+
+    @PostMapping("/logout")
+    public void logout(HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        
+        userList.LogOutUser(username);  // Call the LogOutUser method to remove the user
+        System.out.println("User logged out: " + username);
     }
 
     public static class RegisterRequest {
