@@ -216,7 +216,8 @@ CONTENIDO
 
 4.2	FLUJO DE JUEGO
 
-	
+![Flujograma](https://github.com/user-attachments/assets/74274241-07d4-41d0-a629-d673bad7ffdf)
+
  	
   	descripción de imagen: imagen que explica el flujo de pantallas del juego.
 
@@ -320,16 +321,23 @@ CONTENIDO
  
 5.9	CRÉDITOS
 
-	Pantalla de créditos donde aparece el nombre de los integrantes del grupo.
+Pantalla de créditos donde aparece el nombre de los integrantes del grupo.
 
-![image](https://github.com/user-attachments/assets/4e3bd4af-3bda-44fb-bfb8-0cfa63632d4d)
+![menuCreditos](https://github.com/user-attachments/assets/3aec73b4-7e61-4899-99c1-704534decbe0)
 
  	descripción imagen: interfaz de créditos.
-5.10	PANTALLA RANKING
 
+5.10	PANTALLA RANKING Y LISTA DE USUARIOS
+
+![CapturaPantallaRanking](https://github.com/user-attachments/assets/1393a5ee-565b-4b1c-bff8-3d49eeed678d)
+
+	descripción imagen: pantalla ranking.
+ 
 5.11	PANTALLA INICIAR SESIÓN
 
-5.12	PANTALLA LISTA DE USUARIOS
+![MenuInicioSesion](https://github.com/user-attachments/assets/6e713a26-2e10-4004-b1b9-b4c14b8103d5)
+
+ 	descripción imagen: pantalla de iniciar sesión.
 
 ****************
 6.	APARTADO ARTÍSTICO
