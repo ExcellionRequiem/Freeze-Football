@@ -9,7 +9,9 @@ Requisitos: Java 23.
 Instruciones: 
 
 Paso 1: entrar en la carpeta target.
+
 Paso 2: ejecutar el archivo frzftball-0.0.1-SNAPSHOT.jar
+
 Paso 3: Cargar en el navegador la IP que darán los desarrolladores
 
 
