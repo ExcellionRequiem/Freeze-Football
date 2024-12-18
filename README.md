@@ -1,7 +1,16 @@
 
 Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un juego en red competitivo y caótico de dos jugadores estilo arcade en el que dos jugadores con muñecos cabezones intentan meterse goles el uno al otro pateando el balón y dándole cabezazos, con powerups para evitar la repetitividad del juego y referencias al mundo del fútbol.
+***************
+
+PARA ABRIR .jar
+Requisitos: Java 23.
+Instruciones: 
+Paso 1: entrar en la carpeta target.
+Paso 2: ejecutar el archivo frzftball-0.0.1-SNAPSHOT.jar
+Paso 3: Cargar en el navegador la IP que darán los desarrolladores
 
 
+****************
 ![image](https://github.com/user-attachments/assets/a9aab7f6-8884-4c2d-91f3-7bd722b51fc9)
 
 ****************
