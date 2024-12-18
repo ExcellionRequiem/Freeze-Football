@@ -3,8 +3,11 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 ***************
 
 PARA ABRIR .jar
+
 Requisitos: Java 23.
+
 Instruciones: 
+
 Paso 1: entrar en la carpeta target.
 Paso 2: ejecutar el archivo frzftball-0.0.1-SNAPSHOT.jar
 Paso 3: Cargar en el navegador la IP que darán los desarrolladores
