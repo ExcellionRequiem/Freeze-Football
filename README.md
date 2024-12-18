@@ -71,6 +71,7 @@ CONTENIDO
 	 
 	 	6.4	AUDIO
 
+ 	7.	DIAGRAMA DE CLASES
 
  ***************
 
@@ -132,13 +133,17 @@ CONTENIDO
 	Respecto al estilo visual se ha definido el definitivo, siendo este 2D básico cartoon, se han realizado los escenarios y los sprites de los personajes.
 
  	17/dic
+  	Se ha cambiado el flujograma del juego.
 	Se han añadido nuevas interfaces, botones e iconos necesarios para mostrar el inicio de sesión, ranking y la lista de usuarios conectados, así mismo se ha modificado la estética de la interfaz créditos para que la tipografía cuadrase con la del resto del juego.
 	Implementación: 
 
 	24/nov
-	Durante la fase 2 se ha implementado el juego en código, incluyendo colisionadores a todos los objetos durante el propio juego, el uso de colisionadores escondidos para mantener las alturas de los objetos, 	los menús básicos, y la selección de personaje entre 2 escenas mediante un índice numérico. Se quiso hacer también una barra deslizante para controlar el volumen del juego, pero no se pudo averiguar un 	método correcto para su implementación y por tanto se dejó para futuras fases.
+	Durante la fase 2 se ha implementado el juego en código, incluyendo colisionadores a todos los objetos durante el propio juego, el uso de colisionadores escondidos para mantener las alturas de los objetos, los menús básicos, y la selección de personaje entre 2 escenas mediante un índice numérico. Se quiso hacer también una barra deslizante para controlar el volumen del juego, pero no se pudo averiguar un método correcto para su implementación y por tanto se dejó para futuras fases.
 
  	17/dic
+  	Se ha hecho el diagrama de clases.
+   	Durante la fase 3 se ha implementado el backend, se ha creado un archivo REST.md con todas las funcionalidades implmentadas con API REST; tales como, el registro de usuario, inicio y salida de sesión, la tabla de ranking y el chat. También se ha implementado una persistencia de datos para almacenar un usuario y una contraseña con el fin de poder recuperar información como los resultados de partidos jugados anteriormente.
+    	
   	
 ******************
 
@@ -155,25 +160,25 @@ CONTENIDO
 
 	El juego se basa en los siguientes pilares:
 
-		•	Jugabilidad arcade: El juego es sencillo de aprender y difícil de dominar. Los controles son fáciles de entender, ya que el jugador puede mover al personaje presionando las teclas de 			izquierda a derecha y saltando, con un cuarto botón para disparar.
+		•	Jugabilidad arcade: El juego es sencillo de aprender y difícil de dominar. Los controles son fáciles de entender, ya que el jugador puede mover al personaje presionando las teclas de 	izquierda a derecha y saltando, con un cuarto botón para disparar.
 
-		•	Estilo de juego 1vs1: Se juega en partidos de uno contra uno, donde los jugadores controlan a un personaje con una cabeza grande y un cuerpo pequeño, y deben marcar goles en la portería 		contraria.
+		•	Estilo de juego 1vs1: Se juega en partidos de uno contra uno, donde los jugadores controlan a un personaje con una cabeza grande y un cuerpo pequeño, y deben marcar goles en la portería contraria.
 
 		•	Diversidad de personajes: Los jugadores pueden elegir entre una amplia variedad de personajes, que generalmente representan diferentes equipos, esto es puramente estético.
 
-		•	Sencillez y Adicción: Aunque el concepto es sencillo, la mecánica rápida y la competencia entre jugadores hacen que el juego sea muy adictivo y divertido, ideal para partidas rápidas y 		competiciones casuales.
+		•	Sencillez y Adicción: Aunque el concepto es sencillo, la mecánica rápida y la competencia entre jugadores hacen que el juego sea muy adictivo y divertido, ideal para partidas rápidas y competiciones casuales.
 
 3.3	GÉNERO
 
-	Freeze Football se clasifica dentro del género de juegos deportivos, específicamente en la subcategoría de fútbol arcade, con una jugabilidad sencilla, acción rápida y un enfoque en la diversión y la 	competitividad en lugar de la simulación realista.
+	Freeze Football se clasifica dentro del género de juegos deportivos, específicamente en la subcategoría de fútbol arcade, con una jugabilidad sencilla, acción rápida y un enfoque en la diversión y la competitividad en lugar de la simulación realista.
 
 
 
 3.4	PROPÓSITO Y PÚBLICO OBJETIVO
 
-	El propósito principal de Freeze Football es ofrecer a través de una jugabilidad simple y directa, entretenimiento en sesiones cortas, perfectas para jugadores que desean acción rápida y desafíos 		inmediatos. 
+	El propósito principal de Freeze Football es ofrecer a través de una jugabilidad simple y directa, entretenimiento en sesiones cortas, perfectas para jugadores que desean acción rápida y desafíos inmediatos. 
 
-	Al mismo tiempo, el juego introduce un toque de humor y exageración con sus personajes de cabezas grandes, lo que lo hace atractivo tanto para jugadores casuales como para aquellos que disfrutan de un 	enfoque más creativo del fútbol.
+	Al mismo tiempo, el juego introduce un toque de humor y exageración con sus personajes de cabezas grandes, lo que lo hace atractivo tanto para jugadores casuales como para aquellos que disfrutan de un enfoque más creativo del fútbol.
 
 	Freeze Football está dirigido a jugadores de todas las edades, por ello se apuesta por un sistema de partidas cortas, intensas y rápidas.
 
@@ -181,7 +186,7 @@ CONTENIDO
 
 	Cada partido de Freeze Football ofrece una variedad de mecánicas y estrategias para ganar el partido. Para ello nos valdremos de los siguientes elementos:
 
-		•	Movimiento: Los jugadores se mueven horizontalmente por el campo usando flechas o teclas. El personaje puede moverse rápidamente hacia la izquierda o derecha, y saltar para alcanzar balones 		aéreos o evitar ataques. Con el espacio o la p, el personaje pega una patada.
+		•	Movimiento: Los jugadores se mueven horizontalmente por el campo usando flechas o teclas. El personaje puede moverse rápidamente hacia la izquierda o derecha, y saltar para alcanzar balones aéreos o evitar ataques. Con el espacio o la p, el personaje pega una patada.
 
 		•	Mejoras: Los jugadores podrán recibir “power-ups” temporalmente durante los partidos (será agregado próximamente).
 				Portería más grande o pequeña
@@ -211,7 +216,7 @@ CONTENIDO
 
 4.2	FLUJO DE JUEGO
 
-	![image](https://github.com/user-attachments/assets/e433c75a-edb6-4148-b2a8-dc9c2a5ede7a)
+	
  	
   	descripción de imagen: imagen que explica el flujo de pantallas del juego.
 
@@ -224,14 +229,14 @@ CONTENIDO
 
 		Su movimiento será libre a lo largo del terreno jugable, y no recibirá ningún tipo de penalización o cooldown a la hora de saltar o patear repetidas veces.
 
-		En cuanto a las físicas, ambos personajes se detectarán entre sí, chocando al moverse en direcciones opuestas o al disputar el balón. También, los personajes podrán meterse dentro de la portería, 		aunque no sea la estrategia más recomendable para ganar la partida.
+		En cuanto a las físicas, ambos personajes se detectarán entre sí, chocando al moverse en direcciones opuestas o al disputar el balón. También, los personajes podrán meterse dentro de la portería, aunque no sea la estrategia más recomendable para ganar la partida.
   
 
 		2.	Movimiento del balón: el balón tendrá un movimiento libre a lo largo de toda la pantalla. 
 
 		Al inicio del juego el balón se encontrará en un punto fijo y alto en la mitad del escenario, y caerá en el medio para que los jugadores lo disputen y comience la partida. 
 	
-		En cuanto a las físicas, el balón detectará las colisiones con el cuerpo de los jugadores, desplazándose hacia la dirección donde sea enviado con un toque. Rebotará contra el suelo, los bordes de la 		pantalla, y el larguero y la zona superior de la portería.
+		En cuanto a las físicas, el balón detectará las colisiones con el cuerpo de los jugadores, desplazándose hacia la dirección donde sea enviado con un toque. Rebotará contra el suelo, los bordes de la pantalla, y el larguero y la zona superior de la portería.
 
 		El balón reiniciará su posición a la de inicio al hacer contacto con una de las redes de las porterías, anotándose así un gol para uno de los dos jugadores. 
 
@@ -241,8 +246,8 @@ CONTENIDO
 
 5.1	LOGOTIPO
 
-	![image](https://github.com/user-attachments/assets/f3e948ba-69e2-486a-b841-e994861376ff)
- 	descripción de imagen: imagen del logotipo del juego
+
+![FrezeeFootball_icon](https://github.com/user-attachments/assets/f4a9edb1-811e-449e-bfd1-f460d964884d)
 
    	El logotipo de Freeze Football representa un balón de fútbol congelado, capturando la esencia del nombre del juego.
 
@@ -256,6 +261,14 @@ CONTENIDO
 ![botonAjustes](https://github.com/user-attachments/assets/69e100b6-71f7-4044-917c-7843aa665485)
 ![botonSalir](https://github.com/user-attachments/assets/db2172a0-9437-45da-8c86-80d1ae0e83f8)
 ![BotonReanudar](https://github.com/user-attachments/assets/b0c4fc7c-16d4-4dbc-bf48-68ab83180d18)
+
+ 	Nuevos iconos y botones
+
+![BotonIniciarSesion](https://github.com/user-attachments/assets/c2888e2c-ef41-421c-8441-9c0ff711f576)
+![IconoRanking](https://github.com/user-attachments/assets/0d8d146a-2d77-473e-8b9f-7abf19a86904)
+![IconoRankingBorrar](https://github.com/user-attachments/assets/536211ae-c603-4588-8585-71b84873a1c5)
+![IconoSInConexion](https://github.com/user-attachments/assets/b291d3f0-9a78-4058-bf82-3db05670c7c3)
+![botonRegistro](https://github.com/user-attachments/assets/2fc5cab1-6322-4280-be37-7f23ab8a3252)
 
 
 5.3	TIPOGRAFÍA
@@ -375,11 +388,15 @@ CONTENIDO
 
 		descripción imagen: imagen del personaje Friezmann.
 
-******************
 
 6.4	AUDIO
 
 	El juego cuenta de inicio con una melodía ligera y amena en bucle como música de fondo, y con un efecto de sonido del público cada vez que uno de los jugadores anota un gol. Se plantea en un futuro 		implementar efectos de sonido al inicio de los partidos, y una melodía distintas en la pantalla del gameplay para que se diferencie de la de los menús.
 
+******************
 
+7.	DIAGRAMA DE CLASES
 
+![REST drawio](https://github.com/user-attachments/assets/38fcc459-3518-4691-a221-604943411261)
+
+		descripción imagen: imagen del diagrama de clases.
