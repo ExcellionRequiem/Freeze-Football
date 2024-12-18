@@ -127,9 +127,8 @@
                 var creditsButton=this.add.image(562.5, 522,'creditsButton').setInteractive();
                 var exitButton=this.add.image(562.5, 632,'exitButton').setInteractive();
                 var settingsMenu=this.add.image(562.5, 522,'settingsMenu');
-                var creditsMenu=this.add.image(562.5, 522,'creditsMenu');
                 var settingsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
-                var creditsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
+                
                 var leaderboardButton = this.add.image(1050, 70, 'leaderboardButton').setInteractive();
                 var deleteLeaderboardButton = this.add.image(1050, 180, 'leaderboardDeleteButton').setInteractive();
                 var chatPanel = this.add.image(925, 500, 'chat');
@@ -147,6 +146,9 @@
 
                 leaderboardPanel.setScale(0.4,0.4);
                 onlineUsersPanel.setScale(0.4,0.4);
+                
+                var creditsMenu=this.add.image(562.5, 522,'creditsMenu');
+                var creditsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
 
                 leaderboardPanel.setVisible(false);
                 settingsMenu.visible=false;
