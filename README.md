@@ -155,7 +155,7 @@ CONTENIDO
 
  	17/dic
   	Se ha hecho el diagrama de clases.
-   	Durante la fase 3 se ha implementado el backend, se ha creado un archivo REST.md con todas las funcionalidades implmentadas con API REST; tales como, el registro de usuario, inicio y salida de sesión, la tabla de ranking y el chat. También se ha implementado una persistencia de datos para almacenar un usuario y una contraseña con el fin de poder recuperar información como los resultados de partidos jugados anteriormente.
+   	Durante la fase 3 se ha implementado el backend, se ha creado un archivo REST.md con todas las funcionalidades implementadas con API REST; tales como, el registro de usuario, inicio y salida de sesión, la tabla de ranking y el chat. También se ha implementado una persistencia de datos para almacenar un usuario y una contraseña con el fin de poder recuperar información como los resultados de partidos jugados anteriormente.
     	
   	
 ******************
