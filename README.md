@@ -397,5 +397,6 @@ CONTENIDO
 
 7.	DIAGRAMA DE CLASES
 
+![REST drawio](https://github.com/user-attachments/assets/38fcc459-3518-4691-a221-604943411261)
 
-
+		descripción imagen: imagen del diagrama de clases.
