@@ -42,10 +42,59 @@
         var pingTimer=0;
         var isOnline=true;
         var connectionLostSprite;
+        var messagesList = [];
         var payload = {
             score: 0,
             wins: 0
         };
+        document.addEventListener('DOMContentLoaded', function () {
+            // Crear el campo de texto
+            var inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.name = 'chatInput';
+            inputField.id = 'chatInput';
+            inputField.placeholder = 'Escribe un mensaje';
+            inputField.style.padding = '10px';
+            inputField.style.width = '200px';
+            inputField.style.border = '2px solid red';
+            inputField.style.backgroundColor = 'white';
+            inputField.style.position = 'absolute';
+            inputField.style.left = '70%';   // Centrado horizontalmente
+            inputField.style.top = '90%';    // Ajuste la posición vertical
+            inputField.style.transform = 'translateX(-50%)';  // Para asegurar el centrado
+
+            // Agregar el campo de texto al documento
+            document.body.appendChild(inputField);
+
+            // Añadir el evento de "Enter" para enviar el mensaje
+            inputField.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var message = inputField.value.trim();
+                    if (message) {
+                        sendMessage(message);  // Enviar el mensaje al servidor
+                        inputField.value = '';  // Limpiar el campo de texto
+                    }
+                }
+            });
+        });
+
+        function sendMessage(message) {
+            $.ajax({
+                url: '/chat', // URL del endpoint de backend
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    message: message,  // Solo enviar el mensaje
+                }),
+                success: function () {
+                    console.log('Mensaje enviado con éxito');
+                },
+                error: function (e) {
+                    console.error('Error al enviar el mensaje:', e);
+                }
+            });
+        }
+        
         class MainMenuScene extends Phaser.Scene{
             preload ()
             {
@@ -58,6 +107,7 @@
                 this.load.image('exitButton', './Assets/Botones/botonSalir.png');
                 this.load.image('leaderboard','./Assets/Interfaces/MenuRanking.png');
                 this.load.image('users','./Assets/Interfaces/MenuRanking.png');
+                this.load.image('chat','./Assets/Interfaces/MenuRanking.png');
                 this.load.image('leaderboardButton','./Assets/Botones/IconoRanking.png');
                 this.load.image('leaderboardDeleteButton','./Assets/Botones/IconoRankingBorrar.png');
                 this.load.image('noConnection','./Assets/Botones/IconoSInConexion.png');
@@ -82,9 +132,11 @@
                 var creditsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
                 var leaderboardButton = this.add.image(1050, 70, 'leaderboardButton').setInteractive();
                 var deleteLeaderboardButton = this.add.image(1050, 180, 'leaderboardDeleteButton').setInteractive();
+                var chatPanel = this.add.image(925, 500, 'chat');
+                chatPanel.setScale(0.4,0.4);
 
                 connectionLostSprite = this.add.image(80, 70, 'noConnection');
-                connectionLostSprite.setVisible(true);
+                connectionLostSprite.setVisible(false);
 
                 leaderboardButton.setScale(0.07);
                 deleteLeaderboardButton.setScale(0.07);
@@ -102,7 +154,14 @@
                 settingsExitButton.visible=false;
                 creditsExitButton.visible=false;
                 this.getUsers();
-
+                
+                this.messagesText = this.make.text({
+                    x: chatPanel.x-150, 
+                    y: 300, 
+                    fontSize: '16px',
+                    fill: '#fff',
+                    wordWrap: { width: 400 }
+                });
                 this.usersText = this.make.text({
                     x: onlineUsersPanel.x - 120, 
                     y: 280, 
@@ -243,6 +302,63 @@
                     musicPlayed=true;
                 }
                 
+                this.lastTimestamp = 0;
+                this.getMessages();
+                this.time.addEvent({
+                    delay: 1000, // Llamar a getMessages cada 1 segundo
+                    callback: this.getMessages,
+                    callbackScope: this,
+                    loop: true,
+                });
+
+                document.getElementById('chatInput').style.visibility = 'visible';
+                
+            }
+
+            getMessages() {
+                $.ajax({
+                    url: `/chat?since=${this.lastTimestamp}`,
+                    method: 'GET',
+                    success: (data) => {
+                        let messagesContent = ''; // Contenido actualizado de los mensajes
+
+                        // Actualiza la lista de mensajes
+                        data.forEach((msg) => {
+                            this.lastTimestamp = msg.timestamp; // Guardar la última marca de tiempo
+                            this.addMessage(msg);
+                        });
+
+                        // Actualiza el contenido del texto con los últimos 20 mensajes
+                        this.updateMessagesText();
+                    },
+                    error: function (e) {
+                        console.error('Error al obtener mensajes:', e);
+                    },
+                });
+            }
+
+
+            addMessage(message) {
+                // Añadir el nuevo mensaje a la lista
+                messagesList.push(message);
+
+                // Si la lista de mensajes tiene más de 20 elementos, eliminar el más antiguo
+                if (messagesList.length > 25) {
+                    messagesList.shift();
+                }
+            }
+
+            // Actualizar el texto del chat
+            updateMessagesText() {
+                let messagesContent = '';
+
+                // Concatenar los mensajes, mostrando solo los últimos 20
+                messagesList.forEach((msg) => {
+                    messagesContent += `${msg.message}\n`;
+                });
+
+                // Actualizar el texto en el panel de chat
+                this.messagesText.setText(messagesContent);
             }
 
             update(time, delta){
@@ -265,19 +381,20 @@
                             console.log(response);
                             if (!isOnline) {
                                 console.log("Reconnected");
-                                this.isServerReachable = true;
+                                isOnline = true;
                                 connectionLostSprite.setVisible(false);
                             }
                         },
                         error: () => {
                             if (isOnline) {
                                 console.log("Lost connection");
-                                this.isServerReachable = false;
+                                isOnline = false;
                                 connectionLostSprite.setVisible(true);
                             }
                         }
                     });
                 }
+
             }
 
             getUsers(){
@@ -359,12 +476,12 @@
                     success: (response) => {
                         console.log("Deleted user's leaderboards", response);
                         // Display success message
-                        this.add.text(50, 300, 'Tus estadísticas han sido borradas', { fontSize: '16px', fill: '#000' });
+                        this.add.text(350, 750, 'Tus estadísticas han sido borradas', { fontSize: '16px', fill: '#000' });
                     },
                     error: (e) => {
                         console.error(`Error deleting user's leaderboards: ${e}`);
                         // Display error message if something goes wrong
-                        this.add.text(50, 300, "No se pudieron borrar tus estadísticas", { fontSize: '16px', fill: '#000' });
+                        this.add.text(350, 750, "No se pudieron borrar tus estadísticas", { fontSize: '16px', fill: '#000' });
                     }
                 });
             }
@@ -387,6 +504,7 @@
 
             create ()
             {
+                document.getElementById('chatInput').style.visibility = 'hidden';
                 connectionLostSprite = this.add.rectangle(80, 70, 100, 100, 0xff0000);
                 connectionLostSprite.setVisible(false);
                 this.scoreJ1=0;
@@ -910,6 +1028,7 @@
 
             create ()
             {
+                document.getElementById('chatInput').style.visibility = 'hidden';
                 connectionLostSprite = this.add.rectangle(80, 70, 100, 100, 0xff0000);
                 connectionLostSprite.setVisible(false);
                 game.scale.resize(1125, 844);
