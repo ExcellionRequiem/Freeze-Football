@@ -126,8 +126,6 @@
                 var settingsButton=this.add.image(562.5, 422,'settingsButton').setInteractive();
                 var creditsButton=this.add.image(562.5, 522,'creditsButton').setInteractive();
                 var exitButton=this.add.image(562.5, 632,'exitButton').setInteractive();
-                var settingsMenu=this.add.image(562.5, 522,'settingsMenu');
-                var settingsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
                 
                 var leaderboardButton = this.add.image(1050, 70, 'leaderboardButton').setInteractive();
                 var deleteLeaderboardButton = this.add.image(1050, 180, 'leaderboardDeleteButton').setInteractive();
@@ -148,7 +146,10 @@
                 onlineUsersPanel.setScale(0.4,0.4);
                 
                 var creditsMenu=this.add.image(562.5, 522,'creditsMenu');
-                var creditsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
+                var creditsExitButton=this.add.image(562.5, 710,'exitButton').setInteractive();
+
+                var settingsMenu=this.add.image(562.5, 522,'settingsMenu');
+                var settingsExitButton=this.add.image(562.5, 680,'exitButton').setInteractive();
 
                 leaderboardPanel.setVisible(false);
                 settingsMenu.visible=false;
@@ -184,59 +185,6 @@
                         wordWrap: { width: 280 }
                     }
                 });
-                this.arturo=this.make.text({
-                    x: 405, 
-                    y: 400,
-                    text: 'Arturo Carretero Aguado',
-                    style: {
-                        fontSize: '32px',
-                        fontFamily: 'Times, serif',
-                        color: '#ffffff',
-                        align: 'center',
-                    },
-                    add: true
-                });
-                this.sergio=this.make.text({
-                    x: 405, 
-                    y: 460,
-                    text: 'Sergio Delgado López',
-                    style: {
-                        fontSize: '32px',
-                        fontFamily: 'Times, serif',
-                        color: '#ffffff',
-                        align: 'center',
-                    },
-                    add: true
-                });
-                this.alberto=this.make.text({
-                    x: 405, 
-                    y: 520,
-                    text: 'Alberto Caro Candón',
-                    style: {
-                        fontSize: '32px',
-                        fontFamily: 'Times, serif',
-                        color: '#ffffff',
-                        align: 'center',
-                    },
-                    add: true
-                });
-                this.monica=this.make.text({
-                    x: 405, 
-                    y: 580,
-                    text: 'Mónica Varas García',
-                    style: {
-                        fontSize: '32px',
-                        fontFamily: 'Times, serif',
-                        color: '#ffffff',
-                        align: 'center',
-                    },
-                    add: true
-                });
-
-                this.arturo.visible=false;
-                this.sergio.visible=false;
-                this.alberto.visible=false;
-                this.monica.visible=false;
 
 
                 playButton.on('pointerdown', function(e){
@@ -260,10 +208,6 @@
                     settingsButton.visible=false;
                     creditsButton.visible=false;
                     exitButton.visible=false;
-                    this.arturo.visible=true;
-                    this.sergio.visible=true;
-                    this.alberto.visible=true;
-                    this.monica.visible=true;
                 });
                 settingsExitButton.on('pointerdown', function(e){
                     settingsMenu.visible=false;
@@ -280,10 +224,6 @@
                     playButton.visible=true;
                     settingsButton.visible=true;
                     creditsButton.visible=true;
-                    this.arturo.visible=false;
-                    this.sergio.visible=false;
-                    this.alberto.visible=false;
-                    this.monica.visible=false;
                 });
 
                 exitButton.on('pointerdown', () => this.logout());
