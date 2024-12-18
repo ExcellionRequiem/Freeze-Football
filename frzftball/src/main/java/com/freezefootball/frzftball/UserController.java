@@ -53,7 +53,7 @@ public class UserController {
     public String login(@RequestParam(required = false) String username, @RequestParam(required = false) String password, 
                         @RequestParam(required = false) String logout, Model model, HttpSession session){
         if ("true".equals(logout)) {
-            // Perform logout logic if the logout parameter is present
+            // Si el atributo existe ya en la sesion ya esta logeado y quiere logout
             String loggedOutUser = (String) session.getAttribute("username");
     
             if (loggedOutUser != null) {

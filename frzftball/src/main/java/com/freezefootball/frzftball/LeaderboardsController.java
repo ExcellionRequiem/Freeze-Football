@@ -62,7 +62,5 @@ public class LeaderboardsController {
         
         return new ResponseEntity<>("User statistics registered to learboards", HttpStatus.OK);
     }
-    
-    
 
 }
