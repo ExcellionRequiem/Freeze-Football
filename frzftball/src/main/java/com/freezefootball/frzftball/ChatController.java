@@ -31,7 +31,7 @@ public class ChatController {
     
         synchronized (messages) {
             messages.add(chatMessage);
-            if (messages.size() > 20) { // Limitar a 20 mensajes
+            if (messages.size() > 25) { // Limitar a 25 mensajes
                 messages.remove(0);
             }
         }
