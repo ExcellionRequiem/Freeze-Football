@@ -129,6 +129,12 @@ public class UserController {
         System.out.println("User logged out: " + username);
     }
 
+    @GetMapping("/api/username")
+    @ResponseBody
+    public String getUsername(HttpSession session) {
+        return (String) session.getAttribute("username");
+    }
+
     public static class RegisterRequest {
         private String username;
         private String password;

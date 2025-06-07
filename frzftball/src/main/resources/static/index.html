@@ -4,7 +4,11 @@
     <script src="./Code/phaser.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!--jquery-->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script> <!--SockJS-->
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script><!--STOMP-->
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             window.addEventListener('unload', function () {
@@ -47,6 +51,7 @@
             score: 0,
             wins: 0
         };
+        var stompClient
         document.addEventListener('DOMContentLoaded', function () {
             // Crear el campo de texto
             var inputField = document.createElement('input');
@@ -117,6 +122,19 @@
 
             create ()
             {
+                //Conexion al websocket
+                const socket = new SockJS('/ws');
+                stompClient = Stomp.over(socket);
+
+                stompClient.connect({}, frame => {
+                    console.log('Conectado en menú principal: ' + frame);
+                    // Guardamos stompClient para usarlo luego
+                    this.registry.set('stompClient', stompClient);
+                }, error => {
+                    console.error('Error en conexión: ' + error);
+                });
+
+
                 pingTimer=0;
                 this.timer=0;
                 const bg=this.add.image(562.5, 422,'backgroundMainMenu');
@@ -446,6 +464,10 @@
 
             create ()
             {
+                this.username = data.username;
+                this.rival = data.rival;
+                console.log("GameScene:", this.username, this.rival);
+
                 document.getElementById('chatInput').style.visibility = 'hidden';
                 connectionLostSprite = this.add.rectangle(80, 70, 100, 100, 0xff0000);
                 connectionLostSprite.setVisible(false);
@@ -970,6 +992,34 @@
 
             create ()
             {
+                //recogemos el cliente otra vez
+                stompClient = this.registry.get('stompClient');
+                if (!stompClient) {
+                    console.error("stompClient no encontrado. Revisa conexión en MainMenuScene");
+                    return;
+                }
+
+                fetch('/api/username')
+                    .then(response => response.text())
+                    .then(name => {
+                    this.username = name;
+
+                    // Suscribimos aquí porque ya está conectado el stompClient
+                    stompClient.subscribe("/client/match/" + this.username, (message) => {
+                        const rival = message.body;
+                        console.log("Mensaje recibido del servidor:", rival);
+                        if (rival !== "Esperando rival...") {
+                            // Guardar rival, cambiar de escena
+                            this.rival = rival;
+                            this.scene.start("GameScene", { username: this.username, rival: this.rival });
+                        } else {
+                            console.log("Aún esperando rival...");
+                        }
+                    });
+                });
+
+
+
                 document.getElementById('chatInput').style.visibility = 'hidden';
                 connectionLostSprite = this.add.rectangle(80, 70, 100, 100, 0xff0000);
                 connectionLostSprite.setVisible(false);
@@ -1006,9 +1056,17 @@
                 this.arrowLJ2.on('pointerdown', function(e){
                     charIDJ2--;
                 });
-                this.playButton.on('pointerdown', function(e){
-                    game.scene.stop('characterSelectScene');
-                    game.scene.start('gameScene');
+
+                //Ahora es un boton de ready basicamente
+                this.playButton.on('pointerdown', (e) => {
+                    if (!stompClient || !this.username) {
+                        console.log("WebSocket no conectado o username no cargado");
+                        return;
+                    }
+                    stompClient.send('/server/readyGetUser', {}, '');
+                    if (!this.textoEspera) {
+                        this.textoEspera = this.add.text(100, 250, 'Esperando rival...', { fill: '#ff0' });
+                    }
                 });
 
             }
