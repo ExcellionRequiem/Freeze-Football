@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!--jquery-->
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script> <!--SockJS-->
     <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script><!--STOMP-->
 
     <script>
@@ -52,6 +51,7 @@
             wins: 0
         };
         var stompClient
+        var socket
         document.addEventListener('DOMContentLoaded', function () {
             // Crear el campo de texto
             var inputField = document.createElement('input');
@@ -123,7 +123,7 @@
             create ()
             {
                 //Conexion al websocket
-                const socket = new SockJS('/ws');
+                socket =  new WebSocket("ws://" + location.host + "/ws");
                 stompClient = Stomp.over(socket);
 
                 stompClient.connect({}, frame => {
@@ -462,7 +462,7 @@
                 
             }
 
-            create ()
+            create (data)
             {
                 this.username = data.username;
                 this.rival = data.rival;
@@ -800,8 +800,26 @@
                     },
                     add: true
                 });
+                
+                //LISTENER PARA ESCUCHAR ENVIOS DE POSICIONES (formato JSON)
+                stompClient.connect({}, () => {
+                    stompClient.subscribe('/client/movement', (message) => {
+                        const msg = JSON.parse(message.body);
+                        console.log("RECIBIDO RAW:", message.body);
 
-            }
+                        if (msg.type === 'playerMove' && msg.from === this.rival) {
+                            const mirrorX = (x) => 1280 - x;
+                            this.j2.setPosition(mirrorX(msg.position.x), msg.position.y);
+                            this.j2.body.setVelocity(-msg.position.vx, msg.position.vy);
+                            this.botaJ2.setPosition(mirrorX(msg.boot.x), msg.boot.y);
+                            this.botaJ2.body.setVelocity(-msg.boot.vx, msg.boot.vy);
+                        }
+                    });
+                });
+
+                this.lastSent = 0;
+
+            } 
             update(time, delta){
 
                 if(this.WASD.A.isDown&&!this.pauseMenu.visible){
@@ -889,6 +907,32 @@
 
                     
                 }
+                
+                //ENVIO DE POSICION AL OTRO JUGADOR
+                const now = Date.now();
+                if (now - this.lastSent > 50) {  // Cada 50 ms (~20 FPS)
+                    const payload = {
+                    type: 'playerMove',
+                    from: this.username,
+                    position: {
+                    x: this.j1.x,
+                    y: this.j1.y,
+                    vx: this.j1.body.velocity.x,
+                    vy: this.j1.body.velocity.y
+                    },
+                    boot: {
+                    x: this.botaJ1.x,
+                    y: this.botaJ1.y,
+                    vx: this.botaJ1.body.velocity.x,
+                    vy: this.botaJ1.body.velocity.y
+                    }
+                    };
+                
+                    //socket.send(JSON.stringify(payload));
+                    this.lastSent = now;
+                    stompClient.send('/server/movement', {}, JSON.stringify(payload));
+                }
+
 
                 if(this.scoreJ1>6&&!this.j2Victory.visible){
                     this.j1Victory.visible=true;
@@ -1011,7 +1055,7 @@
                         if (rival !== "Esperando rival...") {
                             // Guardar rival, cambiar de escena
                             this.rival = rival;
-                            this.scene.start("GameScene", { username: this.username, rival: this.rival });
+                            this.scene.start("gameScene", { username: this.username, rival: this.rival });
                         } else {
                             console.log("Aún esperando rival...");
                         }

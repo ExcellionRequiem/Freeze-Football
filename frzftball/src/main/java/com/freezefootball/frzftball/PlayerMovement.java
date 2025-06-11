@@ -1,16 +1,54 @@
 package com.freezefootball.frzftball;
 
 public class PlayerMovement {
-    private String player;
-    private int x;
-    private int y;
 
-    public String getPlayer() { return player; }
-    public void setPlayer(String id) { this.player = id; }
+    public PlayerMovement() {}
 
-    public int getX() { return x; }
-    public void setX(int x) { this.x = x; }
+    public String type;
+    public String from;
+    public Position position;
+    public Boot boot;
 
-    public int getY() { return y; }
-    public void setY(int y) { this.y = y; }
+    public String getType(){ return type; }
+    public String getFrom(){ return from; }
+    public Position getPosition(){ return position; }
+    public Boot getBoot(){ return boot; }
+
+    public void setType(String type) { this.type = type; }
+    public void setFrom(String from) { this.from = from; }
+    public void setPosition(Position position) { this.position = position; }
+    public void setBoot(Boot boot) { this.boot = boot; }
+
+    public static class Position {
+
+        public Position() {}
+
+        public float x, y, vx, vy;
+        public float getX(){ return x; }
+        public float getY(){ return y; }
+        public float getVX(){ return vx; }
+        public float getVY(){ return vy; }
+
+        public void setX(float x) { this.x = x; }
+        public void setY(float y) { this.y = y; }
+        public void setVX(float vx) { this.vx = vx; }
+        public void setVY(float vy) { this.vy = vy; }
+
+    }
+
+    public static class Boot {
+
+        public Boot() {}
+
+        public float x, y, vx, vy;
+        public float getX(){ return x; }
+        public float getY(){ return y; }
+        public float getVX(){ return vx; }
+        public float getVY(){ return vy; }
+
+        public void setX(float x) { this.x = x; }
+        public void setY(float y) { this.y = y; }
+        public void setVX(float vx) { this.vx = vx; }
+        public void setVY(float vy) { this.vy = vy; }
+    }
 }
