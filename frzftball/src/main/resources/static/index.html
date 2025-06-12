@@ -32,7 +32,7 @@
                 default: 'arcade',
                 arcade:{
                     gravity: {y:300},
-                    debug: false,
+                    debug: true,
                 }             
             },
         };
@@ -52,6 +52,7 @@
         };
         var stompClient
         var socket
+        var username
         document.addEventListener('DOMContentLoaded', function () {
             // Crear el campo de texto
             var inputField = document.createElement('input');
@@ -133,6 +134,11 @@
                 }, error => {
                     console.error('Error en conexión: ' + error);
                 });
+
+                fetch('/api/username')
+                    .then(response => response.text())
+                    .then(name => {
+                    username = name});
 
 
                 pingTimer=0;
@@ -464,9 +470,9 @@
 
             create (data)
             {
-                this.username = data.username;
+                //this.username = data.username;
                 this.rival = data.rival;
-                console.log("GameScene:", this.username, this.rival);
+                console.log("GameScene:", username, this.rival);
 
                 document.getElementById('chatInput').style.visibility = 'hidden';
                 connectionLostSprite = this.add.rectangle(80, 70, 100, 100, 0xff0000);
@@ -802,21 +808,19 @@
                 });
                 
                 //LISTENER PARA ESCUCHAR ENVIOS DE POSICIONES (formato JSON)
-                stompClient.connect({}, () => {
-                    stompClient.subscribe('/client/movement', (message) => {
-                        const msg = JSON.parse(message.body);
-                        console.log("RECIBIDO RAW:", message.body);
+                stompClient.subscribe('/client/movement', (message) => {
+                    const msg = JSON.parse(message.body);
+                    console.log("RECIBIDO RAW:", message.body);
 
-                        if (msg.type === 'playerMove' && msg.from === this.rival) {
-                            const mirrorX = (x) => 1280 - x;
-                            this.j2.setPosition(mirrorX(msg.position.x), msg.position.y);
-                            this.j2.body.setVelocity(-msg.position.vx, msg.position.vy);
-                            this.botaJ2.setPosition(mirrorX(msg.boot.x), msg.boot.y);
-                            this.botaJ2.body.setVelocity(-msg.boot.vx, msg.boot.vy);
-                        }
-                    });
+                    if (msg.type === 'playerMove' && msg.from === this.rival) {
+                        const mirrorX = (x) => 1280 - x;
+                        this.j2.setPosition(mirrorX(msg.position.x), msg.position.y);
+                        this.j2.body.setVelocity(-msg.position.vx, msg.position.vy);
+                        this.botaJ2.setPosition(mirrorX(msg.boot.x), msg.boot.y);
+                        this.botaJ2.body.setVelocity(-msg.boot.vx, msg.boot.vy);
+                    }
                 });
-
+                
                 this.lastSent = 0;
 
             } 
@@ -847,6 +851,7 @@
                     this.j2.setVelocityX(250);
                     this.botaJ2.setVelocityX(250);
                 }
+                /**
                 if(this.ARROWS.UP.isDown&&!this.pauseMenu.visible&&this.jumpCountJ2==1){
                     this.j2.setVelocityY(-250);
                     this.botaJ2.setVelocityY(-250);
@@ -867,6 +872,7 @@
                     if(this.botaJ2.y<640)
                         this.botaJ2.y+=10;
                 }
+                /**/
 
                 if(this.ESCAPE.ESC.isDown&&!this.pauseMenu.visible){
                     this.pauseMenu.visible=true;
@@ -910,10 +916,10 @@
                 
                 //ENVIO DE POSICION AL OTRO JUGADOR
                 const now = Date.now();
-                if (now - this.lastSent > 50) {  // Cada 50 ms (~20 FPS)
+                if (now - this.lastSent > 20) {  // Cada 20 ms (50? FPS)
                     const payload = {
                     type: 'playerMove',
-                    from: this.username,
+                    from: username,
                     position: {
                     x: this.j1.x,
                     y: this.j1.y,
@@ -1043,26 +1049,18 @@
                     return;
                 }
 
-                fetch('/api/username')
-                    .then(response => response.text())
-                    .then(name => {
-                    this.username = name;
-
-                    // Suscribimos aquí porque ya está conectado el stompClient
-                    stompClient.subscribe("/client/match/" + this.username, (message) => {
-                        const rival = message.body;
-                        console.log("Mensaje recibido del servidor:", rival);
-                        if (rival !== "Esperando rival...") {
-                            // Guardar rival, cambiar de escena
-                            this.rival = rival;
-                            this.scene.start("gameScene", { username: this.username, rival: this.rival });
-                        } else {
-                            console.log("Aún esperando rival...");
-                        }
-                    });
+                // Suscribimos aquí porque ya está conectado el stompClient
+                stompClient.subscribe("/client/match/" + username, (message) => {
+                    const rival = message.body;
+                    console.log("Mensaje recibido del servidor:", rival);
+                    if (rival !== "Esperando rival...") {
+                        // Guardar rival, cambiar de escena
+                        this.rival = rival;
+                        this.scene.start("gameScene", { rival: this.rival });
+                    } else {
+                        console.log("Aún esperando rival...");
+                    }
                 });
-
-
 
                 document.getElementById('chatInput').style.visibility = 'hidden';
                 connectionLostSprite = this.add.rectangle(80, 70, 100, 100, 0xff0000);
@@ -1103,7 +1101,7 @@
 
                 //Ahora es un boton de ready basicamente
                 this.playButton.on('pointerdown', (e) => {
-                    if (!stompClient || !this.username) {
+                    if (!stompClient || !username) {
                         console.log("WebSocket no conectado o username no cargado");
                         return;
                     }
