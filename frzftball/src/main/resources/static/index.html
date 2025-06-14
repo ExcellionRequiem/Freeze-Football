@@ -1105,11 +1105,13 @@
             create ()
             {
                 //recogemos el cliente otra vez
+                /**
                 stompClient = this.registry.get('stompClient');
                 if (!stompClient) {
                     console.error("stompClient no encontrado. Revisa conexión en MainMenuScene");
                     return;
                 }
+                /**/
 
                 // Suscribimos aquí porque ya está conectado el stompClient
                 stompClient.subscribe("/client/match/" + username, (message) => {
