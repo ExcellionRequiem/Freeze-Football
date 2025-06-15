@@ -415,9 +415,15 @@ Pantalla de créditos donde aparece el nombre de los integrantes del grupo.
 	El juego cuenta de inicio con una melodía ligera y amena en bucle como música de fondo, y con un efecto de sonido del público cada vez que uno de los jugadores anota un gol. Se plantea en un futuro 		implementar efectos de sonido al inicio de los partidos, y una melodía distintas en la pantalla del gameplay para que se diferencie de la de los menús.
 
 ******************
+7. IMPLEMENTACIÓN SHOCKETS
+   
+		El juego implementa una comunicación en tiempo real mediante WebSockets utilizando el protocolo STOMP (Simple Text Oriented Messaging Protocol). Aunque no fue desarrollado en clase, se mencionó como alternativa válida. Esta tecnología permite que los distintos clientes intercambien mensajes a través de un canal común gestionado por el servidor (Spring Boot).
+   
+******************
 
-7.	DIAGRAMA DE CLASES
+8.	DIAGRAMA DE CLASES
 
-![REST drawio](https://github.com/user-attachments/assets/38fcc459-3518-4691-a221-604943411261)
+![DIagrama de clases](https://github.com/user-attachments/assets/eb44628f-20e5-41cc-ba8c-858a1bd37aff)
+
 
 		descripción imagen: imagen del diagrama de clases.
