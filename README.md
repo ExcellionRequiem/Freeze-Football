@@ -83,8 +83,10 @@ CONTENIDO
        		6.3	PERSONAJES
 	 
 	 	6.4	AUDIO
+   
+   	7.	IMPLEMENTACIÓN SOCKETS
 
- 	7.	DIAGRAMA DE CLASES
+ 	8.	DIAGRAMA DE CLASES
 
  ***************
 
