@@ -32,7 +32,7 @@
                 default: 'arcade',
                 arcade:{
                     gravity: {y:300},
-                    debug: true,
+                    debug: false,
                 }             
             },
         };
@@ -1153,7 +1153,7 @@
                     }
                     stompClient.send('/server/readyGetUser', {}, '');
                     if (!this.textoEspera) {
-                        this.textoEspera = this.add.text(100, 250, 'Esperando rival...', { fill: '#ff0' });
+                        this.textoEspera = this.add.text(480, 650, 'Esperando rival...', { fill: '#ffffff' });
                     }
                 });
 
