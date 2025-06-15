@@ -1,7 +1,8 @@
 
 Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un juego en red competitivo y caótico de dos jugadores estilo arcade en el que dos jugadores con muñecos cabezones intentan meterse goles el uno al otro pateando el balón y dándole cabezazos, con powerups para evitar la repetitividad del juego y referencias al mundo del fútbol.
 ***************
-
+PARA GENERAR .jar
+Se debe cargar el proyecto en VS code y en el términal poner el siguiente comando: mvn clean package, esto sumiendo que tienes el java 23.
 PARA ABRIR .jar
 
 Requisitos: Java 23.
