@@ -14,7 +14,7 @@
                 $.ajax({
                     url: '/logout',  
                     method: 'POST',  
-                    async: false,    // Wait for POST request to complete before unloading
+                    async: false,    //Esperar a que termine la petición antes de unloadear
                 });
             });
         });
@@ -104,6 +104,11 @@
         class MainMenuScene extends Phaser.Scene{
             preload ()
             {
+                fetch('/api/username')
+                    .then(response => response.text())
+                    .then(name => {
+                    username = name});
+
                 this.load.image('backgroundMainMenu', './Assets/Interfaces/MenuPrincipal.png');
                 this.load.image('settingsMenu', './Assets/Interfaces/MenuAjustes.png');
                 this.load.image('creditsMenu', './Assets/Interfaces/menuCreditos.png');
@@ -119,11 +124,6 @@
                 this.load.image('noConnection','./Assets/Botones/IconoSInConexion.png');
                 this.load.audio('bgm', './Assets/Audio/Musica/723173__ncone__funky-beats-2.mp3');
                 this.sound.unlock();
-
-                fetch('/api/username')
-                    .then(response => response.text())
-                    .then(name => {
-                    username = name});
             }
 
             create ()
@@ -894,29 +894,11 @@
                     this.j2.setVelocityX(250);
                     this.botaJ2.setVelocityX(250);
                 }
-                /**
-                if(this.ARROWS.UP.isDown&&!this.pauseMenu.visible&&this.jumpCountJ2==1){
-                    this.j2.setVelocityY(-250);
-                    this.botaJ2.setVelocityY(-250);
-                    this.jumpCountJ2--;
-                }
-                if(!this.ARROWS.UP.isDown&&!this.ARROWS.RIGHT.isDown&&!this.ARROWS.LEFT.isDown&&!this.pauseMenu.visible){
-                    this.j2.setVelocityX(0);
-                    this.botaJ2.setVelocityX(0);
-                }
-                /**/
                 if(this.SHOOT.SPACE.isDown&&!this.pauseMenu.visible){
                     this.botaJ1.y-=10;
                     if(this.botaJ1.y<640)
                         this.botaJ1.y+=10;
                 }
-                /**
-                if(this.SHOOT.P.isDown&&!this.pauseMenu.visible){
-                    this.botaJ2.y-=10;
-                    if(this.botaJ2.y<640)
-                        this.botaJ2.y+=10;
-                }
-                /**/
 
                 if(this.ESCAPE.ESC.isDown&&!this.pauseMenu.visible){
                     this.pauseMenu.visible=true;
