@@ -671,7 +671,7 @@
                             scorePlayer2: this.scoreJ2,
                             from: username
                         };
-                        stompClient.send("/server/score", {}, JSON.stringify(scorePayload));
+                        stompClient.send("/server/score/"+username, {}, JSON.stringify(scorePayload));
                     }
                 });
 
@@ -697,7 +697,7 @@
                             scorePlayer2: this.scoreJ2,
                             from: username
                         };
-                        stompClient.send("/server/score", {}, JSON.stringify(scorePayload));
+                        stompClient.send("/server/score/"+username, {}, JSON.stringify(scorePayload));
                     }
                 });
 
@@ -759,7 +759,12 @@
                 this.j1Victory.visible=false;
                 this.j2Victory.visible=false;
 
-                this.exitButton.on('pointerdown', function(e){
+                this.exitButton.on('pointerdown', (e) =>{
+                    if(this.ballSub)
+                    this.ballSub.unsubscribe();
+                    if(this.scoreSub)
+                    this.scoreSub.unsubscribe();
+                    this.movementSub.unsubscribe();
                     game.scene.stop('gameScene');
                     game.scene.start('mainMenuScene');
                 });
@@ -830,11 +835,11 @@
                 });
                 
                 //LISTENER PARA ESCUCHAR ENVIOS DE POSICIONES (formato JSON)
-                stompClient.subscribe('/client/movement', (message) => {
+                this.movementSub = stompClient.subscribe('/client/movement/' + this.rival, (message) => {
                     const msg = JSON.parse(message.body);
                     console.log("RECIBIDO RAW:", message.body);
                     
-                    if (msg.type === 'playerMove' && msg.from === this.rival) {
+                    if (msg.type === 'playerMove' && msg.from === this.rival && this.j2?.body) {
                         const mirrorX = (x) => 1280 - x;
                         this.j2.setPosition(mirrorX(msg.position.x), msg.position.y);
                         this.j2.body.setVelocity(-msg.position.vx, msg.position.vy);
@@ -843,22 +848,24 @@
                     }
                 });
 
-                stompClient.subscribe('/client/ballSync', (message) => {
+                if(username!=this.host)
+                this.ballSub = stompClient.subscribe('/client/ballSync/'+this.rival, (message) => {
                     const ballData = JSON.parse(message.body);
                     console.log("Ball data recibida:", ballData);
 
-                    if (this.host!=username && this.rival===ballData.from) {
+                    if (this.host!=username && this.rival===ballData.from && this.j2?.body) {
                         const mirrorX = (x) => 1280 - x;
                         this.pelota.setPosition(mirrorX(ballData.x), ballData.y);
                         this.pelota.body.setVelocity(-ballData.vx, ballData.vy);
                     }
                 });
 
-                stompClient.subscribe('/client/score', (message) => {
+                if(username!=this.host)
+                this.scoreSub = stompClient.subscribe('/client/score/'+this.rival, (message) => {
                     const scoreData = JSON.parse(message.body);
                     console.log("Marcador recibido:", scoreData);
 
-                    if(username!=this.host && scoreData.from===this.rival){
+                    if(username!=this.host && scoreData.from===this.rival && this.j2?.body){
                         this.scoreJ1 = scoreData.scorePlayer2;
                         this.scoreJ2 = scoreData.scorePlayer1;
                     }
@@ -962,7 +969,7 @@
                 
                     //socket.send(JSON.stringify(payload));
                     //this.lastSent = now;
-                    stompClient.send('/server/movement', {}, JSON.stringify(payload));
+                    stompClient.send('/server/movement/' + username, {}, JSON.stringify(payload));
                 //}
 
                 //ENVIO DE LA POSICION DE LA PELOTA
@@ -974,17 +981,18 @@
                     vx: this.pelota.body.velocity.x,
                     vy: this.pelota.body.velocity.y,
                     from: username
-                };
-                    stompClient.send("/server/ballSync", {}, JSON.stringify(payload));
+                    };
+                    stompClient.send("/server/ballSync/"+username, {}, JSON.stringify(payload));
                 }
 
 
 
                 if(this.scoreJ1>6&&!this.j2Victory.visible){
                     this.j1Victory.visible=true;
+                    /**/
                     if(username==this.host){
                         this.finalScore=this.scoreJ1-this.scoreJ2;
-                        payload = {
+                        const scorePayload = {
                             score: this.finalScore,      
                             wins: 1
                         };
@@ -992,7 +1000,7 @@
                             url: '/leaderboards',
                             method: 'PUT',
                             contentType: 'application/json',
-                            data: JSON.stringify(payload),
+                            data: JSON.stringify(scorePayload),
                             success: function(response){
                                 console.log("Leaderboards updated for player 1: ", response);
                             }, error: function(e){
@@ -1000,20 +1008,23 @@
                             }
                         });
                     }
+                    /**/
                 }
                 if(this.scoreJ2>6&&!this.j1Victory.visible){
                     this.j2Victory.visible=true;
+                    /**/
                     if(username==this.host){
                         this.finalScore=this.scoreJ2-this.scoreJ1;
-                        payload = { 
+                        const scorePayload = { 
                             score: this.finalScore,
                             wins: 1
                         };
+                        
                         $.ajax({
                             url: '/leaderboards',
                             method: 'PUT',
                             contentType: 'application/json',
-                            data: JSON.stringify(payload),
+                            data: JSON.stringify(scorePayload),
                             success: function(response){
                                 console.log("Leaderboards updated for player 2: ", response);
                             }, error: function(e){
@@ -1021,6 +1032,7 @@
                             }
                         });
                     }
+                    /**/
                 }
 
                 this.j1ScoreMarker.text=this.scoreJ1;
@@ -1096,11 +1108,12 @@
                 /**/
 
                 // Suscribimos aquí porque ya está conectado el stompClient
-                stompClient.subscribe("/client/match/" + username, (message) => {
+                this.matchmakingSub = stompClient.subscribe("/client/match/" + username, (message) => {
                     const rival = message.body;
                     console.log("Mensaje recibido del servidor:", rival);
                     if (rival !== "Esperando rival...") {
                         // Guardar rival, cambiar de escena
+                        this.matchmakingSub.unsubscribe();
                         this.rival = rival;
                         this.scene.start("gameScene", { rival: this.rival });
                     } else {
@@ -1152,6 +1165,7 @@
                         return;
                     }
                     stompClient.send('/server/readyGetUser', {}, '');
+                    this.textoEspera=null;
                     if (!this.textoEspera) {
                         this.textoEspera = this.add.text(480, 650, 'Esperando rival...', { fill: '#ffffff' });
                     }
