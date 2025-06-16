@@ -104,6 +104,7 @@
         class MainMenuScene extends Phaser.Scene{
             preload ()
             {
+                if(username==null)
                 fetch('/api/username')
                     .then(response => response.text())
                     .then(name => {
@@ -759,6 +760,8 @@
                 this.j1Victory.visible=false;
                 this.j2Victory.visible=false;
 
+                this.leaderboardsUpdated=false;
+
                 this.exitButton.on('pointerdown', (e) =>{
                     if(this.ballSub)
                     this.ballSub.unsubscribe();
@@ -985,12 +988,10 @@
                     stompClient.send("/server/ballSync/"+username, {}, JSON.stringify(payload));
                 }
 
-
-
                 if(this.scoreJ1>6&&!this.j2Victory.visible){
                     this.j1Victory.visible=true;
                     /**/
-                    if(username==this.host){
+                    if(username==this.host && !this.leaderboardsUpdated){
                         this.finalScore=this.scoreJ1-this.scoreJ2;
                         const scorePayload = {
                             score: this.finalScore,      
@@ -1007,13 +1008,14 @@
                                 console.log("Error updating leaderboards for player1: ", e)
                             }
                         });
+                        this.leaderboardsUpdated=true;
                     }
                     /**/
                 }
                 if(this.scoreJ2>6&&!this.j1Victory.visible){
                     this.j2Victory.visible=true;
                     /**/
-                    if(username==this.host){
+                    if(username==this.host && !this.leaderboardsUpdated){
                         this.finalScore=this.scoreJ2-this.scoreJ1;
                         const scorePayload = { 
                             score: this.finalScore,
@@ -1031,6 +1033,7 @@
                                 console.log("Error updating leaderboards for player2: ", e)
                             }
                         });
+                        this.leaderboardsUpdated=true;
                     }
                     /**/
                 }
