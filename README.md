@@ -1,19 +1,22 @@
 
 Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un juego en red competitivo y caótico de dos jugadores estilo arcade en el que dos jugadores con muñecos cabezones intentan meterse goles el uno al otro pateando el balón y dándole cabezazos, con powerups para evitar la repetitividad del juego y referencias al mundo del fútbol.
 ***************
+
 PARA GENERAR .jar
-Se debe cargar el proyecto en VS code y en el términal poner el siguiente comando: mvn clean package, esto sumiendo que tienes el java 23.
-PARA ABRIR .jar
 
-Requisitos: Java 23.
+El release actual ya viene con un ejecutable, pero en caso de que se desee generar un nuevo jar:
 
-Instruciones: 
+Se debe cargar el proyecto en VS code y en el términal poner el siguiente comando: mvn clean package (asumiendo que se tiene una version compatible de Java instalada).
 
-Paso 1: entrar en la carpeta target.
+Instruciones para USAR LOS ARCHIVOS YA GENERADOS: 
 
-Paso 2: ejecutar el archivo frzftball-0.0.1-SNAPSHOT.jar
+Requisitos: Java 23 o compatible.
 
-Paso 3: Cargar en el navegador la IP que darán los desarrolladores
+Paso 1: Entrar en la carpeta target.
+
+Paso 2: Ejecutar el archivo frzftball-0.0.1-SNAPSHOT.jar
+
+Paso 3: Cargar en el navegador la IP del servidor, que en su caso es IPV4:8080 de la maquina en la que se esté ejecutando el server
 
 
 ****************
