@@ -4,14 +4,17 @@
     <script src="./Code/phaser.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!--jquery-->
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script><!--STOMP-->
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             window.addEventListener('unload', function () {
                 $.ajax({
                     url: '/logout',  
                     method: 'POST',  
-                    async: false,    // Wait for POST request to complete before unloading
+                    async: false,    //Esperar a que termine la petición antes de unloadear
                 });
             });
         });
@@ -47,6 +50,9 @@
             score: 0,
             wins: 0
         };
+        var stompClient
+        var socket
+        var username
         document.addEventListener('DOMContentLoaded', function () {
             // Crear el campo de texto
             var inputField = document.createElement('input');
@@ -84,6 +90,7 @@
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
+                    username: username,
                     message: message,  // Solo enviar el mensaje
                 }),
                 success: function () {
@@ -98,6 +105,12 @@
         class MainMenuScene extends Phaser.Scene{
             preload ()
             {
+                if(username==null)
+                fetch('/api/username')
+                    .then(response => response.text())
+                    .then(name => {
+                    username = name});
+
                 this.load.image('backgroundMainMenu', './Assets/Interfaces/MenuPrincipal.png');
                 this.load.image('settingsMenu', './Assets/Interfaces/MenuAjustes.png');
                 this.load.image('creditsMenu', './Assets/Interfaces/menuCreditos.png');
@@ -117,6 +130,18 @@
 
             create ()
             {
+                //Conexion al websocket
+                socket =  new WebSocket("ws://" + location.host + "/ws");
+                stompClient = Stomp.over(socket);
+
+                stompClient.connect({}, frame => {
+                    console.log('Conectado en menú principal: ' + frame);
+                    // Guardamos stompClient para usarlo luego
+                    this.registry.set('stompClient', stompClient);
+                }, error => {
+                    console.error('Error en conexión: ' + error);
+                });
+
                 pingTimer=0;
                 this.timer=0;
                 const bg=this.add.image(562.5, 422,'backgroundMainMenu');
@@ -444,8 +469,17 @@
                 
             }
 
-            create ()
+            create (data)
             {
+                //this.username = data.username;
+                this.rival = data.rival;
+                console.log("GameScene:", username, this.rival);
+
+                this.host = username < this.rival ? username : this.rival;
+                //Ternario para: si es menor, usa el username, si es igual o mayor, el rival
+
+                console.log("HOST: "+this.host)
+
                 document.getElementById('chatInput').style.visibility = 'hidden';
                 connectionLostSprite = this.add.rectangle(80, 70, 100, 100, 0xff0000);
                 connectionLostSprite.setVisible(false);
@@ -626,12 +660,21 @@
                 this.jumpCountJ2=0;
 
                 this.physics.add.overlap(this.pelota, this.goalZoneL, () => {
-                    this.scoreJ2++;
-                    console.log('Goal1 ' + this.scoreJ2);
-                    this.pelota.setPosition(640, 400);
-                    this.pelota.setVelocityX(0);
-                    this.pelota.setVelocityY(0);
-                    goalCheerSound.play();
+                    if (this.host == username) {
+                        this.scoreJ2++;
+                        console.log('Goal1 ' + this.scoreJ2);
+                        this.pelota.setPosition(640, 400);
+                        this.pelota.setVelocityX(0);
+                        this.pelota.setVelocityY(0);
+                        goalCheerSound.play();
+                    
+                        const scorePayload = {
+                            scorePlayer1: this.scoreJ1,
+                            scorePlayer2: this.scoreJ2,
+                            from: username
+                        };
+                        stompClient.send("/server/score/"+username, {}, JSON.stringify(scorePayload));
+                    }
                 });
 
                 this.physics.add.overlap(this.j1, this.jumpRefresh, () => {
@@ -643,12 +686,21 @@
                 });
 
                 this.physics.add.overlap(this.pelota, this.goalZoneR, () => {
-                    this.scoreJ1++;
-                    console.log('Goal2 ' + this.scoreJ1);
-                    this.pelota.setPosition(640, 400);
-                    this.pelota.setVelocityX(0);
-                    this.pelota.setVelocityY(0);
-                    goalCheerSound.play();
+                    if (this.host == username) {
+                        this.scoreJ1++;
+                        console.log('Goal2 ' + this.scoreJ1);
+                        this.pelota.setPosition(640, 400);
+                        this.pelota.setVelocityX(0);
+                        this.pelota.setVelocityY(0);
+                        goalCheerSound.play();
+
+                        const scorePayload = {
+                            scorePlayer1: this.scoreJ1,
+                            scorePlayer2: this.scoreJ2,
+                            from: username
+                        };
+                        stompClient.send("/server/score/"+username, {}, JSON.stringify(scorePayload));
+                    }
                 });
 
                 this.j1Victory=this.make.text({
@@ -709,7 +761,14 @@
                 this.j1Victory.visible=false;
                 this.j2Victory.visible=false;
 
-                this.exitButton.on('pointerdown', function(e){
+                this.leaderboardsUpdated=false;
+
+                this.exitButton.on('pointerdown', (e) =>{
+                    if(this.ballSub)
+                    this.ballSub.unsubscribe();
+                    if(this.scoreSub)
+                    this.scoreSub.unsubscribe();
+                    this.movementSub.unsubscribe();
                     game.scene.stop('gameScene');
                     game.scene.start('mainMenuScene');
                 });
@@ -778,8 +837,47 @@
                     },
                     add: true
                 });
+                
+                //LISTENER PARA ESCUCHAR ENVIOS DE POSICIONES (formato JSON)
+                this.movementSub = stompClient.subscribe('/client/movement/' + this.rival, (message) => {
+                    const msg = JSON.parse(message.body);
+                    console.log("RECIBIDO RAW:", message.body);
+                    
+                    if (msg.type === 'playerMove' && msg.from === this.rival && this.j2?.body) {
+                        const mirrorX = (x) => 1280 - x;
+                        this.j2.setPosition(mirrorX(msg.position.x), msg.position.y);
+                        this.j2.body.setVelocity(-msg.position.vx, msg.position.vy);
+                        this.botaJ2.setPosition(mirrorX(msg.boot.x), msg.boot.y);
+                        this.botaJ2.body.setVelocity(-msg.boot.vx, msg.boot.vy);
+                    }
+                });
 
-            }
+                if(username!=this.host)
+                this.ballSub = stompClient.subscribe('/client/ballSync/'+this.rival, (message) => {
+                    const ballData = JSON.parse(message.body);
+                    console.log("Ball data recibida:", ballData);
+
+                    if (this.host!=username && this.rival===ballData.from && this.j2?.body) {
+                        const mirrorX = (x) => 1280 - x;
+                        this.pelota.setPosition(mirrorX(ballData.x), ballData.y);
+                        this.pelota.body.setVelocity(-ballData.vx, ballData.vy);
+                    }
+                });
+
+                if(username!=this.host)
+                this.scoreSub = stompClient.subscribe('/client/score/'+this.rival, (message) => {
+                    const scoreData = JSON.parse(message.body);
+                    console.log("Marcador recibido:", scoreData);
+
+                    if(username!=this.host && scoreData.from===this.rival && this.j2?.body){
+                        this.scoreJ1 = scoreData.scorePlayer2;
+                        this.scoreJ2 = scoreData.scorePlayer1;
+                    }
+                });
+                
+                //this.lastSent = 0;
+
+            } 
             update(time, delta){
 
                 if(this.WASD.A.isDown&&!this.pauseMenu.visible){
@@ -807,25 +905,10 @@
                     this.j2.setVelocityX(250);
                     this.botaJ2.setVelocityX(250);
                 }
-                if(this.ARROWS.UP.isDown&&!this.pauseMenu.visible&&this.jumpCountJ2==1){
-                    this.j2.setVelocityY(-250);
-                    this.botaJ2.setVelocityY(-250);
-                    this.jumpCountJ2--;
-                }
-                if(!this.ARROWS.UP.isDown&&!this.ARROWS.RIGHT.isDown&&!this.ARROWS.LEFT.isDown&&!this.pauseMenu.visible){
-                    this.j2.setVelocityX(0);
-                    this.botaJ2.setVelocityX(0);
-                }
-
                 if(this.SHOOT.SPACE.isDown&&!this.pauseMenu.visible){
                     this.botaJ1.y-=10;
                     if(this.botaJ1.y<640)
                         this.botaJ1.y+=10;
-                }
-                if(this.SHOOT.P.isDown&&!this.pauseMenu.visible){
-                    this.botaJ2.y-=10;
-                    if(this.botaJ2.y<640)
-                        this.botaJ2.y+=10;
                 }
 
                 if(this.ESCAPE.ESC.isDown&&!this.pauseMenu.visible){
@@ -867,44 +950,95 @@
 
                     
                 }
+                
+                //ENVIO DE POSICION AL OTRO JUGADOR
+                const now = Date.now();
+                //if (now - this.lastSent > 20) {  // Cada 20 ms (50? FPS)
+                    const payload = {
+                    type: 'playerMove',
+                    from: username,
+                    position: {
+                    x: this.j1.x,
+                    y: this.j1.y,
+                    vx: this.j1.body.velocity.x,
+                    vy: this.j1.body.velocity.y
+                    },
+                    boot: {
+                    x: this.botaJ1.x,
+                    y: this.botaJ1.y,
+                    vx: this.botaJ1.body.velocity.x,
+                    vy: this.botaJ1.body.velocity.y
+                    }
+                    };
+                
+                    //socket.send(JSON.stringify(payload));
+                    //this.lastSent = now;
+                    stompClient.send('/server/movement/' + username, {}, JSON.stringify(payload));
+                //}
+
+                //ENVIO DE LA POSICION DE LA PELOTA
+
+                if (this.host==username) {
+                    const payload = {
+                    x: this.pelota.x,
+                    y: this.pelota.y,
+                    vx: this.pelota.body.velocity.x,
+                    vy: this.pelota.body.velocity.y,
+                    from: username
+                    };
+                    stompClient.send("/server/ballSync/"+username, {}, JSON.stringify(payload));
+                }
 
                 if(this.scoreJ1>6&&!this.j2Victory.visible){
                     this.j1Victory.visible=true;
-                    this.finalScore=this.scoreJ1-this.scoreJ2;
-                    payload = {
-                        score: this.finalScore,      
-                        wins: 1
-                    };
-                    $.ajax({
-                        url: '/leaderboards',
-                        method: 'PUT',
-                        contentType: 'application/json',
-                        data: JSON.stringify(payload),
-                        success: function(response){
-                            console.log("Leaderboards updated for player 1: ", response);
-                        }, error: function(e){
-                            console.log("Error updating leaderboards for player1: ", e)
-                        }
-                    });
+                    /**/
+                    if(username==this.host && !this.leaderboardsUpdated){
+                        this.finalScore=this.scoreJ1-this.scoreJ2;
+                        const scorePayload = {
+                            username: username,
+                            score: this.finalScore,      
+                            wins: 1
+                        };
+                        $.ajax({
+                            url: '/leaderboards',
+                            method: 'PUT',
+                            contentType: 'application/json',
+                            data: JSON.stringify(scorePayload),
+                            success: function(response){
+                                console.log("Leaderboards updated for player 1: ", response);
+                            }, error: function(e){
+                                console.log("Error updating leaderboards for player1: ", e)
+                            }
+                        });
+                        this.leaderboardsUpdated=true;
+                    }
+                    /**/
                 }
                 if(this.scoreJ2>6&&!this.j1Victory.visible){
                     this.j2Victory.visible=true;
-                    this.finalScore=this.scoreJ2-this.scoreJ1;
-                    payload = { 
-                        score: this.finalScore,
-                        wins: 1
-                    };
-                    $.ajax({
-                        url: '/leaderboards',
-                        method: 'PUT',
-                        contentType: 'application/json',
-                        data: JSON.stringify(payload),
-                        success: function(response){
-                            console.log("Leaderboards updated for player 2: ", response);
-                        }, error: function(e){
-                            console.log("Error updating leaderboards for player2: ", e)
-                        }
-                    });
+                    /**/
+                    if(username==this.host && !this.leaderboardsUpdated){
+                        this.finalScore=this.scoreJ2-this.scoreJ1;
+                        const scorePayload = { 
+                            username: this.rival,
+                            score: this.finalScore,
+                            wins: 1
+                        };
+                        
+                        $.ajax({
+                            url: '/leaderboards',
+                            method: 'PUT',
+                            contentType: 'application/json',
+                            data: JSON.stringify(scorePayload),
+                            success: function(response){
+                                console.log("Leaderboards updated for player 2: ", response);
+                            }, error: function(e){
+                                console.log("Error updating leaderboards for player2: ", e)
+                            }
+                        });
+                        this.leaderboardsUpdated=true;
+                    }
+                    /**/
                 }
 
                 this.j1ScoreMarker.text=this.scoreJ1;
@@ -970,6 +1104,29 @@
 
             create ()
             {
+                //recogemos el cliente otra vez
+                /**
+                stompClient = this.registry.get('stompClient');
+                if (!stompClient) {
+                    console.error("stompClient no encontrado. Revisa conexión en MainMenuScene");
+                    return;
+                }
+                /**/
+
+                // Suscribimos aquí porque ya está conectado el stompClient
+                this.matchmakingSub = stompClient.subscribe("/client/match/" + username, (message) => {
+                    const rival = message.body;
+                    console.log("Mensaje recibido del servidor:", rival);
+                    if (rival !== "Esperando rival...") {
+                        // Guardar rival, cambiar de escena
+                        this.matchmakingSub.unsubscribe();
+                        this.rival = rival;
+                        this.scene.start("gameScene", { rival: this.rival });
+                    } else {
+                        console.log("Aún esperando rival...");
+                    }
+                });
+
                 document.getElementById('chatInput').style.visibility = 'hidden';
                 connectionLostSprite = this.add.rectangle(80, 70, 100, 100, 0xff0000);
                 connectionLostSprite.setVisible(false);
@@ -1006,9 +1163,18 @@
                 this.arrowLJ2.on('pointerdown', function(e){
                     charIDJ2--;
                 });
-                this.playButton.on('pointerdown', function(e){
-                    game.scene.stop('characterSelectScene');
-                    game.scene.start('gameScene');
+
+                //Ahora es un boton de ready basicamente
+                this.playButton.on('pointerdown', (e) => {
+                    if (!stompClient || !username) {
+                        console.log("WebSocket no conectado o username no cargado");
+                        return;
+                    }
+                    stompClient.send('/server/readyGetUser', {}, '');
+                    this.textoEspera=null;
+                    if (!this.textoEspera) {
+                        this.textoEspera = this.add.text(480, 650, 'Esperando rival...', { fill: '#ffffff' });
+                    }
                 });
 
             }

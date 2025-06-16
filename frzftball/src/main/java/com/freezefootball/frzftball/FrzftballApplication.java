@@ -3,9 +3,11 @@ package com.freezefootball.frzftball;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 @SpringBootApplication
-public class FrzftballApplication {
+@EnableWebSocket
+public class FrzftballApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(FrzftballApplication.class, args);

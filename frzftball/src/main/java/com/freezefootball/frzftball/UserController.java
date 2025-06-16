@@ -1,5 +1,6 @@
 package com.freezefootball.frzftball;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 //
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.HttpHeaders;
 
 @Controller
@@ -92,7 +94,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestParam String username, @RequestParam String password, Model model) {
+    public String register(@RequestParam String username, @RequestParam String password, Model model, HttpServletRequest request) {
         // Check if user already exists
         if (userList.isUserRegistered(username)) {
            logger.error("El usuario ya está registrado");
@@ -109,13 +111,21 @@ public class UserController {
         newEntry.setScore(0); // Initialize score to 0
         newEntry.setWins(0);
 
+        // Construimos la URL dinámica
+        String baseUrl = ServletUriComponentsBuilder.fromRequestUri(request)
+            .replacePath(null)
+            .build()
+            .toUriString();  // Esto da: http://ip:puerto
+
+        String leaderboardUrl = baseUrl + "/leaderboards";
+
         //Esto de aqui es un restTemplate
         //Es un mago oscuro que ya viene definido en spring
         //Y esto es magia negra para ejecutar un metodo http desde un metodo http
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         HttpEntity<LeaderboardEntry> requestEntity = new HttpEntity<>(newEntry, headers);
-        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8080/leaderboards", 
+        ResponseEntity<String> response = restTemplate.exchange(leaderboardUrl, 
             HttpMethod.POST, requestEntity, String.class); //Esto es lo que llama al PUT de las leaderboards
 
         return "redirect:/login.html";
@@ -127,6 +137,12 @@ public class UserController {
         
         userList.LogOutUser(username);  // Call the LogOutUser method to remove the user
         System.out.println("User logged out: " + username);
+    }
+
+    @GetMapping("/api/username")
+    @ResponseBody
+    public String getUsername(HttpSession session) {
+        return (String) session.getAttribute("username");
     }
 
     public static class RegisterRequest {

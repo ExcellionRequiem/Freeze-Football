@@ -19,7 +19,7 @@ public class ChatController {
 
     @PostMapping
     public ResponseEntity<Void> sendMessage(@RequestBody ChatMessage chatMessage, HttpSession session) {
-        String username = (String) session.getAttribute("username");
+        String username = chatMessage.getUsername();
     
         if (username == null || username.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
