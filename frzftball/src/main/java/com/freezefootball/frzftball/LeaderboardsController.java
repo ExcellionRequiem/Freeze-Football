@@ -33,9 +33,8 @@ public class LeaderboardsController {
     }
 
     @PutMapping
-    public ResponseEntity<String> updateLeaderboards(HttpSession session, @RequestBody LeaderboardEntry entry){
-
-        String username = (String) session.getAttribute("username");
+    public ResponseEntity<String> updateLeaderboards(@RequestBody LeaderboardEntry entry){
+        String username = entry.getUsername();
         if(username==null){
             return ResponseEntity.badRequest().body("For some reason, user is not logged in");
         }       

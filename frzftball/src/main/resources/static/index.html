@@ -90,6 +90,7 @@
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
+                    username: username,
                     message: message,  // Solo enviar el mensaje
                 }),
                 success: function () {
@@ -994,6 +995,7 @@
                     if(username==this.host && !this.leaderboardsUpdated){
                         this.finalScore=this.scoreJ1-this.scoreJ2;
                         const scorePayload = {
+                            username: username,
                             score: this.finalScore,      
                             wins: 1
                         };
@@ -1018,6 +1020,7 @@
                     if(username==this.host && !this.leaderboardsUpdated){
                         this.finalScore=this.scoreJ2-this.scoreJ1;
                         const scorePayload = { 
+                            username: this.rival,
                             score: this.finalScore,
                             wins: 1
                         };

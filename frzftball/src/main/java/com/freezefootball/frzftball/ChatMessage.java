@@ -13,12 +13,16 @@ public class ChatMessage {
         this.timestamp = timestamp;
     }
 
-    public void setPlayer(String message) {
-        this.username = message;
+    public String getUsername() {
+        return this.username;
     }
     
     public String getMessage() {
         return message;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setMessage(String message) {
