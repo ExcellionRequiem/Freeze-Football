@@ -4,8 +4,6 @@ Repositorio para la práctica en grupo de Juegos en Red (URJC 2024/2025). Un jue
 
 PARA GENERAR .jar
 
-El release actual ya viene con un ejecutable, pero en caso de que se desee generar un nuevo jar:
-
 Se debe cargar el proyecto en VS code y en el términal poner el siguiente comando: mvn clean package (asumiendo que se tiene una version compatible de Java instalada).
 
 Instruciones para USAR LOS ARCHIVOS YA GENERADOS: 
